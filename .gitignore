@@ -5,6 +5,7 @@
 *.DS_Store
 Podfile.lock
 Pods/
+fastlane/*.env
 
 ## User settings
 xcuserdata/
@@ -85,6 +86,10 @@ fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots/**/*.png
 fastlane/test_output
+
+# Bundler Setting with dependencies
+.bundle/
+vendor/
 
 # Code Injection
 #
