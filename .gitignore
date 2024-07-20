@@ -5,7 +5,7 @@
 *.DS_Store
 Podfile.lock
 Pods/
-fastlane/*.env
+*.env
 
 ## User settings
 xcuserdata/

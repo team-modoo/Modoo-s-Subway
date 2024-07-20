@@ -1,0 +1,9 @@
+# 앱 식별자
+app_identifier(ENV["APP_IDENTIFIER"])
+
+# Apple Developer 계정 이메일
+apple_id(ENV["APPLE_ID"])
+
+# 개발자 포털 팀 ID
+team_id(ENV["TEAM_ID"])
+
