@@ -6,6 +6,7 @@
 Podfile.lock
 Pods/
 *.env
+Secrets.plist
 
 ## User settings
 xcuserdata/

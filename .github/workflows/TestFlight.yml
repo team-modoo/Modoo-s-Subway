@@ -1,20 +1,81 @@
 # This workflow will build a Swift project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-swift
 
-# name: TestFlight
+name: Testflight
 
-# on:
-#   push:
-#     branches: [ "develop" ]
+on:
+  pull_request:
+    branches:
+      - develop
+    types: [closed]
 
-# jobs:
-#   testflight-deploy:
+jobs:
+  testflight-deploy:
+    runs-on: macos-14
+    timeout-minutes: 30
+    if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'fix/PW-')
 
-#     runs-on: macos-latest
+    steps:
+      - name: Set Xcode version
+        run: sudo xcode-select -s /Applications/Xcode_15.2.app
 
-    # steps:
-    # - uses: actions/checkout@v4
-    # - name: Build
-    #   run: swift build -v
-    # - name: Run tests
-    #   run: swift test -v
+      - name: Show macOS Environment
+        run: |
+          echo "macOS Environment:"
+          sw_vers
+
+      - name: Show Xcode version
+        run: |
+          echo "Xcode version:"
+          xcodebuild -version
+
+      - name: Show Swift version
+        run: |
+          echo "Swift version:"
+          swift --version
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create Secrets.plist
+        run: |
+          echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+          <!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+          <plist version=\"1.0\">
+          <dict>
+            <key>SEOUL_DATA_API_KEY</key>
+            <string>${{ secrets.SEOUL_DATA_API_KEY }}</string>
+          </dict>
+          </plist>" > modoosSubway/Resource/Secrets.plist
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.6.10
+          bundler-cache: true
+
+      - name: Install Fastlane
+        run: |
+          brew install homebrew/core/fastlane
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Testflight Upload (Beta)
+        run: |
+          bundle exec fastlane beta
+        env:
+          APP_IDENTIFIER: ${{ secrets.APP_IDENTIFIER }}
+          APP_STORE_CONNECT_API_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_API_ISSUER_ID }}
+          APP_STORE_CONNECT_API_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_API_KEY_CONTENT }}
+          APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
+          APP_STORE_CONNECT_ID: ${{ secrets.APP_STORE_CONNECT_ID }}
+          APP_STORE_CONNECT_PASSWORD: ${{ secrets.APP_STORE_CONNECT_PASSWORD }}
+          FASTLANE_PASSWORD: ${{ secrets.APP_STORE_CONNECT_PASSWORD }}
+          FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}
+          MATCH_GIT_URL: ${{ secrets.MATCH_GIT_URL }}
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSPHRASE }}
+          PROJECT_GIT_URL: ${{ secrets.PROJECT_GIT_URL }}
+          TEAM_ID: ${{ secrets.TEAM_ID }}
