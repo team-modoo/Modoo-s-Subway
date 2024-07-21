@@ -19,6 +19,7 @@
 		9A36984B2C4CA6690019C12A /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A36984A2C4CA6690019C12A /* DetailView.swift */; };
 		9A36984D2C4CA6740019C12A /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A36984C2C4CA6740019C12A /* SettingView.swift */; };
 		9A3698522C4CA72D0019C12A /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3698512C4CA72D0019C12A /* DataManager.swift */; };
+		9A3698582C4CF9920019C12A /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9A3698572C4CF9920019C12A /* Secrets.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +36,7 @@
 		9A36984A2C4CA6690019C12A /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		9A36984C2C4CA6740019C12A /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		9A3698512C4CA72D0019C12A /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		9A3698572C4CF9920019C12A /* Secrets.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Secrets.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +69,7 @@
 		9A36982C2C4BC0480019C12A /* modoosSubway */ = {
 			isa = PBXGroup;
 			children = (
+				9A3698562C4CF9610019C12A /* Resource */,
 				9A3698402C4CA5AE0019C12A /* View */,
 				9A3698412C4CA5F40019C12A /* ViewModel */,
 				9A36984E2C4CA6810019C12A /* DataManager */,
@@ -121,6 +124,14 @@
 				9A3698512C4CA72D0019C12A /* DataManager.swift */,
 			);
 			path = DataManager;
+			sourceTree = "<group>";
+		};
+		9A3698562C4CF9610019C12A /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				9A3698572C4CF9920019C12A /* Secrets.plist */,
+			);
+			path = Resource;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -182,6 +193,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9A3698372C4BC04A0019C12A /* Preview Assets.xcassets in Resources */,
+				9A3698582C4CF9920019C12A /* Secrets.plist in Resources */,
 				9A3698342C4BC04A0019C12A /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
