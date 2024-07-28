@@ -8,6 +8,6 @@
 import Foundation
 
 enum ViewType {
-	case bookmark
-	case star
+	case Bookmark
+	case Star
 }

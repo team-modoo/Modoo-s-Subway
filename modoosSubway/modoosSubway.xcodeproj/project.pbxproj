@@ -21,6 +21,8 @@
 		9A3698522C4CA72D0019C12A /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3698512C4CA72D0019C12A /* DataManager.swift */; };
 		9A36985A2C4D012F0019C12A /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9A3698592C4D012F0019C12A /* Secrets.plist */; };
 		9A36985D2C4D01E90019C12A /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A36985C2C4D01E90019C12A /* Util.swift */; };
+		9AEA1E712C56024D00A87BF9 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9AEA1E702C56024D00A87BF9 /* Launch Screen.storyboard */; };
+		9AEA1E7A2C5651EA00A87BF9 /* UIExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEA1E792C5651EA00A87BF9 /* UIExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +41,13 @@
 		9A3698512C4CA72D0019C12A /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		9A3698592C4D012F0019C12A /* Secrets.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Secrets.plist; sourceTree = "<group>"; };
 		9A36985C2C4D01E90019C12A /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
+		9AEA1E702C56024D00A87BF9 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		9AEA1E732C56500900A87BF9 /* Pretendard-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Bold.otf"; sourceTree = "<group>"; };
+		9AEA1E742C56501300A87BF9 /* Pretendard-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.otf"; sourceTree = "<group>"; };
+		9AEA1E752C56501900A87BF9 /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
+		9AEA1E762C56501F00A87BF9 /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
+		9AEA1E772C56516200A87BF9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9AEA1E792C5651EA00A87BF9 /* UIExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +80,7 @@
 		9A36982C2C4BC0480019C12A /* modoosSubway */ = {
 			isa = PBXGroup;
 			children = (
+				9AEA1E782C5651C700A87BF9 /* Extension */,
 				9A36985B2C4D01D30019C12A /* Util */,
 				9A3698562C4CF9610019C12A /* Resource */,
 				9A3698402C4CA5AE0019C12A /* View */,
@@ -78,6 +88,7 @@
 				9A36984E2C4CA6810019C12A /* DataManager */,
 				9A36983F2C4CA5960019C12A /* Model */,
 				9A36982D2C4BC0480019C12A /* modoosSubwayApp.swift */,
+				9AEA1E772C56516200A87BF9 /* Info.plist */,
 				9A3698352C4BC04A0019C12A /* Preview Content */,
 			);
 			path = modoosSubway;
@@ -131,8 +142,10 @@
 		9A3698562C4CF9610019C12A /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				9AEA1E722C564FF300A87BF9 /* Font */,
 				9A3698592C4D012F0019C12A /* Secrets.plist */,
 				9A3698332C4BC04A0019C12A /* Assets.xcassets */,
+				9AEA1E702C56024D00A87BF9 /* Launch Screen.storyboard */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -143,6 +156,25 @@
 				9A36985C2C4D01E90019C12A /* Util.swift */,
 			);
 			path = Util;
+			sourceTree = "<group>";
+		};
+		9AEA1E722C564FF300A87BF9 /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				9AEA1E732C56500900A87BF9 /* Pretendard-Bold.otf */,
+				9AEA1E752C56501900A87BF9 /* Pretendard-SemiBold.otf */,
+				9AEA1E742C56501300A87BF9 /* Pretendard-Medium.otf */,
+				9AEA1E762C56501F00A87BF9 /* Pretendard-Regular.otf */,
+			);
+			path = Font;
+			sourceTree = "<group>";
+		};
+		9AEA1E782C5651C700A87BF9 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				9AEA1E792C5651EA00A87BF9 /* UIExtension.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -205,6 +237,7 @@
 			files = (
 				9A3698372C4BC04A0019C12A /* Preview Assets.xcassets in Resources */,
 				9A36985A2C4D012F0019C12A /* Secrets.plist in Resources */,
+				9AEA1E712C56024D00A87BF9 /* Launch Screen.storyboard in Resources */,
 				9A3698342C4BC04A0019C12A /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -223,6 +256,7 @@
 				9A3698302C4BC0480019C12A /* HomeView.swift in Sources */,
 				9A36984D2C4CA6740019C12A /* SettingView.swift in Sources */,
 				9A3698322C4BC0480019C12A /* Item.swift in Sources */,
+				9AEA1E7A2C5651EA00A87BF9 /* UIExtension.swift in Sources */,
 				9A36982E2C4BC0480019C12A /* modoosSubwayApp.swift in Sources */,
 				9A3698472C4CA6520019C12A /* BookMarkView.swift in Sources */,
 				9A3698492C4CA6590019C12A /* StarView.swift in Sources */,
@@ -363,9 +397,13 @@
 				DEVELOPMENT_TEAM = 6RZ3FF956G;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = modoosSubway/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "모두의 지하철";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.navigation";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -392,9 +430,13 @@
 				DEVELOPMENT_TEAM = 6RZ3FF956G;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = modoosSubway/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "모두의 지하철";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.navigation";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (

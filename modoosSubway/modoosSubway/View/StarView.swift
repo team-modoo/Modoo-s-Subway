@@ -14,18 +14,27 @@ struct StarView: View {
 	
 	var body: some View {
 		VStack {
-			Text("즐겨찾기")
-			List {
-				ForEach(items) { item in
-					NavigationLink {
-						Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-					} label: {
-						Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
-					}
+			if items.isEmpty {
+				VStack {
+					Image("star_circle")
+					Text("자주 타는 지하철 노선을 추가해주세요.")
+						.font(.pretendard(size: 16, family: .regular))
 				}
-				.onDelete(perform: deleteItems)
+				.padding(.top, 22)
+			} else {
+				List {
+					ForEach(items) { item in
+						NavigationLink {
+							Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
+						} label: {
+							Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
+						}
+					}
+					.onDelete(perform: deleteItems)
+				}
 			}
 		}
+		.padding(.horizontal, 20)
 	}
 	
 	private func addItem() {
