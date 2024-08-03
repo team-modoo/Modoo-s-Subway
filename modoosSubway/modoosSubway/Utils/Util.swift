@@ -7,7 +7,6 @@
 
 import Foundation
 
-enum ViewType {
-	case Bookmark
-	case Star
+class Util {
+	
 }

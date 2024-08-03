@@ -12,17 +12,25 @@
 		9A3698322C4BC0480019C12A /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3698312C4BC0480019C12A /* Item.swift */; };
 		9A3698342C4BC04A0019C12A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A3698332C4BC04A0019C12A /* Assets.xcassets */; };
 		9A3698372C4BC04A0019C12A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A3698362C4BC04A0019C12A /* Preview Assets.xcassets */; };
-		9A3698432C4CA62C0019C12A /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3698422C4CA62C0019C12A /* HomeViewModel.swift */; };
 		9A3698452C4CA6490019C12A /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3698442C4CA6490019C12A /* SearchView.swift */; };
 		9A3698472C4CA6520019C12A /* BookMarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3698462C4CA6520019C12A /* BookMarkView.swift */; };
 		9A3698492C4CA6590019C12A /* StarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3698482C4CA6590019C12A /* StarView.swift */; };
 		9A36984B2C4CA6690019C12A /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A36984A2C4CA6690019C12A /* DetailView.swift */; };
 		9A36984D2C4CA6740019C12A /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A36984C2C4CA6740019C12A /* SettingView.swift */; };
 		9A3698522C4CA72D0019C12A /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3698512C4CA72D0019C12A /* DataManager.swift */; };
-		9A36985A2C4D012F0019C12A /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9A3698592C4D012F0019C12A /* Secrets.plist */; };
 		9A36985D2C4D01E90019C12A /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A36985C2C4D01E90019C12A /* Util.swift */; };
 		9AEA1E712C56024D00A87BF9 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9AEA1E702C56024D00A87BF9 /* Launch Screen.storyboard */; };
 		9AEA1E7A2C5651EA00A87BF9 /* UIExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEA1E792C5651EA00A87BF9 /* UIExtension.swift */; };
+		9AEA1E7C2C5DD41E00A87BF9 /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9AEA1E7B2C5DD41E00A87BF9 /* Secrets.plist */; };
+		9AEA1E822C5DD4BC00A87BF9 /* StarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEA1E812C5DD4BC00A87BF9 /* StarViewModel.swift */; };
+		9AEA1E862C5DD57100A87BF9 /* SubwayEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEA1E852C5DD57100A87BF9 /* SubwayEntity.swift */; };
+		9AEA1E892C5DD5B700A87BF9 /* RequestEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEA1E882C5DD5B700A87BF9 /* RequestEntity.swift */; };
+		9AEA1E8C2C5DD62800A87BF9 /* EnumType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEA1E8B2C5DD62800A87BF9 /* EnumType.swift */; };
+		9AEA1E8E2C5DD6A000A87BF9 /* SubwayUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEA1E8D2C5DD6A000A87BF9 /* SubwayUseCase.swift */; };
+		9AEA1E902C5DD6AE00A87BF9 /* SubwayRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEA1E8F2C5DD6AE00A87BF9 /* SubwayRepository.swift */; };
+		9AEA1E932C5DD71A00A87BF9 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEA1E922C5DD71A00A87BF9 /* Router.swift */; };
+		9AEA1E952C5DD72500A87BF9 /* SubwayAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEA1E942C5DD72500A87BF9 /* SubwayAPI.swift */; };
+		9AEA1E982C5DD74A00A87BF9 /* SubwayDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEA1E972C5DD74A00A87BF9 /* SubwayDTO.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,14 +40,12 @@
 		9A3698312C4BC0480019C12A /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		9A3698332C4BC04A0019C12A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9A3698362C4BC04A0019C12A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		9A3698422C4CA62C0019C12A /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		9A3698442C4CA6490019C12A /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		9A3698462C4CA6520019C12A /* BookMarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookMarkView.swift; sourceTree = "<group>"; };
 		9A3698482C4CA6590019C12A /* StarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarView.swift; sourceTree = "<group>"; };
 		9A36984A2C4CA6690019C12A /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		9A36984C2C4CA6740019C12A /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		9A3698512C4CA72D0019C12A /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
-		9A3698592C4D012F0019C12A /* Secrets.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Secrets.plist; sourceTree = "<group>"; };
 		9A36985C2C4D01E90019C12A /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		9AEA1E702C56024D00A87BF9 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		9AEA1E732C56500900A87BF9 /* Pretendard-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Bold.otf"; sourceTree = "<group>"; };
@@ -48,6 +54,16 @@
 		9AEA1E762C56501F00A87BF9 /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
 		9AEA1E772C56516200A87BF9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9AEA1E792C5651EA00A87BF9 /* UIExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIExtension.swift; sourceTree = "<group>"; };
+		9AEA1E7B2C5DD41E00A87BF9 /* Secrets.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Secrets.plist; sourceTree = "<group>"; };
+		9AEA1E812C5DD4BC00A87BF9 /* StarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarViewModel.swift; sourceTree = "<group>"; };
+		9AEA1E852C5DD57100A87BF9 /* SubwayEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubwayEntity.swift; sourceTree = "<group>"; };
+		9AEA1E882C5DD5B700A87BF9 /* RequestEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestEntity.swift; sourceTree = "<group>"; };
+		9AEA1E8B2C5DD62800A87BF9 /* EnumType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumType.swift; sourceTree = "<group>"; };
+		9AEA1E8D2C5DD6A000A87BF9 /* SubwayUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubwayUseCase.swift; sourceTree = "<group>"; };
+		9AEA1E8F2C5DD6AE00A87BF9 /* SubwayRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubwayRepository.swift; sourceTree = "<group>"; };
+		9AEA1E922C5DD71A00A87BF9 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
+		9AEA1E942C5DD72500A87BF9 /* SubwayAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubwayAPI.swift; sourceTree = "<group>"; };
+		9AEA1E972C5DD74A00A87BF9 /* SubwayDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubwayDTO.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,13 +96,12 @@
 		9A36982C2C4BC0480019C12A /* modoosSubway */ = {
 			isa = PBXGroup;
 			children = (
+				9AEA1E7D2C5DD47200A87BF9 /* Presentation */,
+				9AEA1E7E2C5DD48100A87BF9 /* Domain */,
+				9AEA1E7F2C5DD48A00A87BF9 /* Data */,
 				9AEA1E782C5651C700A87BF9 /* Extension */,
-				9A36985B2C4D01D30019C12A /* Util */,
+				9A36985B2C4D01D30019C12A /* Utils */,
 				9A3698562C4CF9610019C12A /* Resource */,
-				9A3698402C4CA5AE0019C12A /* View */,
-				9A3698412C4CA5F40019C12A /* ViewModel */,
-				9A36984E2C4CA6810019C12A /* DataManager */,
-				9A36983F2C4CA5960019C12A /* Model */,
 				9A36982D2C4BC0480019C12A /* modoosSubwayApp.swift */,
 				9AEA1E772C56516200A87BF9 /* Info.plist */,
 				9A3698352C4BC04A0019C12A /* Preview Content */,
@@ -102,12 +117,13 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		9A36983F2C4CA5960019C12A /* Model */ = {
+		9A36983F2C4CA5960019C12A /* SwiftData */ = {
 			isa = PBXGroup;
 			children = (
-				9A3698312C4BC0480019C12A /* Item.swift */,
+				9AEA1E8A2C5DD5F300A87BF9 /* DataMoel */,
+				9A36984E2C4CA6810019C12A /* DataManager */,
 			);
-			path = Model;
+			path = SwiftData;
 			sourceTree = "<group>";
 		};
 		9A3698402C4CA5AE0019C12A /* View */ = {
@@ -123,14 +139,6 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		9A3698412C4CA5F40019C12A /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				9A3698422C4CA62C0019C12A /* HomeViewModel.swift */,
-			);
-			path = ViewModel;
-			sourceTree = "<group>";
-		};
 		9A36984E2C4CA6810019C12A /* DataManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -143,19 +151,20 @@
 			isa = PBXGroup;
 			children = (
 				9AEA1E722C564FF300A87BF9 /* Font */,
-				9A3698592C4D012F0019C12A /* Secrets.plist */,
 				9A3698332C4BC04A0019C12A /* Assets.xcassets */,
 				9AEA1E702C56024D00A87BF9 /* Launch Screen.storyboard */,
+				9AEA1E7B2C5DD41E00A87BF9 /* Secrets.plist */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
 		};
-		9A36985B2C4D01D30019C12A /* Util */ = {
+		9A36985B2C4D01D30019C12A /* Utils */ = {
 			isa = PBXGroup;
 			children = (
 				9A36985C2C4D01E90019C12A /* Util.swift */,
+				9AEA1E8B2C5DD62800A87BF9 /* EnumType.swift */,
 			);
-			path = Util;
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		9AEA1E722C564FF300A87BF9 /* Font */ = {
@@ -175,6 +184,93 @@
 				9AEA1E792C5651EA00A87BF9 /* UIExtension.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		9AEA1E7D2C5DD47200A87BF9 /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				9AEA1E802C5DD4A900A87BF9 /* ViewModel */,
+				9A3698402C4CA5AE0019C12A /* View */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		9AEA1E7E2C5DD48100A87BF9 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				9AEA1E842C5DD53600A87BF9 /* UseCase */,
+				9AEA1E832C5DD52D00A87BF9 /* Entity */,
+				9A36983F2C4CA5960019C12A /* SwiftData */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		9AEA1E7F2C5DD48A00A87BF9 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				9AEA1E912C5DD70800A87BF9 /* API */,
+				9AEA1E872C5DD59700A87BF9 /* Repository */,
+				9AEA1E962C5DD73D00A87BF9 /* DTO */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		9AEA1E802C5DD4A900A87BF9 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				9AEA1E812C5DD4BC00A87BF9 /* StarViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		9AEA1E832C5DD52D00A87BF9 /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				9AEA1E852C5DD57100A87BF9 /* SubwayEntity.swift */,
+				9AEA1E882C5DD5B700A87BF9 /* RequestEntity.swift */,
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
+		9AEA1E842C5DD53600A87BF9 /* UseCase */ = {
+			isa = PBXGroup;
+			children = (
+				9AEA1E8D2C5DD6A000A87BF9 /* SubwayUseCase.swift */,
+			);
+			path = UseCase;
+			sourceTree = "<group>";
+		};
+		9AEA1E872C5DD59700A87BF9 /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+				9AEA1E8F2C5DD6AE00A87BF9 /* SubwayRepository.swift */,
+			);
+			path = Repository;
+			sourceTree = "<group>";
+		};
+		9AEA1E8A2C5DD5F300A87BF9 /* DataMoel */ = {
+			isa = PBXGroup;
+			children = (
+				9A3698312C4BC0480019C12A /* Item.swift */,
+			);
+			path = DataMoel;
+			sourceTree = "<group>";
+		};
+		9AEA1E912C5DD70800A87BF9 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				9AEA1E922C5DD71A00A87BF9 /* Router.swift */,
+				9AEA1E942C5DD72500A87BF9 /* SubwayAPI.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		9AEA1E962C5DD73D00A87BF9 /* DTO */ = {
+			isa = PBXGroup;
+			children = (
+				9AEA1E972C5DD74A00A87BF9 /* SubwayDTO.swift */,
+			);
+			path = DTO;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -235,8 +331,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9AEA1E7C2C5DD41E00A87BF9 /* Secrets.plist in Resources */,
 				9A3698372C4BC04A0019C12A /* Preview Assets.xcassets in Resources */,
-				9A36985A2C4D012F0019C12A /* Secrets.plist in Resources */,
 				9AEA1E712C56024D00A87BF9 /* Launch Screen.storyboard in Resources */,
 				9A3698342C4BC04A0019C12A /* Assets.xcassets in Resources */,
 			);
@@ -249,18 +345,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9AEA1E8C2C5DD62800A87BF9 /* EnumType.swift in Sources */,
 				9A36985D2C4D01E90019C12A /* Util.swift in Sources */,
+				9AEA1E8E2C5DD6A000A87BF9 /* SubwayUseCase.swift in Sources */,
 				9A3698452C4CA6490019C12A /* SearchView.swift in Sources */,
+				9AEA1E932C5DD71A00A87BF9 /* Router.swift in Sources */,
+				9AEA1E822C5DD4BC00A87BF9 /* StarViewModel.swift in Sources */,
+				9AEA1E862C5DD57100A87BF9 /* SubwayEntity.swift in Sources */,
 				9A3698522C4CA72D0019C12A /* DataManager.swift in Sources */,
 				9A36984B2C4CA6690019C12A /* DetailView.swift in Sources */,
 				9A3698302C4BC0480019C12A /* HomeView.swift in Sources */,
+				9AEA1E892C5DD5B700A87BF9 /* RequestEntity.swift in Sources */,
+				9AEA1E952C5DD72500A87BF9 /* SubwayAPI.swift in Sources */,
+				9AEA1E982C5DD74A00A87BF9 /* SubwayDTO.swift in Sources */,
 				9A36984D2C4CA6740019C12A /* SettingView.swift in Sources */,
 				9A3698322C4BC0480019C12A /* Item.swift in Sources */,
 				9AEA1E7A2C5651EA00A87BF9 /* UIExtension.swift in Sources */,
 				9A36982E2C4BC0480019C12A /* modoosSubwayApp.swift in Sources */,
+				9AEA1E902C5DD6AE00A87BF9 /* SubwayRepository.swift in Sources */,
 				9A3698472C4CA6520019C12A /* BookMarkView.swift in Sources */,
 				9A3698492C4CA6590019C12A /* StarView.swift in Sources */,
-				9A3698432C4CA62C0019C12A /* HomeViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
