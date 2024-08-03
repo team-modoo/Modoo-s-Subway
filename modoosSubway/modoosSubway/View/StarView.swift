@@ -16,7 +16,7 @@ struct StarView: View {
 		VStack {
 			if items.isEmpty {
 				VStack {
-					Image("star_circle")
+					Image(.starCircle)
 					Text("자주 타는 지하철 노선을 추가해주세요.")
 						.font(.pretendard(size: 16, family: .regular))
 				}
