@@ -6,7 +6,7 @@ name: Testflight
 on:
   pull_request:
     branches:
-      - develop
+      - stage
     types: [closed]
 
 jobs:
