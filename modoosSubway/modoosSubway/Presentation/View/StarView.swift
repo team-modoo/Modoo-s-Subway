@@ -14,27 +14,56 @@ struct StarView: View {
 	
 	var body: some View {
 		VStack {
-			if items.isEmpty {
-				VStack {
-					Image(.starCircle)
-					Text("자주 타는 지하철 노선을 추가해주세요.")
-						.font(.pretendard(size: 16, family: .regular))
-				}
-				.padding(.top, 22)
-			} else {
-				List {
-					ForEach(items) { item in
-						NavigationLink {
-							Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-						} label: {
-							Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
+			GeometryReader(content: { geometry in
+				if items.isEmpty {
+//					VStack {
+//						Image(.starCircle)
+//						Text("자주 타는 지하철 노선을 추가해주세요.")
+//							.font(.pretendard(size: 16, family: .regular))
+//							.foregroundStyle(Color("5C5C5C"))
+//							.padding(.top, 8)
+//					}
+//					.frame(width: geometry.size.width, height: 196)
+//					.background(
+//						RoundedRectangle(cornerRadius: 10)
+//							.stroke(.EDEDED)
+//					)
+					
+					VStack {
+						HStack {
+							Text("7호선")
+								.font(.pretendard(size: 16, family: .regular))
+								.foregroundStyle(Color("5C5C5C"))
+								.padding(.top, 8)
 						}
 					}
-					.onDelete(perform: deleteItems)
+					.frame(width: geometry.size.width, height: 196)
+					.background(
+						RoundedRectangle(cornerRadius: 10)
+							.stroke(.EDEDED)
+					)
+				} else {
+					List {
+						ForEach(items) { item in
+							VStack {
+								Image(.starCircle)
+								Text("자주 타는 지하철 노선을 추가해주세요.")
+									.font(.pretendard(size: 16, family: .regular))
+									.foregroundStyle(Color("5C5C5C"))
+									.padding(.top, 8)
+							}
+							.frame(width: geometry.size.width, height: 196)
+							.background(
+								RoundedRectangle(cornerRadius: 10)
+									.stroke(.EDEDED)
+							)
+						}
+						.onDelete(perform: deleteItems)
+					}
 				}
-			}
+			})
 		}
-		.padding(.horizontal, 20)
+		.padding(.top, 22)
 	}
 	
 	private func addItem() {
