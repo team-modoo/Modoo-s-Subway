@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		46E23B2D2C6872190059BB62 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E23B2C2C6872190059BB62 /* NetworkError.swift */; };
+		46F0F7E32C6879E100444C98 /* FetchRealtimeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F0F7E22C6879E100444C98 /* FetchRealtimeViewModel.swift */; };
 		9A36982E2C4BC0480019C12A /* modoosSubwayApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A36982D2C4BC0480019C12A /* modoosSubwayApp.swift */; };
 		9A3698302C4BC0480019C12A /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A36982F2C4BC0480019C12A /* HomeView.swift */; };
 		9A3698322C4BC0480019C12A /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3698312C4BC0480019C12A /* Item.swift */; };
@@ -34,6 +36,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		46E23B2C2C6872190059BB62 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		46F0F7E22C6879E100444C98 /* FetchRealtimeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchRealtimeViewModel.swift; sourceTree = "<group>"; };
 		9A36982A2C4BC0480019C12A /* modoosSubway.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = modoosSubway.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A36982D2C4BC0480019C12A /* modoosSubwayApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = modoosSubwayApp.swift; sourceTree = "<group>"; };
 		9A36982F2C4BC0480019C12A /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -219,6 +223,7 @@
 			isa = PBXGroup;
 			children = (
 				9AEA1E812C5DD4BC00A87BF9 /* StarViewModel.swift */,
+				46F0F7E22C6879E100444C98 /* FetchRealtimeViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -261,6 +266,7 @@
 			children = (
 				9AEA1E922C5DD71A00A87BF9 /* Router.swift */,
 				9AEA1E942C5DD72500A87BF9 /* SubwayAPI.swift */,
+				46E23B2C2C6872190059BB62 /* NetworkError.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -354,12 +360,14 @@
 				9AEA1E862C5DD57100A87BF9 /* SubwayEntity.swift in Sources */,
 				9A3698522C4CA72D0019C12A /* DataManager.swift in Sources */,
 				9A36984B2C4CA6690019C12A /* DetailView.swift in Sources */,
+				46F0F7E32C6879E100444C98 /* FetchRealtimeViewModel.swift in Sources */,
 				9A3698302C4BC0480019C12A /* HomeView.swift in Sources */,
 				9AEA1E892C5DD5B700A87BF9 /* RequestEntity.swift in Sources */,
 				9AEA1E952C5DD72500A87BF9 /* SubwayAPI.swift in Sources */,
 				9AEA1E982C5DD74A00A87BF9 /* SubwayDTO.swift in Sources */,
 				9A36984D2C4CA6740019C12A /* SettingView.swift in Sources */,
 				9A3698322C4BC0480019C12A /* Item.swift in Sources */,
+				46E23B2D2C6872190059BB62 /* NetworkError.swift in Sources */,
 				9AEA1E7A2C5651EA00A87BF9 /* UIExtension.swift in Sources */,
 				9A36982E2C4BC0480019C12A /* modoosSubwayApp.swift in Sources */,
 				9AEA1E902C5DD6AE00A87BF9 /* SubwayRepository.swift in Sources */,
