@@ -14,18 +14,56 @@ struct BookMarkView: View {
 	
 	var body: some View {
 		VStack {
-			Text("북마크")
-			List {
-				ForEach(items) { item in
-					NavigationLink {
-						Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-					} label: {
-						Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
+			GeometryReader(content: { geometry in
+				if items.isEmpty {
+					VStack {
+						Image(.bookmarkCircle)
+						Text("자주 타는 지하철 노선을 꾸며보세요")
+							.font(.pretendard(size: 16, family: .regular))
+							.foregroundStyle(Color("5C5C5C"))
+							.padding(.top, 8)
+					}
+					.frame(width: geometry.size.width, height: 196)
+					.background(
+						RoundedRectangle(cornerRadius: 10)
+							.stroke(.EDEDED)
+					)
+					
+//					VStack {
+//						HStack {
+//							Text("7호선")
+//								.font(.pretendard(size: 16, family: .regular))
+//								.foregroundStyle(Color("5C5C5C"))
+//								.padding(.top, 8)
+//						}
+//					}
+//					.frame(width: geometry.size.width, height: 196)
+//					.background(
+//						RoundedRectangle(cornerRadius: 10)
+//							.stroke(.EDEDED)
+//					)
+				} else {
+					List {
+						ForEach(items) { item in
+							VStack {
+								Image(.starCircle)
+								Text("자주 타는 지하철 노선을 추가해주세요.")
+									.font(.pretendard(size: 16, family: .regular))
+									.foregroundStyle(Color("5C5C5C"))
+									.padding(.top, 8)
+							}
+							.frame(width: geometry.size.width, height: 196)
+							.background(
+								RoundedRectangle(cornerRadius: 10)
+									.stroke(.EDEDED)
+							)
+						}
+						.onDelete(perform: deleteItems)
 					}
 				}
-				.onDelete(perform: deleteItems)
-			}
+			})
 		}
+		.padding(.top, 22)
 	}
 	
 	private func addItem() {
