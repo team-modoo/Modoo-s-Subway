@@ -6,3 +6,22 @@
 //
 
 import Foundation
+import Combine
+
+protocol FetchRealtimePositionSUseCaseProtocol {
+    func execute(request:SubwayRequestDTO) -> AnyPublisher<SubwayResponseDTO,NetworkError>
+}
+
+class FetchRealtimePositionUseCase:FetchRealtimePositionSUseCaseProtocol {
+    private let repository:SubwayRepositoryProtocol
+    
+    init(repository: SubwayRepositoryProtocol) {
+        self.repository = repository
+    }
+    
+    func execute(request: SubwayRequestDTO) -> AnyPublisher<SubwayResponseDTO, NetworkError> {
+        return repository.getRealtimePositions(request: request)
+    }
+    
+    
+}

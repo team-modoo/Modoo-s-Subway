@@ -16,7 +16,7 @@ class SubwayRepository:SubwayRepositoryProtocol {
     
     private let apiService: SubwayAPIServiceProtocol
     
-    init(apiService: SubwayAPIServiceProtocol) {
+    init(apiService: SubwayAPIServiceProtocol = SubwayAPIService()) {
         self.apiService = apiService
     }
     
