@@ -6,3 +6,15 @@
 //
 
 import Foundation
+
+struct SubwayEntity: Codable {
+	let subwayId: String
+	let subwayName: String
+	let stationId: String
+	let stationName: String
+	let receiveDate: String
+	let receiveTime: String
+	let upDownLine: String
+	let trainStatus: String
+	let isExpress: String
+}
