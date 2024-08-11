@@ -54,8 +54,15 @@ struct HomeView: View {
 							.font(.pretendard(size: 14, family: .regular))
 					}
 					
-					Button(action: {
-						
+					// TODO: - 데이터 확인 위해 임시로 해놓음
+//					Button(action: {
+//						
+//					}, label: {
+//						Image(.iconSearch)
+//					})
+					
+					NavigationLink(destination: {
+						SearchView()
 					}, label: {
 						Image(.iconSearch)
 					})

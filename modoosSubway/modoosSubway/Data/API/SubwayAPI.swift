@@ -5,54 +5,76 @@
 //  Created by 김지현 on 2024/08/03.
 //
 
-import Foundation
+import Alamofire
 import Combine
 
-protocol SubwayAPIServiceProtocol {
-    func fetchRealtimePosition(request: SubwayRequestDTO) -> AnyPublisher<SubwayResponseDTO, NetworkError>
+enum SubwayAPI {
+	// MARK: - 실시간 열차 위치 정보 API
+	case RealtimeSubWayPosition(_ request: RealtimeSubWayPositionRequestDTO)
+	// MARK: - 지하철역 정보 API
+	case SearchSubwayStation(_ request: SearchSubwayStationRequestDTO)
 }
 
-class SubwayAPIService: SubwayAPIServiceProtocol {
-    
-    func fetchRealtimePosition(request: SubwayRequestDTO) -> AnyPublisher<SubwayResponseDTO, NetworkError> {
-        guard let apiKey = Configuration.shared.apiKey,
-              let baseURL = Configuration.shared.baseURL else {
-            return Fail(error: NetworkError.invalidURL).eraseToAnyPublisher()
-        }
-        
-        let urlString = "\(baseURL)\(apiKey)/\(request.type)/\(request.service)/\(request.startIndex)/\(request.endIndex)/\(request.subwayNm)"
-        guard let url = URL(string: urlString) else {
-            return Fail(error: NetworkError.invalidURL).eraseToAnyPublisher()
-        }
-
-        return URLSession.shared.dataTaskPublisher(for: url)
-            .tryMap { data, response -> SubwayResponseDTO in
-                guard let httpResponse = response as? HTTPURLResponse else {
-                    throw NetworkError.unknownError
-                }
-                
-                guard (200...299).contains(httpResponse.statusCode) else {
-                    throw NetworkError.serverError(httpResponse.statusCode)
-                }
-                
-                let decoder = JSONDecoder()
-                let subwayResponse = try decoder.decode(SubwayResponseDTO.self, from: data)
-                
-                if subwayResponse.errorMessage.code != "INFO-000" {
-                    throw NetworkError.customError(
-                        code: subwayResponse.errorMessage.status,
-                        message: subwayResponse.errorMessage.message
-                    )
-                }
-                
-                return subwayResponse
-            }
-            .mapError { error in
-                if let networkError = error as? NetworkError {
-                    return networkError
-                }
-                return NetworkError.unknownError
-            }
-            .eraseToAnyPublisher()
-    }
+extension SubwayAPI: Router, URLRequestConvertible {
+	var baseURL: String {
+		switch self {
+		case .RealtimeSubWayPosition:
+			return "http://swopenapi.seoul.go.kr"
+		case .SearchSubwayStation:
+			return "http://openapi.seoul.go.kr:8088"
+		}
+	}
+	
+	var path: String {
+		switch self {
+		case .RealtimeSubWayPosition(let request):
+			let path: String = "/api/subway/\(request.key)/\(request.type)/\(request.service)/\(request.startIndex)/\(request.endIndex)/\(request.subwayNm)"
+			
+			if let encodedPath = path.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) {
+				print(encodedPath)
+				return encodedPath
+			} else {
+				print("Failed to encode path")
+				return path
+			}
+		case .SearchSubwayStation(let request):
+			return "/\(request.key)/\(request.type)/\(request.service)/\(request.startIndex)/\(request.endIndex)"
+		}
+	}
+	
+	var method: Alamofire.HTTPMethod {
+		switch self {
+		case .RealtimeSubWayPosition, .SearchSubwayStation:
+			return .get
+		}
+	}
+	
+	var headers: [String : String]? {
+		return nil
+	}
+	
+	var parameters: [String : Any]? {
+		return nil
+	}
+	
+	var encoding: Alamofire.ParameterEncoding? {
+		return nil
+	}
+	
+	func asURLRequest() throws -> URLRequest {
+		let url = URL(string: baseURL + path)
+		var request = URLRequest(url: url!)
+		
+		request.method = method
+		
+		if let headers = headers {
+			request.headers = HTTPHeaders(headers)
+		}
+		
+		if let encoding = encoding {
+			return try encoding.encode(request, with: parameters)
+		}
+		
+		return request
+	}
 }
