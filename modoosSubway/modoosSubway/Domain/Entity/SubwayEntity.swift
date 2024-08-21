@@ -18,3 +18,11 @@ struct SubwayEntity: Codable {
 	let trainStatus: String
 	let isExpress: String
 }
+
+struct SubwayStaionEntity: Codable {
+    let stationId: String
+    let stationName: String
+    let lineNumber: String
+    let foreignerCode: String
+}
+
