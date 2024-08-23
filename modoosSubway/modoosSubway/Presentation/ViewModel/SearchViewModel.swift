@@ -71,5 +71,52 @@ class SearchViewModel: ObservableObject {
 		
 		
     }
+
+    func getSubWayStationInfos(startIndex:Int,endIndex:Int) {
+        let request: SearchSubwayStationRequestDTO = SearchSubwayStationRequestDTO(key:self.key,startIndex: startIndex, endIndex: endIndex)
+        
+        subwayUseCase.executeSearchSubwayStation(request: request)
+            .subscribe(on: DispatchQueue.global(qos: .background))
+            .map( { [weak self] executionType -> [SubwayStaionEntity] in
+                switch executionType {
+                    
+                case .success(let data):
+                    print("getSubwayStaionInfos DTO:: \(data)")
+                    
+                    let stationInfos = data.subWayStaionInfo.map { el in
+                        return SubwayStaionEntity(stationId: el.STATION_CD,
+                                                  stationName: el.STATION_NM,
+                                                  lineNumber: el.LINE_NUM,
+                                                  foreignerCode: el.FR_CODE)
+                    }
+                    
+                    return stationInfos
+                case .error(let error):
+                    switch error {
+                    case .invalidURL:
+                        self?.errorMessage = "잘못된 URL입니다."
+                    case .noData:
+                        self?.errorMessage = "데이터를 받을 수 없습니다."
+                    case .decodingError:
+                        self?.errorMessage = "데이터 디코딩에 실패했습니다."
+                    case .serverError(let statusCode):
+                        self?.errorMessage = "서버 오류: \(statusCode)"
+                    case .customError(_, let message):
+                        self?.errorMessage = message
+                    case .unknownError:
+                        self?.errorMessage = "알 수 없는 오류가 발생했습니다."
+                    }
+                default:
+                    break
+                }
+                return []
+            
+            })
+            .receive(on: DispatchQueue.main)
+            .sink { value in
+                print("getSubwayStationInfos Entity:: \(value)")
+            }
+            .store(in: &cancellables)
+    }
     
 }

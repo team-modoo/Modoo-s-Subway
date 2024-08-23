@@ -11,6 +11,7 @@ import SwiftyJSON
 
 protocol SubwayRepositoryProtocol {
 	func fetchRealtimeSubwayPosition(request: RealtimeSubWayPositionRequestDTO) -> AnyPublisher<RealtimeSubwayPositionResponseDTO, NetworkError>
+    func fetchSearchSubwayStation(request: SearchSubwayStationRequestDTO) -> AnyPublisher<SearchSubwayStationResponseDTO,NetworkError>
 }
 
 class SubwayRepository: SubwayRepositoryProtocol {
@@ -42,4 +43,33 @@ class SubwayRepository: SubwayRepositoryProtocol {
 		}
 		.eraseToAnyPublisher()
 	}
+    // MARK: - 지하철역 정보 API 요청
+    func fetchSearchSubwayStation(request: SearchSubwayStationRequestDTO) -> AnyPublisher<SearchSubwayStationResponseDTO, NetworkError> {
+        return Future<SearchSubwayStationResponseDTO,NetworkError> { promise in
+            AF.request(SubwayAPI.SearchSubwayStation(request))
+                .responseDecodable(of: SearchSubwayStationResponseDTO.self) { response in
+                    let statusCode = response.response?.statusCode ?? 0
+                    
+                    print("*[실시간 열차 위치 정보 API 요청 status code] \(statusCode)")
+                    print(JSON(response.data as Any))
+                    
+                    switch response.result {
+                    case .success(let data):
+                        if data.errorMessage.code != "INFO-000" {
+                            return promise(.failure(
+                                NetworkError.customError(
+                                    code: data.errorMessage.status,
+                                    message: data.errorMessage.message
+                                )
+                            ))
+                        }
+                        return promise(.success(data))
+                    case .failure(let error):
+                        return promise(.failure(.serverError(statusCode)))
+                    }
+                    
+                }
+        }
+        .eraseToAnyPublisher()
+    }
 }

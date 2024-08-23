@@ -10,6 +10,7 @@ import Combine
 
 protocol SubwayUseCaseProtocol {
     func executeRealtimeSubwayPosition(request: RealtimeSubWayPositionRequestDTO) -> AnyPublisher<ExecutionType<RealtimeSubwayPositionResponseDTO>, Never>
+    func executeSearchSubwayStation(request: SearchSubwayStationRequestDTO) -> AnyPublisher<ExecutionType<SearchSubwayStationResponseDTO>,Never>
 }
 
 class SubwayUseCase: SubwayUseCaseProtocol {
@@ -38,4 +39,24 @@ class SubwayUseCase: SubwayUseCaseProtocol {
 		}
 		.eraseToAnyPublisher()
 	}
+    // MARK: - 지하철역 정보 가져오기
+    func executeSearchSubwayStation(request: SearchSubwayStationRequestDTO) -> AnyPublisher<ExecutionType<SearchSubwayStationResponseDTO>, Never> {
+        return Future<ExecutionType<SearchSubwayStationResponseDTO>,Never> { promise in
+            self.repository.fetchSearchSubwayStation(request: request)
+                .sink { completion in
+                    switch completion {
+                    case .finished:
+                        break
+                    case .failure(let error):
+                        print("Request failed with error: \(error)")
+                        promise(.success(.error(error)))
+                    }
+                } receiveValue: { (data: SearchSubwayStationResponseDTO) in
+                    promise(.success(.success(data)))
+                }
+                .cancel()
+
+        }
+        .eraseToAnyPublisher()
+    }
 }

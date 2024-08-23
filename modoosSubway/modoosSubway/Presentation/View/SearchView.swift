@@ -18,6 +18,7 @@ struct SearchView: View {
 			
 			Button(action: {
 				vm.getSubwayInfos(for: "1호선", startIndex: 0, endIndex: 5)
+                vm.getSubWayStationInfos(startIndex: 1, endIndex: 5)
 			}, label: {
 				Text("실시간 열차 위치 정보 API 요청하기 버튼")
 			})

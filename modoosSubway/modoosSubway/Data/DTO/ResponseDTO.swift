@@ -32,6 +32,7 @@ struct SubwayDTO: Codable {
 // MARK: - 지하철역 정보 응답 DTO
 struct SearchSubwayStationResponseDTO: Codable {
 	let errorMessage: ApiResponseData
+    let subWayStaionInfo: [StationInfoDTO]
 }
 
 // API 응답의 정보를 담는 DTO (정상,오류메세지,오류타입,total 개수 등)
@@ -41,3 +42,15 @@ struct ApiResponseData: Codable {
 	let message: String
 	let total: Int
 }
+
+//MARK: - 노선별 지하철역 정보 응답 DTO
+struct StationInfoDTO:Codable {
+    let STATION_CD: String
+    let STATION_NM: String
+    let STATION_NM_ENG: String
+    let LINE_NUM: String
+    let FR_CODE: String
+    let STATION_NM_CHN: String
+    let STATION_NM_JPN: String
+}
+
