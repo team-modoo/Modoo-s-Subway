@@ -12,6 +12,6 @@ enum NetworkError: Error {
     case noData
     case decodingError
     case serverError(Int) // HTTP 상태 코드와 함께 처리
-    case customError(code: Int, message: String) // 서버에서 반환된 오류 메시지 처리
+    case customError(code: String, message: String) // 서버에서 반환된 오류 메시지 처리
     case unknownError
 }

@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 protocol SubwayUseCaseProtocol {
-    func executeRealtimeSubwayPosition(request: RealtimeSubWayPositionRequestDTO) -> AnyPublisher<ExecutionType<RealtimeSubwayPositionResponseDTO>, Never>
+    func executeRealtimeStationArrival(request: RealtimeStationArrivalRequestDTO) -> AnyPublisher<ExecutionType<RealtimeStationArrivalResponseDTO>, Never>
     func executeSearchSubwayStation(request: SearchSubwayStationRequestDTO) -> AnyPublisher<ExecutionType<SearchSubwayStationResponseDTO>,Never>
 }
 
@@ -20,10 +20,10 @@ class SubwayUseCase: SubwayUseCaseProtocol {
         self.repository = repository
     }
 	
-	// MARK: - 실시간 열차 위치 정보 가져오기
-	func executeRealtimeSubwayPosition(request: RealtimeSubWayPositionRequestDTO) -> AnyPublisher<ExecutionType<RealtimeSubwayPositionResponseDTO>, Never> {
-		return Future<ExecutionType<RealtimeSubwayPositionResponseDTO>, Never> { promise in
-			self.repository.fetchRealtimeSubwayPosition(request: request)
+	// MARK: - 실시간 열차 도착 정보 가져오기
+	func executeRealtimeStationArrival(request: RealtimeStationArrivalRequestDTO) -> AnyPublisher<ExecutionType<RealtimeStationArrivalResponseDTO>, Never> {
+		return Future<ExecutionType<RealtimeStationArrivalResponseDTO>, Never> { promise in
+			self.repository.fetchRealtimeStationArrival(request: request)
 				.sink { completion in
 					switch completion {
 					case .finished:
@@ -32,14 +32,15 @@ class SubwayUseCase: SubwayUseCaseProtocol {
 						print("Request failed with error: \(error)")
 						promise(.success(.error(error)))
 					}
-				} receiveValue: { (data: RealtimeSubwayPositionResponseDTO) in
+				} receiveValue: { (data: RealtimeStationArrivalResponseDTO) in
 					promise(.success(.success(data)))
 				}
 				.cancel()
 		}
 		.eraseToAnyPublisher()
 	}
-    // MARK: - 지하철역 정보 가져오기
+	
+    // MARK: - 지하철역 정보 검색(역명) 가져오기
     func executeSearchSubwayStation(request: SearchSubwayStationRequestDTO) -> AnyPublisher<ExecutionType<SearchSubwayStationResponseDTO>, Never> {
         return Future<ExecutionType<SearchSubwayStationResponseDTO>,Never> { promise in
             self.repository.fetchSearchSubwayStation(request: request)

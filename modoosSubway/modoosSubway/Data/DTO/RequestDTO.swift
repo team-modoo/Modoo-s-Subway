@@ -7,21 +7,22 @@
 
 import Foundation
 
-// MARK: - 실시간 열차 위치 정보 요청 DTO
-struct RealtimeSubWayPositionRequestDTO {
+// MARK: - 실시간 열차 도착 정보 요청 DTO
+struct RealtimeStationArrivalRequestDTO {
 	let key: String
 	let type: String = "json"
-	let service: String = "realtimePosition"
+	let service: String = "realtimeStationArrival"
 	let startIndex: Int
 	let endIndex: Int
-	let subwayNm: String
+	let subwayName: String // "서울"
 }
 
-// MARK: - 지하철역 정보 요청 DTO
+// MARK: - 지하철역 정보 검색(역명) 요청 DTO
 struct SearchSubwayStationRequestDTO {
 	let key: String
 	let type: String = "json"
-	let service: String = "SearchSTNBySubwayLineInfo"
+	let service: String = "SearchInfoBySubwayNameService"
 	let startIndex: Int
 	let endIndex: Int
+	let stationName: String // "동대문역사문화공원"
 }

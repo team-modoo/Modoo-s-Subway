@@ -9,9 +9,9 @@ import Alamofire
 import Combine
 
 enum SubwayAPI {
-	// MARK: - 실시간 열차 위치 정보 API
-	case RealtimeSubWayPosition(_ request: RealtimeSubWayPositionRequestDTO)
-	// MARK: - 지하철역 정보 API
+	// MARK: - 실시간 열차 도착 정보 API
+	case RealtimeSubWayPosition(_ request: RealtimeStationArrivalRequestDTO)
+	// MARK: - 지하철역 정보 검색(역명) API
 	case SearchSubwayStation(_ request: SearchSubwayStationRequestDTO)
 }
 
@@ -28,7 +28,7 @@ extension SubwayAPI: Router, URLRequestConvertible {
 	var path: String {
 		switch self {
 		case .RealtimeSubWayPosition(let request):
-			let path: String = "/api/subway/\(request.key)/\(request.type)/\(request.service)/\(request.startIndex)/\(request.endIndex)/\(request.subwayNm)"
+			let path: String = "/api/subway/\(request.key)/\(request.type)/\(request.service)/\(request.startIndex)/\(request.endIndex)/\(request.subwayName)"
 			
 			if let encodedPath = path.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) {
 				print(encodedPath)
@@ -38,7 +38,15 @@ extension SubwayAPI: Router, URLRequestConvertible {
 				return path
 			}
 		case .SearchSubwayStation(let request):
-			return "/\(request.key)/\(request.type)/\(request.service)/\(request.startIndex)/\(request.endIndex)"
+			let path: String = "/\(request.key)/\(request.type)/\(request.service)/\(request.startIndex)/\(request.endIndex)/\(request.stationName)"
+			
+			if let encodedPath = path.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) {
+				print(encodedPath)
+				return encodedPath
+			} else {
+				print("Failed to encode path")
+				return path
+			}
 		}
 	}
 	

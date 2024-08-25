@@ -19,29 +19,33 @@ class SearchViewModel: ObservableObject {
         self.subwayUseCase = subwayUseCase
     }
     
-    func getSubwayInfos(for line: String, startIndex: Int, endIndex: Int) {
-		let request: RealtimeSubWayPositionRequestDTO = RealtimeSubWayPositionRequestDTO(key: self.key, startIndex: startIndex, endIndex: endIndex, subwayNm: line)
+    func getRealtimeStationArrivals(for subwayName: String, startIndex: Int, endIndex: Int) {
+		let request: RealtimeStationArrivalRequestDTO = RealtimeStationArrivalRequestDTO(key: self.key, startIndex: startIndex, endIndex: endIndex, subwayName: subwayName)
 		
-		subwayUseCase.executeRealtimeSubwayPosition(request: request)
+		subwayUseCase.executeRealtimeStationArrival(request: request)
 			.subscribe(on: DispatchQueue.global(qos: .background))
-			.map({ [weak self] executionType -> [SubwayEntity] in
+			.map({ [weak self] executionType -> [ArrivalEntity] in
 				switch executionType {
 				case .success(let data):
-					print("getSubwayInfos DTO:: \(data)")
+					print("getRealtimeStationArrivals DTO:: \(data)")
 					
-					let subwayInfos = data.realtimePositionList.map { el in
-						return SubwayEntity(subwayId: el.subwayId,
-											subwayName: el.subwayNm,
-											stationId: el.statnId,
-											stationName: el.statnNm,
-											receiveDate: el.lastRecptnDt,
-											receiveTime: el.recptnDt,
-											upDownLine: el.updnLine,
-											trainStatus: el.trainSttus,
-											isExpress: el.directAt)
+					let arrivals = data.realtimeArrivalList.map { el in
+						return ArrivalEntity(subwayId: el.subwayId,
+											 upDownLine: el.updnLine,
+											 trainLineName: el.trainLineNm,
+											 stationId: el.statnId,
+											 stationName: el.statnNm,
+											 subwayList: el.subwayList,
+											 stationList: el.statnList,
+											 isExpress: el.btrainSttus, 
+											 date: el.recptnDt,
+											 message2: el.arvlMsg2,
+											 message3: el.arvlMsg3,
+											 arrivalCode: el.arvlCd,
+											 isLastCar: el.lstcarAt)
 					}
 					
-					return subwayInfos
+					return arrivals
 				case .error(let error):
 					switch error {
 					case .invalidURL:
@@ -65,32 +69,32 @@ class SearchViewModel: ObservableObject {
 			})
 			.receive(on: DispatchQueue.main)
 			.sink { value in
-				print("getSubwayInfos Entity:: \(value)")
+				print("getRealtimeStationArrivals Entity:: \(value)")
 			}
 			.store(in: &cancellables)
 		
 		
     }
 
-    func getSubWayStationInfos(startIndex:Int,endIndex:Int) {
-        let request: SearchSubwayStationRequestDTO = SearchSubwayStationRequestDTO(key:self.key,startIndex: startIndex, endIndex: endIndex)
+    func getSearchSubwayStations(for stationName: String, startIndex:Int, endIndex:Int) {
+		let request: SearchSubwayStationRequestDTO = SearchSubwayStationRequestDTO(key:self.key, startIndex: startIndex, endIndex: endIndex, stationName: stationName)
         
         subwayUseCase.executeSearchSubwayStation(request: request)
             .subscribe(on: DispatchQueue.global(qos: .background))
-            .map( { [weak self] executionType -> [SubwayStaionEntity] in
+            .map( { [weak self] executionType -> [StaionEntity] in
                 switch executionType {
                     
                 case .success(let data):
-                    print("getSubwayStaionInfos DTO:: \(data)")
+                    print("getSearchSubwayStations DTO:: \(data)")
                     
-                    let stationInfos = data.subWayStaionInfo.map { el in
-                        return SubwayStaionEntity(stationId: el.STATION_CD,
-                                                  stationName: el.STATION_NM,
-                                                  lineNumber: el.LINE_NUM,
-                                                  foreignerCode: el.FR_CODE)
-                    }
-                    
-                    return stationInfos
+					let stations = data.row.map { el in
+						return StaionEntity(stationId: el.STATION_CD,
+											stationName: el.STATION_NM,
+											lineNumber: el.LINE_NUM,
+											foreignerCode: el.FR_CODE)
+					}
+					
+                    return stations
                 case .error(let error):
                     switch error {
                     case .invalidURL:
@@ -114,7 +118,7 @@ class SearchViewModel: ObservableObject {
             })
             .receive(on: DispatchQueue.main)
             .sink { value in
-                print("getSubwayStationInfos Entity:: \(value)")
+                print("getSearchSubwayStations Entity:: \(value)")
             }
             .store(in: &cancellables)
     }
