@@ -8,7 +8,7 @@
 import Foundation
 
 // MARK: - 실시간 열차 도착 정보 Entity
-struct ArrivalEntity: Codable {
+struct ArrivalEntity {
 	let subwayId: String
 	let upDownLine: String
 	let trainLineName: String
@@ -25,7 +25,8 @@ struct ArrivalEntity: Codable {
 }
 
 // MARK: - 지하철역 정보 검색(역명) Entity
-struct StaionEntity: Codable {
+struct StaionEntity: Hashable, Identifiable {
+	let id = UUID()
     let stationId: String
     let stationName: String
     let lineNumber: String

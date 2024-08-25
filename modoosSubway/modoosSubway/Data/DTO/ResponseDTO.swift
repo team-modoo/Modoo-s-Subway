@@ -41,6 +41,10 @@ struct RealtimeArrivalDTO: Codable {
 
 // MARK: - 지하철역 정보 검색(역명) 응답 DTO
 struct SearchSubwayStationResponseDTO: Codable {
+	let SearchInfoBySubwayNameService: SearchInfoBySubwayNameService
+}
+
+struct SearchInfoBySubwayNameService: Codable {
 	let list_total_count: Int
 	let RESULT: RESULT
     let row: [StationInfoDTO]

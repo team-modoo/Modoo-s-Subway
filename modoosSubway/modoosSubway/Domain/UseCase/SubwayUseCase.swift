@@ -15,6 +15,7 @@ protocol SubwayUseCaseProtocol {
 
 class SubwayUseCase: SubwayUseCaseProtocol {
     private let repository: SubwayRepositoryProtocol
+	private var cancellables = Set<AnyCancellable>()
     
     init(repository: SubwayRepositoryProtocol) {
         self.repository = repository
@@ -30,12 +31,12 @@ class SubwayUseCase: SubwayUseCaseProtocol {
 						break
 					case .failure(let error):
 						print("Request failed with error: \(error)")
-						promise(.success(.error(error)))
+						return promise(.success(.error(error)))
 					}
 				} receiveValue: { (data: RealtimeStationArrivalResponseDTO) in
-					promise(.success(.success(data)))
+					return promise(.success(.success(data)))
 				}
-				.cancel()
+				.store(in: &self.cancellables)
 		}
 		.eraseToAnyPublisher()
 	}
@@ -50,12 +51,12 @@ class SubwayUseCase: SubwayUseCaseProtocol {
                         break
                     case .failure(let error):
                         print("Request failed with error: \(error)")
-                        promise(.success(.error(error)))
+                        return promise(.success(.error(error)))
                     }
                 } receiveValue: { (data: SearchSubwayStationResponseDTO) in
-                    promise(.success(.success(data)))
+                    return promise(.success(.success(data)))
                 }
-                .cancel()
+				.store(in: &self.cancellables)
 
         }
         .eraseToAnyPublisher()

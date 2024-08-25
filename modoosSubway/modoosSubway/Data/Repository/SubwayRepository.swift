@@ -36,13 +36,14 @@ class SubwayRepository: SubwayRepositoryProtocol {
 							))
 						}
 						return promise(.success(data))
-					case .failure(let error):
+					case .failure(_):
 						return promise(.failure(.serverError(statusCode)))
 					}
 				}
 		}
 		.eraseToAnyPublisher()
 	}
+	
     // MARK: - 지하철역 정보 검색(역명) API 요청
     func fetchSearchSubwayStation(request: SearchSubwayStationRequestDTO) -> AnyPublisher<SearchSubwayStationResponseDTO, NetworkError> {
         return Future<SearchSubwayStationResponseDTO,NetworkError> { promise in
@@ -55,16 +56,16 @@ class SubwayRepository: SubwayRepositoryProtocol {
                     
                     switch response.result {
                     case .success(let data):
-                        if data.RESULT.CODE != "INFO-000" {
+						if data.SearchInfoBySubwayNameService.RESULT.CODE != "INFO-000" {
                             return promise(.failure(
                                 NetworkError.customError(
-									code: data.RESULT.CODE,
-                                    message: data.RESULT.MESSAGE
+									code: data.SearchInfoBySubwayNameService.RESULT.CODE,
+									message: data.SearchInfoBySubwayNameService.RESULT.MESSAGE
                                 )
                             ))
                         }
                         return promise(.success(data))
-                    case .failure(let error):
+                    case .failure(_):
                         return promise(.failure(.serverError(statusCode)))
                     }
                     

@@ -10,10 +10,12 @@ import Combine
 
 class SearchViewModel: ObservableObject {
     private let subwayUseCase: SubwayUseCaseProtocol
-    @Published var errorMessage: String?
+	private var cancellables = Set<AnyCancellable>()
 	private var key: String = Util.getApiKey()
-    
-    private var cancellables = Set<AnyCancellable>()
+	
+    @Published var errorMessage: String?
+    @Published var arrivals: [ArrivalEntity] = []
+    @Published var stations: [StaionEntity] = []
     
     init(subwayUseCase: SubwayUseCaseProtocol) {
         self.subwayUseCase = subwayUseCase
@@ -68,12 +70,11 @@ class SearchViewModel: ObservableObject {
 				return []
 			})
 			.receive(on: DispatchQueue.main)
-			.sink { value in
+			.sink { [weak self] value in
 				print("getRealtimeStationArrivals Entity:: \(value)")
+				self?.arrivals = value
 			}
 			.store(in: &cancellables)
-		
-		
     }
 
     func getSearchSubwayStations(for stationName: String, startIndex:Int, endIndex:Int) {
@@ -87,7 +88,7 @@ class SearchViewModel: ObservableObject {
                 case .success(let data):
                     print("getSearchSubwayStations DTO:: \(data)")
                     
-					let stations = data.row.map { el in
+					let stations = data.SearchInfoBySubwayNameService.row.map { el in
 						return StaionEntity(stationId: el.STATION_CD,
 											stationName: el.STATION_NM,
 											lineNumber: el.LINE_NUM,
@@ -117,8 +118,9 @@ class SearchViewModel: ObservableObject {
             
             })
             .receive(on: DispatchQueue.main)
-            .sink { value in
+            .sink { [weak self] value in
                 print("getSearchSubwayStations Entity:: \(value)")
+				self?.stations = value
             }
             .store(in: &cancellables)
     }

@@ -109,6 +109,7 @@ struct StarView: View {
 			})
 		}
 		.padding(.top, 22)
+		.padding(.horizontal, 1)
 	}
 	
 	private func addItem() {
