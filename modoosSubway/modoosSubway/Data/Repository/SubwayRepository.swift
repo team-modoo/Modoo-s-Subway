@@ -10,19 +10,19 @@ import Combine
 import SwiftyJSON
 
 protocol SubwayRepositoryProtocol {
-	func fetchRealtimeSubwayPosition(request: RealtimeSubWayPositionRequestDTO) -> AnyPublisher<RealtimeSubwayPositionResponseDTO, NetworkError>
+	func fetchRealtimeStationArrival(request: RealtimeStationArrivalRequestDTO) -> AnyPublisher<RealtimeStationArrivalResponseDTO, NetworkError>
     func fetchSearchSubwayStation(request: SearchSubwayStationRequestDTO) -> AnyPublisher<SearchSubwayStationResponseDTO,NetworkError>
 }
 
 class SubwayRepository: SubwayRepositoryProtocol {
-	// MARK: - 실시간 열차 위치 정보 API 요청
-	func fetchRealtimeSubwayPosition(request: RealtimeSubWayPositionRequestDTO) -> AnyPublisher<RealtimeSubwayPositionResponseDTO, NetworkError> {
-		return Future<RealtimeSubwayPositionResponseDTO, NetworkError> { promise in
+	// MARK: - 실시간 열차 도착 정보 API 요청
+	func fetchRealtimeStationArrival(request: RealtimeStationArrivalRequestDTO) -> AnyPublisher<RealtimeStationArrivalResponseDTO, NetworkError> {
+		return Future<RealtimeStationArrivalResponseDTO, NetworkError> { promise in
 			AF.request(SubwayAPI.RealtimeSubWayPosition(request))
-				.responseDecodable(of: RealtimeSubwayPositionResponseDTO.self) { response in
+				.responseDecodable(of: RealtimeStationArrivalResponseDTO.self) { response in
 					let statusCode = response.response?.statusCode ?? 0
 					
-					print("*[실시간 열차 위치 정보 API 요청 status code] \(statusCode)")
+					print("*[실시간 열차 도착 정보 API 요청 status code] \(statusCode)")
 					print(JSON(response.data as Any))
 					
 					switch response.result {
@@ -30,20 +30,21 @@ class SubwayRepository: SubwayRepositoryProtocol {
 						if data.errorMessage.code != "INFO-000" {
 							return promise(.failure(
 								NetworkError.customError(
-									code: data.errorMessage.status,
+									code: data.errorMessage.code,
 									message: data.errorMessage.message
 								)
 							))
 						}
 						return promise(.success(data))
-					case .failure(let error):
+					case .failure(_):
 						return promise(.failure(.serverError(statusCode)))
 					}
 				}
 		}
 		.eraseToAnyPublisher()
 	}
-    // MARK: - 지하철역 정보 API 요청
+	
+    // MARK: - 지하철역 정보 검색(역명) API 요청
     func fetchSearchSubwayStation(request: SearchSubwayStationRequestDTO) -> AnyPublisher<SearchSubwayStationResponseDTO, NetworkError> {
         return Future<SearchSubwayStationResponseDTO,NetworkError> { promise in
             AF.request(SubwayAPI.SearchSubwayStation(request))
@@ -55,16 +56,16 @@ class SubwayRepository: SubwayRepositoryProtocol {
                     
                     switch response.result {
                     case .success(let data):
-                        if data.errorMessage.code != "INFO-000" {
+						if data.SearchInfoBySubwayNameService.RESULT.CODE != "INFO-000" {
                             return promise(.failure(
                                 NetworkError.customError(
-                                    code: data.errorMessage.status,
-                                    message: data.errorMessage.message
+									code: data.SearchInfoBySubwayNameService.RESULT.CODE,
+									message: data.SearchInfoBySubwayNameService.RESULT.MESSAGE
                                 )
                             ))
                         }
                         return promise(.success(data))
-                    case .failure(let error):
+                    case .failure(_):
                         return promise(.failure(.serverError(statusCode)))
                     }
                     

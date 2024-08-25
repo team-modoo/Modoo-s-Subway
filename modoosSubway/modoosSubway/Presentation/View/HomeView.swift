@@ -9,9 +9,12 @@ import SwiftUI
 import SwiftData
 
 struct HomeView: View {
+	@StateObject var vm: SearchViewModel = SearchViewModel(subwayUseCase: SubwayUseCase(repository: SubwayRepository()))
+	
 	@State private var viewType: ViewType = .Star
 	@State private var textFieldString: String = ""
 	@State private var expressActiveState: Bool = false
+	@State private var isSearchViewHidden: Bool = true
 	
 	var body: some View {
 		NavigationView {
@@ -53,16 +56,24 @@ struct HomeView: View {
 						Text("지하철 역명을 검색해 주세요")
 							.font(.pretendard(size: 14, family: .regular))
 					}
+					.onSubmit {
+						if !textFieldString.isEmpty {
+							isSearchViewHidden = false
+							vm.getSearchSubwayStations(for: textFieldString, startIndex: 0, endIndex: 5)
+						} else {
+							isSearchViewHidden = true
+							vm.stations = []
+						}
+					}
 					
-					// TODO: - 데이터 확인 위해 임시로 해놓음
-//					Button(action: {
-//						
-//					}, label: {
-//						Image(.iconSearch)
-//					})
-					
-					NavigationLink(destination: {
-						SearchView()
+					Button(action: {
+						if !textFieldString.isEmpty {
+							isSearchViewHidden = false
+							vm.getSearchSubwayStations(for: textFieldString, startIndex: 0, endIndex: 5)
+						} else {
+							isSearchViewHidden = true
+							vm.stations = []
+						}
 					}, label: {
 						Image(.iconSearch)
 					})
@@ -72,13 +83,19 @@ struct HomeView: View {
 				.padding(.vertical, 4)
 				.background(Color("F5F5F5"))
 				.clipShape(RoundedRectangle(cornerRadius: 10))
-				
-				// MARK: - 리스트뷰
-				switch viewType {
-				case .Bookmark:
-					BookMarkView()
-				case .Star:
-					StarView()
+			
+				// MARK: - 컨텐츠
+				ZStack(alignment: .top) {
+					switch viewType {
+					case .Bookmark:
+						BookMarkView()
+					case .Star:
+						StarView()
+					}
+					
+					if !isSearchViewHidden {
+						SearchView(vm: vm, searchStationName: textFieldString)
+					}
 				}
 				
 				Spacer()
@@ -87,6 +104,14 @@ struct HomeView: View {
 		}
 		.onTapGesture {
 			hideKeyboard()
+			
+			if !textFieldString.isEmpty {
+				isSearchViewHidden = false
+				vm.getSearchSubwayStations(for: textFieldString, startIndex: 0, endIndex: 5)
+			} else {
+				isSearchViewHidden = true
+				vm.stations = []
+			}
 		}
 	}
 	
