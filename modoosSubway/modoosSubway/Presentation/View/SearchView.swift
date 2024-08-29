@@ -20,10 +20,20 @@ struct SearchView: View {
 				ForEach(vm.stations, id: \.self) { station in
 					HStack {
 						Text(station.stationName)
-							.tint(.black)
+                            .font(.pretendard(size: 16, family: .regular))
+                            .tint(._5_C_5_C_5_C)
+                        
 						Spacer()
-						Text(station.lineNumber)
-							.font(.headline)
+                        
+                        HStack {
+                            Text(station.lineNumber)
+                                .font(.pretendard(size: 14, family: .regular))
+                                .tint(.white)
+                        }
+                        .padding(.horizontal, 14)
+                        .padding(.vertical, 7.5)
+                        .background(Capsule().fill(.orange))
+                        .foregroundColor(.white)
 					}
 				}
 			}
