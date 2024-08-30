@@ -18,23 +18,27 @@ struct SearchView: View {
 		GeometryReader(content: { geometry in
 			List {
 				ForEach(vm.stations, id: \.self) { station in
-					HStack {
-						Text(station.stationName)
-                            .font(.pretendard(size: 16, family: .regular))
-                            .tint(._5_C_5_C_5_C)
-                        
-						Spacer()
-                        
+                    NavigationLink(destination: {
+                        SelectedStationView()
+                    }, label: {
                         HStack {
-                            Text(station.lineNumber)
-                                .font(.pretendard(size: 14, family: .regular))
-                                .tint(.white)
+                            Text(station.stationName)
+                                .font(.pretendard(size: 16, family: .regular))
+                                .tint(._5_C_5_C_5_C)
+                            
+                            Spacer()
+                            
+                            HStack {
+                                Text(station.lineNumber)
+                                    .font(.pretendard(size: 14, family: .regular))
+                                    .tint(.white)
+                            }
+                            .padding(.horizontal, 14)
+                            .padding(.vertical, 7.5)
+                            .background(Capsule().fill(station.lineColor()))
+                            .foregroundColor(.white)
                         }
-                        .padding(.horizontal, 14)
-                        .padding(.vertical, 7.5)
-                        .background(Capsule().fill(.orange))
-                        .foregroundColor(.white)
-					}
+                    })
 				}
 			}
 			.padding(.top, 10)
