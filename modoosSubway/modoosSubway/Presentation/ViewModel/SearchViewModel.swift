@@ -15,7 +15,7 @@ class SearchViewModel: ObservableObject {
 	
     @Published var errorMessage: String?
     @Published var arrivals: [ArrivalEntity] = []
-    @Published var stations: [StaionEntity] = []
+    @Published var stations: [StationEntity] = []
     
     init(subwayUseCase: SubwayUseCaseProtocol) {
         self.subwayUseCase = subwayUseCase
@@ -82,14 +82,14 @@ class SearchViewModel: ObservableObject {
         
         subwayUseCase.executeSearchSubwayStation(request: request)
             .subscribe(on: DispatchQueue.global(qos: .background))
-            .map( { [weak self] executionType -> [StaionEntity] in
+            .map( { [weak self] executionType -> [StationEntity] in
                 switch executionType {
                     
                 case .success(let data):
                     print("getSearchSubwayStations DTO:: \(data)")
                     
 					let stations = data.SearchInfoBySubwayNameService.row.map { el in
-						return StaionEntity(stationId: el.STATION_CD,
+						return StationEntity(stationId: el.STATION_CD,
 											stationName: el.STATION_NM,
 											lineNumber: el.LINE_NUM,
 											foreignerCode: el.FR_CODE)

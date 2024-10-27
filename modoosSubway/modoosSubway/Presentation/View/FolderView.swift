@@ -1,5 +1,5 @@
 //
-//  BookMarkView.swift
+//  FolderView.swift
 //  modoosSubway
 //
 //  Created by 김지현 on 2024/07/21.
@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftData
 
-struct BookMarkView: View {
+struct FolderView: View {
 	@Environment(\.modelContext) private var modelContext
 	@Query private var items: [Item]
 	
@@ -83,6 +83,6 @@ struct BookMarkView: View {
 }
 
 #Preview {
-	BookMarkView()
+	FolderView()
 		.modelContainer(for: Item.self, inMemory: true)
 }
