@@ -9,7 +9,7 @@ import Foundation
 
 // MARK: - 홈화면의 뷰 타입
 enum ViewType {
-	case Bookmark
+	case Folder
 	case Star
 }
 

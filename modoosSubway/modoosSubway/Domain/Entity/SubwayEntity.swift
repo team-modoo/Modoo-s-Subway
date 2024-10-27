@@ -26,7 +26,7 @@ struct ArrivalEntity {
 }
 
 // MARK: - 지하철역 정보 검색(역명) Entity
-struct StaionEntity: Hashable, Identifiable {
+struct StationEntity: Hashable, Identifiable {
 	let id = UUID()
     let stationId: String
     let stationName: String

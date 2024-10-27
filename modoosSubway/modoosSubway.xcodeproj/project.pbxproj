@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		059068096F693A9FBCAE40C4 /* Pods_modoosSubway.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51F25182ABE227FC4381A366 /* Pods_modoosSubway.framework */; };
 		3BF3CADD2C81FEC40058345F /* SelectedStationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF3CADC2C81FEC40058345F /* SelectedStationView.swift */; };
-		3BF3CADF2C8201250058345F /* SelectedStationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF3CADE2C8201250058345F /* SelectedStationViewModel.swift */; };
 		46E23B2D2C6872190059BB62 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E23B2C2C6872190059BB62 /* NetworkError.swift */; };
 		46F0F7E32C6879E100444C98 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F0F7E22C6879E100444C98 /* SearchViewModel.swift */; };
 		9A36982E2C4BC0480019C12A /* modoosSubwayApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A36982D2C4BC0480019C12A /* modoosSubwayApp.swift */; };
@@ -18,7 +17,7 @@
 		9A3698342C4BC04A0019C12A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A3698332C4BC04A0019C12A /* Assets.xcassets */; };
 		9A3698372C4BC04A0019C12A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A3698362C4BC04A0019C12A /* Preview Assets.xcassets */; };
 		9A3698452C4CA6490019C12A /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3698442C4CA6490019C12A /* SearchView.swift */; };
-		9A3698472C4CA6520019C12A /* BookMarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3698462C4CA6520019C12A /* BookMarkView.swift */; };
+		9A3698472C4CA6520019C12A /* FolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3698462C4CA6520019C12A /* FolderView.swift */; };
 		9A3698492C4CA6590019C12A /* StarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3698482C4CA6590019C12A /* StarView.swift */; };
 		9A36984B2C4CA6690019C12A /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A36984A2C4CA6690019C12A /* DetailView.swift */; };
 		9A36984D2C4CA6740019C12A /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A36984C2C4CA6740019C12A /* SettingView.swift */; };
@@ -40,7 +39,6 @@
 
 /* Begin PBXFileReference section */
 		3BF3CADC2C81FEC40058345F /* SelectedStationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedStationView.swift; sourceTree = "<group>"; };
-		3BF3CADE2C8201250058345F /* SelectedStationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedStationViewModel.swift; sourceTree = "<group>"; };
 		46E23B2C2C6872190059BB62 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		46F0F7E22C6879E100444C98 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		48F29646FFD93B7C2D9B3CB7 /* Pods-modoosSubway.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-modoosSubway.debug.xcconfig"; path = "Target Support Files/Pods-modoosSubway/Pods-modoosSubway.debug.xcconfig"; sourceTree = "<group>"; };
@@ -53,7 +51,7 @@
 		9A3698332C4BC04A0019C12A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9A3698362C4BC04A0019C12A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		9A3698442C4CA6490019C12A /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
-		9A3698462C4CA6520019C12A /* BookMarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookMarkView.swift; sourceTree = "<group>"; };
+		9A3698462C4CA6520019C12A /* FolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderView.swift; sourceTree = "<group>"; };
 		9A3698482C4CA6590019C12A /* StarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarView.swift; sourceTree = "<group>"; };
 		9A36984A2C4CA6690019C12A /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		9A36984C2C4CA6740019C12A /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
@@ -163,7 +161,7 @@
 			children = (
 				9A36982F2C4BC0480019C12A /* HomeView.swift */,
 				9A3698442C4CA6490019C12A /* SearchView.swift */,
-				9A3698462C4CA6520019C12A /* BookMarkView.swift */,
+				9A3698462C4CA6520019C12A /* FolderView.swift */,
 				9A3698482C4CA6590019C12A /* StarView.swift */,
 				9A36984A2C4CA6690019C12A /* DetailView.swift */,
 				9A36984C2C4CA6740019C12A /* SettingView.swift */,
@@ -253,7 +251,6 @@
 			children = (
 				9AEA1E812C5DD4BC00A87BF9 /* StarViewModel.swift */,
 				46F0F7E22C6879E100444C98 /* SearchViewModel.swift */,
-				3BF3CADE2C8201250058345F /* SelectedStationViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -433,7 +430,6 @@
 				9AEA1E9A2C68AD6200A87BF9 /* ResponseDTO.swift in Sources */,
 				9AEA1E822C5DD4BC00A87BF9 /* StarViewModel.swift in Sources */,
 				9AEA1E862C5DD57100A87BF9 /* SubwayEntity.swift in Sources */,
-				3BF3CADF2C8201250058345F /* SelectedStationViewModel.swift in Sources */,
 				3BF3CADD2C81FEC40058345F /* SelectedStationView.swift in Sources */,
 				9A3698522C4CA72D0019C12A /* DataManager.swift in Sources */,
 				9A36984B2C4CA6690019C12A /* DetailView.swift in Sources */,
@@ -447,7 +443,7 @@
 				9AEA1E7A2C5651EA00A87BF9 /* UIExtension.swift in Sources */,
 				9A36982E2C4BC0480019C12A /* modoosSubwayApp.swift in Sources */,
 				9AEA1E902C5DD6AE00A87BF9 /* SubwayRepository.swift in Sources */,
-				9A3698472C4CA6520019C12A /* BookMarkView.swift in Sources */,
+				9A3698472C4CA6520019C12A /* FolderView.swift in Sources */,
 				9A3698492C4CA6590019C12A /* StarView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

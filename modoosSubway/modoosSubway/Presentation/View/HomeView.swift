@@ -9,6 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct HomeView: View {
+	// TODO: - DI Container 적용 필요함
 	@StateObject var vm: SearchViewModel = SearchViewModel(subwayUseCase: SubwayUseCase(repository: SubwayRepository()))
 	
 	@State private var viewType: ViewType = .Star
@@ -17,7 +18,7 @@ struct HomeView: View {
 	@State private var isSearchViewHidden: Bool = true
 	
 	var body: some View {
-		NavigationView {
+		NavigationStack {
 			VStack {
 				// MARK: - 헤더
 				HStack {
@@ -26,13 +27,13 @@ struct HomeView: View {
 					Spacer()
 					
 					Button(action: {
-						viewType = .Bookmark
+						changeViewType(.Folder)
 					}, label: {
-						viewType == .Bookmark ? Image(.iconBookmarkGreen) : Image(.iconBookmark)
+						viewType == .Folder ? Image(.iconBookmarkGreen) : Image(.iconBookmark)
 					})
 					
 					Button(action: {
-						viewType = .Star
+						changeViewType(.Star)
 					}, label: {
 						viewType == .Star ? Image(.iconStarYellowBig) : Image(.iconStar)
 					})
@@ -57,23 +58,30 @@ struct HomeView: View {
 							.font(.pretendard(size: 14, family: .regular))
 					}
 					.onSubmit {
-						if !textFieldString.isEmpty {
-							isSearchViewHidden = false
-							vm.getSearchSubwayStations(for: textFieldString, startIndex: 0, endIndex: 5)
-						} else {
-							isSearchViewHidden = true
-							vm.stations = []
+						handleSearch()
+					}
+					.toolbar {
+						ToolbarItemGroup(placement: .keyboard) {
+							Spacer()
+							
+							Button(action: {
+								hideKeyboard()
+								
+								if textFieldString.isEmpty {
+									isSearchViewHidden = true
+									vm.stations = []
+								}
+							}) {
+								Image(systemName: "keyboard.chevron.compact.down")
+									.foregroundColor(.blue)
+							}
 						}
 					}
+					.autocorrectionDisabled(true)
+					.textInputAutocapitalization(.never)
 					
 					Button(action: {
-						if !textFieldString.isEmpty {
-							isSearchViewHidden = false
-							vm.getSearchSubwayStations(for: textFieldString, startIndex: 0, endIndex: 5)
-						} else {
-							isSearchViewHidden = true
-							vm.stations = []
-						}
+						handleSearch()
 					}, label: {
 						Image(.iconSearch)
 					})
@@ -87,14 +95,14 @@ struct HomeView: View {
 				// MARK: - 컨텐츠
 				ZStack(alignment: .top) {
 					switch viewType {
-					case .Bookmark:
-						BookMarkView()
+					case .Folder:
+						FolderView()
 					case .Star:
 						StarView()
 					}
 					
 					if !isSearchViewHidden {
-						SearchView(vm: vm, searchStationName: textFieldString)
+						SearchView(vm: vm)
 					}
 				}
 				
@@ -102,21 +110,30 @@ struct HomeView: View {
 			}
 			.padding(20)
 		}
-		.onTapGesture {
-			hideKeyboard()
-			
-			if !textFieldString.isEmpty {
-				isSearchViewHidden = false
-				vm.getSearchSubwayStations(for: textFieldString, startIndex: 0, endIndex: 5)
-			} else {
-				isSearchViewHidden = true
-				vm.stations = []
-			}
-		}
+	}
+	
+	// MARK: - 폴더 or 즐겨찾기
+	private func changeViewType(_ type: ViewType) {
+		viewType = type
+		isSearchViewHidden = true
+		vm.stations = []
+		textFieldString = ""
 	}
 	
 	private func hideKeyboard() {
 		UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+	}
+	
+	private func handleSearch() {
+		hideKeyboard()
+		
+		if !textFieldString.isEmpty {
+			isSearchViewHidden = false
+			vm.getSearchSubwayStations(for: textFieldString, startIndex: 0, endIndex: 5)
+		} else {
+			isSearchViewHidden = true
+			vm.stations = []
+		}
 	}
 }
 
