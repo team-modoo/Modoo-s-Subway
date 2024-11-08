@@ -9,7 +9,8 @@ import Foundation
 import SwiftUI
 
 // MARK: - 실시간 열차 도착 정보 Entity
-struct ArrivalEntity {
+struct ArrivalEntity:Hashable,Identifiable {
+    var id =  UUID()
 	let subwayId: String
 	let upDownLine: String
 	let trainLineName: String
