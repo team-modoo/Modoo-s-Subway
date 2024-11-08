@@ -56,7 +56,9 @@ struct HomeView: View {
 					TextField(text: $textFieldString) {
 						Text("지하철 역명을 검색해 주세요")
 							.font(.pretendard(size: 14, family: .regular))
+                            .foregroundStyle(Color._5_C_5_C_5_C)
 					}
+                    .foregroundStyle(.black)
 					.onSubmit {
 						handleSearch()
 					}

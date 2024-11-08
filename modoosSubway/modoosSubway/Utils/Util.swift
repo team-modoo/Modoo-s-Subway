@@ -18,4 +18,22 @@ class Util {
 		
 		return apiKey
 	}
+    // MARK: - 메세지 2 trim
+    static func formatArrivalMessage(_ message: String) -> String {
+           if let match = message.range(of: #"^\d+"#, options: .regularExpression) {
+               let minutes = String(message[match])
+               return "\(minutes)분"
+           } else {
+               // 괄호와 그 안의 내용 제거
+               return message.replacingOccurrences(
+                   of: #"\s*\([^)]+\)"#,
+                   with: "",
+                   options: .regularExpression
+               )
+           }
+       }
+    // MARK: - 메세지가 몇분 후 인지 체크
+    static func isArrivalTimeFormat(_ message: String) -> Bool {
+            return message.range(of: #"^\d+분"#, options: .regularExpression) != nil
+        }
 }
