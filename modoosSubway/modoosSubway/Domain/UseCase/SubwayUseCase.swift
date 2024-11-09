@@ -10,10 +10,12 @@ import Combine
 
 protocol SubwayUseCaseProtocol {
     func executeRealtimeStationArrival(request: RealtimeStationArrivalRequestDTO) -> AnyPublisher<ExecutionType<RealtimeStationArrivalResponseDTO>, Never>
-    func executeSearchSubwayStation(request: SearchSubwayStationRequestDTO) -> AnyPublisher<ExecutionType<SearchSubwayStationResponseDTO>,Never>
+    func executeSearchSubwayStation(request: SearchSubwayRequestDTO) -> AnyPublisher<ExecutionType<SearchSubwayStationResponseDTO>,Never>
+    func executeSearchSubwayLine(request: SearchSubwayRequestDTO) -> AnyPublisher<ExecutionType<SearchSubwayLineResponseDTO>,Never>
 }
 
 class SubwayUseCase: SubwayUseCaseProtocol {
+	
     private let repository: SubwayRepositoryProtocol
 	private var cancellables = Set<AnyCancellable>()
     
@@ -42,7 +44,7 @@ class SubwayUseCase: SubwayUseCaseProtocol {
 	}
 	
     // MARK: - 지하철역 정보 검색(역명) 가져오기
-    func executeSearchSubwayStation(request: SearchSubwayStationRequestDTO) -> AnyPublisher<ExecutionType<SearchSubwayStationResponseDTO>, Never> {
+    func executeSearchSubwayStation(request: SearchSubwayRequestDTO) -> AnyPublisher<ExecutionType<SearchSubwayStationResponseDTO>, Never> {
         return Future<ExecutionType<SearchSubwayStationResponseDTO>,Never> { promise in
             self.repository.fetchSearchSubwayStation(request: request)
                 .sink { completion in
@@ -61,4 +63,25 @@ class SubwayUseCase: SubwayUseCaseProtocol {
         }
         .eraseToAnyPublisher()
     }
+	
+	// MARK: - 지하철역 정보 검색(노선별) 가져오기
+	func executeSearchSubwayLine(request: SearchSubwayRequestDTO) -> AnyPublisher<ExecutionType<SearchSubwayLineResponseDTO>, Never> {
+		return Future<ExecutionType<SearchSubwayLineResponseDTO>,Never> { promise in
+			self.repository.fetchSearchSubwayLine(request: request)
+				.sink { completion in
+					switch completion {
+					case .finished:
+						break
+					case .failure(let error):
+						print("Request failed with error: \(error)")
+						return promise(.success(.error(error)))
+					}
+				} receiveValue: { (data: SearchSubwayLineResponseDTO) in
+					return promise(.success(.success(data)))
+				}
+				.store(in: &self.cancellables)
+			
+		}
+		.eraseToAnyPublisher()
+	}
 }

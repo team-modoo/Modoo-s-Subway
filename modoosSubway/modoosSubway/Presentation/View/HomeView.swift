@@ -59,23 +59,26 @@ struct HomeView: View {
                             .foregroundStyle(Color._5_C_5_C_5_C)
 					}
                     .foregroundStyle(.black)
+					.submitLabel(.search)
 					.onSubmit {
 						handleSearch()
 					}
 					.toolbar {
-						ToolbarItemGroup(placement: .keyboard) {
-							Spacer()
-							
-							Button(action: {
-								hideKeyboard()
+						ToolbarItem(placement: .keyboard) {
+							HStack {
+								Spacer()
 								
-								if textFieldString.isEmpty {
-									isSearchViewHidden = true
-									vm.stations = []
+								Button(action: {
+									hideKeyboard()
+									
+									if textFieldString.isEmpty {
+										isSearchViewHidden = true
+										vm.stations = []
+									}
+								}) {
+									Image(systemName: "keyboard.chevron.compact.down")
+										.foregroundColor(.blue)
 								}
-							}) {
-								Image(systemName: "keyboard.chevron.compact.down")
-									.foregroundColor(.blue)
 							}
 						}
 					}
@@ -131,7 +134,7 @@ struct HomeView: View {
 		
 		if !textFieldString.isEmpty {
 			isSearchViewHidden = false
-			vm.getSearchSubwayStations(for: textFieldString, startIndex: 0, endIndex: 5)
+			vm.getSearchSubwayStations(for: textFieldString, service: "SearchInfoBySubwayNameService", startIndex: 1, endIndex: 5)
 		} else {
 			isSearchViewHidden = true
 			vm.stations = []

@@ -9,12 +9,10 @@ import SwiftUI
 import SwiftData
 
 struct SelectedStationView: View {
+	// TODO: - DI Container 적용 필요함
+	@StateObject var vm: SelectedStationViewModel = SelectedStationViewModel(subwayUseCase: SubwayUseCase(repository: SubwayRepository()))
 	@Environment(\.dismiss) private var dismiss
-    @State private var showMenu = false
-	@StateObject var vm: SearchViewModel
 	@State var selectedStation: StationEntity?
-	@Query private var items: [Item]
-	private let stationNames: [String] = ["논현", "반포", "고속터미널", "내방", "이수"]
 	
 	var body: some View {
 		NavigationView {
@@ -37,7 +35,7 @@ struct SelectedStationView: View {
                 List(vm.arrivals) { arrivals in
                     VStack {
 						HStack {
-							Text(selectedStation?.lineNumber ?? "1호선")
+							Text(selectedStation?.lineNumber.replacingOccurrences(of: "0", with: "") ?? "")
 								.font(.pretendard(size: 12, family: .regular))
 								.foregroundStyle(.white)
 								.padding(.horizontal, 8)
@@ -52,89 +50,44 @@ struct SelectedStationView: View {
 							Button(action: {
 								print("star button tapped")
 							}, label: {
-								Image(.iconStarYellow)
+								Image(.iconStarYellowBig)
 							})
-                            .background(.blue)                           .buttonStyle(BorderlessButtonStyle())
-                                Button {
-                                    print("iconMore button tapped")
-                                    self.showMenu.toggle()
-                                } label: {
-                                    Image(.iconMore)
-                                }
-                                .buttonStyle(BorderlessButtonStyle())
-                                .background(
-                                  
-                                    VStack {
-                                        if showMenu {
-//
-                                            Button(action: {}) {
-                                                HStack {
-                                                    Text("폴더 추가하기")
-                                                    Image(systemName: "folder")
-                                                   
-                                                        .font(.pretendard(size: 12, family: .regular))
-                                                        .fontWeight(.light)
-                                                }
-                                            }
-                                            .tint(Color.black)
-                                            .buttonStyle(BorderlessButtonStyle())
-                                            .frame(maxWidth: .infinity)
-                                                .padding(5)
-                                                .frame(width: 130)
-                                                .frame(height: 45)
-                                                .background(Color.white)
-                                                .cornerRadius(20)
-                                                .overlay(
-                                                    RoundedRectangle(cornerRadius: 5)
-                                                        .stroke(.EDEDED, lineWidth: 1)
-                                         
-                                                )
-                                            }
-                                        }
-                                    
-                                        .offset(x: -35, y: 50)
-                            
-                            )
+							.buttonStyle(BorderlessButtonStyle())
 						}
 						.padding(.top, 22)
-                        
-                        HStack(alignment: .firstTextBaseline) {
-                            let arrivalTime = Util.formatArrivalMessage(arrivals.message2)
-                            Text("\(arrivalTime)")
-                                .font(.pretendard(size: 28, family: .semiBold))
-                                .frame(width: 110, alignment: .leading)
-                            
-                            if Util.isArrivalTimeFormat(arrivals.message2) {
-                                Text("후 도착 예정")
-                                    .font(.pretendard(size: 16, family: .regular))
-                                    .frame(width: 80, alignment: .leading)
-                                    .padding(.leading, -40)
-                                
-                            }
-                        }
-                        .background(.red)
+						
+						HStack(alignment: .firstTextBaseline) {
+							Text(Util.formatArrivalMessage(arrivals.message2))
+								.font(.pretendard(size: 28, family: .semiBold))
+							
+							if Util.isArrivalTimeFormat(arrivals.message2) {
+								Text("후 도착 예정")
+									.font(.pretendard(size: 16, family: .regular))
+							}
+						}
 						.frame(width: 300, alignment: .leading)
+						.offset(x: -8)
 						
 						Spacer()
 						
 						HStack(alignment: .top, spacing: 0) {
-							ForEach(stationNames, id: \.self) { el in
+							ForEach(vm.stationNames, id: \.self) { el in
 								VStack {
 									Circle()
 										.frame(width: 8, height: 8)
-										.foregroundColor(.line7)
+										.foregroundColor(selectedStation?.lineColor())
 									Text(el)
 										.font(.pretendard(size: 12, family: .regular))
 										.frame(width: CGFloat(el.count * 12))
 								}
 								.frame(width: 20)
 								
-								if el != stationNames.last {
+								if el != vm.stationNames.last {
 									Rectangle()
 										.frame(width: 80, height: 2)
 										.padding(.horizontal, -12)
 										.padding(.top, 2)
-										.foregroundColor(.line7)
+										.foregroundColor(selectedStation?.lineColor())
 								}
 							}
 						}
@@ -145,20 +98,22 @@ struct SelectedStationView: View {
 					.background(
 						RoundedRectangle(cornerRadius: 10)
 							.stroke(.EDEDED)
-                            .border(.F_5_F_5_F_5, width: 2)
+							.border(.F_5_F_5_F_5, width: 2)
 					)
 				}
+				.scrollContentBackground(.hidden)
+				.background(.white)
 				
 				Spacer()
 			}
 		}
-        .task {
-            if let selectedStation = selectedStation {
-                vm.getRealtimeStationArrivals(for: selectedStation.stationName, startIndex: 0, endIndex: 5)
-                print("task 작업 확인 ")
-            }
-
-        }
+		.task {
+			if let selectedStation = selectedStation {
+				print("task 작업 확인")
+				vm.getRealtimeStationArrivals(for: selectedStation.stationName, startIndex: 1, endIndex: 5)
+				vm.getSearchSubwayLine(for: selectedStation.lineNumber.replacingOccurrences(of: "0", with: ""), service: "SearchSTNBySubwayLineInfo", startIndex: 1, endIndex: 5)
+			}
+		}
 		.toolbar(.hidden, for: .navigationBar)
-    }
+	}
 }

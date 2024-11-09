@@ -17,12 +17,14 @@ struct RealtimeStationArrivalRequestDTO {
 	let subwayName: String // "서울"
 }
 
-// MARK: - 지하철역 정보 검색(역명) 요청 DTO
-struct SearchSubwayStationRequestDTO {
+// MARK: - 지하철역 정보 검색(역명&노선별) 요청 DTO
+struct SearchSubwayRequestDTO {
 	let key: String
 	let type: String = "json"
-	let service: String = "SearchInfoBySubwayNameService"
+	let service: String // SearchInfoBySubwayNameService, SearchSTNBySubwayLineInfo
 	let startIndex: Int
 	let endIndex: Int
-	let stationName: String // "동대문역사문화공원"
+	var stationCode: String = ""
+	var stationName: String = "" // "동대문역사문화공원"
+	var stationLine: String = "" // "1호선"
 }
