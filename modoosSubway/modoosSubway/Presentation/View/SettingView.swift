@@ -169,18 +169,21 @@ struct SettingCell: View {
         } else {
             // 두 번째 섹션 - 네비게이션 링크
             if let destination = destination {
-                NavigationStack {
+                HStack {
+                    Text(title)
+                        .font(.pretendard(size: 20, family: .regular))
+                        .foregroundStyle(.black)
                     
-                    NavigationLink(destination: destination) {
-                        HStack {
-                            Text(title)
-                                .font(.pretendard(size: 20, family: .regular))
-                                .foregroundStyle(.black)
-                         // Spacer()
-                         // Image("more 1")
-                        }
-                    }
+                    Spacer()
+                    
+                   Image(systemName: "chevron.right")
+                        .foregroundStyle(.black)
                 }
+                .background(
+                NavigationLink("", destination: Text("The detail View"))
+                    .opacity(0)
+                
+                )
             }
         }
     }
