@@ -15,14 +15,12 @@ struct SearchView: View {
 		GeometryReader(content: { geometry in
 			List(vm.stations) { station in
 				NavigationLink {
-					SelectedStationView(vm: self.vm, selectedStation: station)
+					SelectedStationView(selectedStation: station)
 				} label: {
 					HStack {
 						Text(station.stationName)
 							.font(.pretendard(size: 16, family: .regular))
 							.tint(._5_C_5_C_5_C)
-                            .foregroundStyle(.black)
-                            .padding(.leading, 16)
 						
 						Spacer()
 						

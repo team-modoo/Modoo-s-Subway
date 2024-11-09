@@ -61,3 +61,24 @@ struct StationInfoDTO:Codable {
     let LINE_NUM: String
     let FR_CODE: String
 }
+
+// MARK: - 지하철역 정보 검색(노선별) 응답 DTO
+struct SearchSubwayLineResponseDTO: Codable {
+	let SearchSTNBySubwayLineInfo: SearchSTNBySubwayLineInfo
+}
+
+struct SearchSTNBySubwayLineInfo: Codable {
+	let list_total_count: Int
+	let RESULT: RESULT
+	let row: [LineInfoDTO]
+}
+
+struct LineInfoDTO:Codable {
+	let STATION_NM_ENG: String
+	let LINE_NUM: String
+	let STATION_NM_JPN: String
+	let FR_CODE: String
+	let STATION_NM: String
+	let STATION_NM_CHN: String
+	let STATION_CD: String
+}

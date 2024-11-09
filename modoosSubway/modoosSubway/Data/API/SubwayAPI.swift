@@ -12,7 +12,9 @@ enum SubwayAPI {
 	// MARK: - 실시간 열차 도착 정보 API
 	case RealtimeSubWayPosition(_ request: RealtimeStationArrivalRequestDTO)
 	// MARK: - 지하철역 정보 검색(역명) API
-	case SearchSubwayStation(_ request: SearchSubwayStationRequestDTO)
+	case SearchSubwayStation(_ request: SearchSubwayRequestDTO)
+	// MARK: - 지하철역 정보 검색(노선별) API
+	case SearchSubwayLine(_ request: SearchSubwayRequestDTO)
 }
 
 extension SubwayAPI: Router, URLRequestConvertible {
@@ -20,7 +22,7 @@ extension SubwayAPI: Router, URLRequestConvertible {
 		switch self {
 		case .RealtimeSubWayPosition:
 			return "http://swopenapi.seoul.go.kr"
-		case .SearchSubwayStation:
+		case .SearchSubwayStation, .SearchSubwayLine:
 			return "http://openapi.seoul.go.kr:8088"
 		}
 	}
@@ -29,6 +31,8 @@ extension SubwayAPI: Router, URLRequestConvertible {
 		switch self {
 		case .RealtimeSubWayPosition(let request):
 			let path: String = "/api/subway/\(request.key)/\(request.type)/\(request.service)/\(request.startIndex)/\(request.endIndex)/\(request.subwayName)"
+			
+			print(path)
 			
 			if let encodedPath = path.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) {
 				print(encodedPath)
@@ -40,6 +44,8 @@ extension SubwayAPI: Router, URLRequestConvertible {
 		case .SearchSubwayStation(let request):
 			let path: String = "/\(request.key)/\(request.type)/\(request.service)/\(request.startIndex)/\(request.endIndex)/\(request.stationName)"
 			
+			print(path)
+			
 			if let encodedPath = path.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) {
 				print(encodedPath)
 				return encodedPath
@@ -47,12 +53,25 @@ extension SubwayAPI: Router, URLRequestConvertible {
 				print("Failed to encode path")
 				return path
 			}
+		case .SearchSubwayLine(let request):
+			let path: String = "/\(request.key)/\(request.type)/\(request.service)/\(request.startIndex)/\(request.endIndex)/\(request.stationCode)/\(request.stationName)/\(request.stationLine)"
+			
+			print(path)
+			
+			if let encodedPath = path.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) {
+				print(encodedPath)
+				return encodedPath
+			} else {
+				print("Failed to encode path")
+				return path
+			}
+				
 		}
 	}
 	
 	var method: Alamofire.HTTPMethod {
 		switch self {
-		case .RealtimeSubWayPosition, .SearchSubwayStation:
+		case .RealtimeSubWayPosition, .SearchSubwayStation, .SearchSubwayLine:
 			return .get
 		}
 	}
