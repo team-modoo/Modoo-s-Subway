@@ -11,14 +11,12 @@ struct FolderListView: View {
     let list = [1,2,3,4,5]
     var contents = ["집으로 가는길", "퇴근길", "병원 가는길", "맛집 지도"]
     var body: some View {
-        VStack {
-            List(contents,id: \.self) { items in
-                FolderListCell(contents: items)
-            }
-            .listStyle(.plain)
-//            .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+        List(contents,id: \.self) { items in
+            FolderListCell(contents: items)
+                .listRowInsets(EdgeInsets())
+                .frame(height: 110)
         }
-       
+        .listStyle(.plain)
     }
 }
 
@@ -49,18 +47,19 @@ struct FolderListCell: View {
                 
                 Spacer()
                 
-                    Button {
-                        print("icon_More")
-                    } label: {
-                        Image("icon_more")
-                            .background(.red)
-                            .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: -10))
-
-                    .buttonStyle(.borderless)
-             
+                
+                Button {
+                    print("icon_More")
+                } label: {
+                    Image("icon_more")
+                       // .background(.red)
+                        .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
+                        
+                  
+                }
+                .buttonStyle(.borderless)
             }
-            .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: -10))
-          //  .background(.red)
+            
             Spacer()
             
             Text("\(contents)")
@@ -70,14 +69,8 @@ struct FolderListCell: View {
                // .background(.red)
             
         }
-        .padding(EdgeInsets(top: 0, leading: -16, bottom: 0, trailing: 0))
+       // .background(.red)
             
        
     }
-}
-
-
-
-#Preview {
-    FolderListView()
 }
