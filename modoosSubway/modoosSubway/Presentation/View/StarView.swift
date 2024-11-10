@@ -11,6 +11,7 @@ import SwiftData
 struct StarView: View {
 	@Environment(\.modelContext) private var modelContext
 	@Query private var items: [Item]
+	@State private var showMenu = false
 	private let stationNames: [String] = ["논현", "반포", "고속터미널", "내방", "이수"]
 	
 	var body: some View {
@@ -52,11 +53,42 @@ struct StarView: View {
 										Image(.iconStarYellow)
 									})
 									
-									Button(action: {
-										
-									}, label: {
+									Button {
+										print("iconMore button tapped")
+										self.showMenu.toggle()
+									} label: {
 										Image(.iconMore)
-									})
+									}
+									.buttonStyle(BorderlessButtonStyle())
+									.background(
+										VStack {
+											if showMenu {
+												Button(action: {}) {
+													HStack {
+														Text("폴더 추가하기")
+														Image(systemName: "folder")
+														
+															.font(.pretendard(size: 12, family: .regular))
+															.fontWeight(.light)
+													}
+												}
+												.tint(Color.black)
+												.buttonStyle(BorderlessButtonStyle())
+												.frame(maxWidth: .infinity)
+												.padding(5)
+												.frame(width: 130)
+												.frame(height: 45)
+												.background(Color.white)
+												.cornerRadius(20)
+												.overlay(
+													RoundedRectangle(cornerRadius: 5)
+														.stroke(.EDEDED, lineWidth: 1)
+													
+												)
+											}
+										}
+											.offset(x: -35, y: 50)
+									)
 								}
 								.padding(.top, 22)
 								

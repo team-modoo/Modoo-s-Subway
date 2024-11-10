@@ -23,6 +23,11 @@
 		9A36984D2C4CA6740019C12A /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A36984C2C4CA6740019C12A /* SettingView.swift */; };
 		9A3698522C4CA72D0019C12A /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3698512C4CA72D0019C12A /* DataManager.swift */; };
 		9A36985D2C4D01E90019C12A /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A36985C2C4D01E90019C12A /* Util.swift */; };
+		9AC56CCD2CDF6D160067AF3B /* Pretendard-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9AEA1E732C56500900A87BF9 /* Pretendard-Bold.otf */; };
+		9AC56CCE2CDF6D1A0067AF3B /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9AEA1E752C56501900A87BF9 /* Pretendard-SemiBold.otf */; };
+		9AC56CCF2CDF6D1E0067AF3B /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9AEA1E742C56501300A87BF9 /* Pretendard-Medium.otf */; };
+		9AC56CD02CDF6D220067AF3B /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9AEA1E762C56501F00A87BF9 /* Pretendard-Regular.otf */; };
+		9AC56CD22CDF7AAB0067AF3B /* SelectedStationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC56CD12CDF7AAB0067AF3B /* SelectedStationViewModel.swift */; };
 		9AEA1E712C56024D00A87BF9 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9AEA1E702C56024D00A87BF9 /* Launch Screen.storyboard */; };
 		9AEA1E7A2C5651EA00A87BF9 /* UIExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEA1E792C5651EA00A87BF9 /* UIExtension.swift */; };
 		9AEA1E7C2C5DD41E00A87BF9 /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9AEA1E7B2C5DD41E00A87BF9 /* Secrets.plist */; };
@@ -57,6 +62,7 @@
 		9A36984C2C4CA6740019C12A /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		9A3698512C4CA72D0019C12A /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		9A36985C2C4D01E90019C12A /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
+		9AC56CD12CDF7AAB0067AF3B /* SelectedStationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedStationViewModel.swift; sourceTree = "<group>"; };
 		9AEA1E702C56024D00A87BF9 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		9AEA1E732C56500900A87BF9 /* Pretendard-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Bold.otf"; sourceTree = "<group>"; };
 		9AEA1E742C56501300A87BF9 /* Pretendard-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.otf"; sourceTree = "<group>"; };
@@ -161,11 +167,11 @@
 			children = (
 				9A36982F2C4BC0480019C12A /* HomeView.swift */,
 				9A3698442C4CA6490019C12A /* SearchView.swift */,
-				9A3698462C4CA6520019C12A /* FolderView.swift */,
+				3BF3CADC2C81FEC40058345F /* SelectedStationView.swift */,
 				9A3698482C4CA6590019C12A /* StarView.swift */,
+				9A3698462C4CA6520019C12A /* FolderView.swift */,
 				9A36984A2C4CA6690019C12A /* DetailView.swift */,
 				9A36984C2C4CA6740019C12A /* SettingView.swift */,
-				3BF3CADC2C81FEC40058345F /* SelectedStationView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -249,8 +255,9 @@
 		9AEA1E802C5DD4A900A87BF9 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				9AEA1E812C5DD4BC00A87BF9 /* StarViewModel.swift */,
 				46F0F7E22C6879E100444C98 /* SearchViewModel.swift */,
+				9AC56CD12CDF7AAB0067AF3B /* SelectedStationViewModel.swift */,
+				9AEA1E812C5DD4BC00A87BF9 /* StarViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -366,8 +373,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9AC56CCF2CDF6D1E0067AF3B /* Pretendard-Medium.otf in Resources */,
 				9AEA1E7C2C5DD41E00A87BF9 /* Secrets.plist in Resources */,
+				9AC56CCD2CDF6D160067AF3B /* Pretendard-Bold.otf in Resources */,
 				9A3698372C4BC04A0019C12A /* Preview Assets.xcassets in Resources */,
+				9AC56CCE2CDF6D1A0067AF3B /* Pretendard-SemiBold.otf in Resources */,
+				9AC56CD02CDF6D220067AF3B /* Pretendard-Regular.otf in Resources */,
 				9AEA1E712C56024D00A87BF9 /* Launch Screen.storyboard in Resources */,
 				9A3698342C4BC04A0019C12A /* Assets.xcassets in Resources */,
 			);
@@ -430,6 +441,7 @@
 				9AEA1E9A2C68AD6200A87BF9 /* ResponseDTO.swift in Sources */,
 				9AEA1E822C5DD4BC00A87BF9 /* StarViewModel.swift in Sources */,
 				9AEA1E862C5DD57100A87BF9 /* SubwayEntity.swift in Sources */,
+				9AC56CD22CDF7AAB0067AF3B /* SelectedStationViewModel.swift in Sources */,
 				3BF3CADD2C81FEC40058345F /* SelectedStationView.swift in Sources */,
 				9A3698522C4CA72D0019C12A /* DataManager.swift in Sources */,
 				9A36984B2C4CA6690019C12A /* DetailView.swift in Sources */,

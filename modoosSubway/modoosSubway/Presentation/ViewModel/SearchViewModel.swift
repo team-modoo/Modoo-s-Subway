@@ -14,80 +14,21 @@ class SearchViewModel: ObservableObject {
 	private var key: String = Util.getApiKey()
 	
     @Published var errorMessage: String?
-    @Published var arrivals: [ArrivalEntity] = []
+    @Published var isError: Bool = false
     @Published var stations: [StationEntity] = []
     
     init(subwayUseCase: SubwayUseCaseProtocol) {
         self.subwayUseCase = subwayUseCase
     }
-    
-    func getRealtimeStationArrivals(for subwayName: String, startIndex: Int, endIndex: Int) {
-		let request: RealtimeStationArrivalRequestDTO = RealtimeStationArrivalRequestDTO(key: self.key, startIndex: startIndex, endIndex: endIndex, subwayName: subwayName)
-		
-		subwayUseCase.executeRealtimeStationArrival(request: request)
-			.subscribe(on: DispatchQueue.global(qos: .background))
-			.map({ [weak self] executionType -> [ArrivalEntity] in
-				switch executionType {
-				case .success(let data):
-					print("getRealtimeStationArrivals DTO:: \(data)")
-					
-					let arrivals = data.realtimeArrivalList.map { el in
-						return ArrivalEntity(subwayId: el.subwayId,
-											 upDownLine: el.updnLine,
-											 trainLineName: el.trainLineNm,
-											 stationId: el.statnId,
-											 stationName: el.statnNm,
-											 subwayList: el.subwayList,
-											 stationList: el.statnList,
-											 isExpress: el.btrainSttus, 
-											 date: el.recptnDt,
-											 message2: el.arvlMsg2,
-											 message3: el.arvlMsg3,
-											 arrivalCode: el.arvlCd,
-											 isLastCar: el.lstcarAt)
-					}
-					
-					return arrivals
-				case .error(let error):
-					switch error {
-					case .invalidURL:
-						self?.errorMessage = "잘못된 URL입니다."
-					case .noData:
-						self?.errorMessage = "데이터를 받을 수 없습니다."
-					case .decodingError:
-						self?.errorMessage = "데이터 디코딩에 실패했습니다."
-					case .serverError(let statusCode):
-						self?.errorMessage = "서버 오류: \(statusCode)"
-					case .customError(_, let message):
-						self?.errorMessage = message
-					case .unknownError:
-						self?.errorMessage = "알 수 없는 오류가 발생했습니다."
-					}
-				default:
-					break
-				}
-				
-				return []
-			})
-			.receive(on: DispatchQueue.main)
-			.sink { [weak self] value in
-				print("getRealtimeStationArrivals Entity:: \(value)")
-				self?.arrivals = value
-			}
-			.store(in: &cancellables)
-    }
 
-    func getSearchSubwayStations(for stationName: String, startIndex:Int, endIndex:Int) {
-		let request: SearchSubwayStationRequestDTO = SearchSubwayStationRequestDTO(key:self.key, startIndex: startIndex, endIndex: endIndex, stationName: stationName)
+	func getSearchSubwayStations(for stationName: String, service: String, startIndex:Int, endIndex:Int) {
+		let request: SearchSubwayRequestDTO = SearchSubwayRequestDTO(key:self.key, service: service, startIndex: startIndex, endIndex: endIndex, stationName: stationName)
         
         subwayUseCase.executeSearchSubwayStation(request: request)
             .subscribe(on: DispatchQueue.global(qos: .background))
             .map( { [weak self] executionType -> [StationEntity] in
                 switch executionType {
-                    
                 case .success(let data):
-                    print("getSearchSubwayStations DTO:: \(data)")
-                    
 					let stations = data.SearchInfoBySubwayNameService.row.map { el in
 						return StationEntity(stationId: el.STATION_CD,
 											stationName: el.STATION_NM,
@@ -111,6 +52,7 @@ class SearchViewModel: ObservableObject {
                     case .unknownError:
                         self?.errorMessage = "알 수 없는 오류가 발생했습니다."
                     }
+					self?.isError = true
                 default:
                     break
                 }
@@ -118,11 +60,14 @@ class SearchViewModel: ObservableObject {
             
             })
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] value in
-                print("getSearchSubwayStations Entity:: \(value)")
-				self?.stations = value
+            .sink { [weak self] values in
+				if !values.isEmpty {
+					self?.stations = values
+				} else {
+					self?.isError = true
+					self?.errorMessage = "데이터가 없습니다."
+				}
             }
             .store(in: &cancellables)
     }
-    
 }
