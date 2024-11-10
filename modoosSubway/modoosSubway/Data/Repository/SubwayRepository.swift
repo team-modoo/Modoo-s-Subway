@@ -78,7 +78,7 @@ class SubwayRepository: SubwayRepositoryProtocol {
 	// MARK: - 지하철역 정보 검색(노선별) API 요청
 	func fetchSearchSubwayLine(request: SearchSubwayRequestDTO) -> AnyPublisher<SearchSubwayLineResponseDTO, NetworkError> {
 		return Future<SearchSubwayLineResponseDTO,NetworkError> { promise in
-			AF.request(SubwayAPI.SearchSubwayStation(request))
+			AF.request(SubwayAPI.SearchSubwayLine(request))
 				.responseDecodable(of: SearchSubwayLineResponseDTO.self) { response in
 					let statusCode = response.response?.statusCode ?? 0
 					

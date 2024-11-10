@@ -63,6 +63,9 @@ struct HomeView: View {
 					.onSubmit {
 						handleSearch()
 					}
+					.onAppear {
+						UITextField.appearance().clearButtonMode = .whileEditing
+					}
 					.toolbar {
 						ToolbarItem(placement: .keyboard) {
 							HStack {
@@ -82,7 +85,7 @@ struct HomeView: View {
 							}
 						}
 					}
-					.autocorrectionDisabled(true)
+					.autocorrectionDisabled()
 					.textInputAutocapitalization(.never)
 					
 					Button(action: {

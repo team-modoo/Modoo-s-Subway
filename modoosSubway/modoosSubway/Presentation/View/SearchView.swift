@@ -14,9 +14,7 @@ struct SearchView: View {
 	var body: some View {
 		GeometryReader(content: { geometry in
 			List(vm.stations) { station in
-				NavigationLink {
-					SelectedStationView(selectedStation: station)
-				} label: {
+				NavigationLink(destination: SelectedStationView(selectedStation: station)) {
 					HStack {
 						Text(station.stationName)
 							.font(.pretendard(size: 16, family: .regular))
@@ -25,7 +23,7 @@ struct SearchView: View {
 						Spacer()
 						
 						HStack {
-							Text(station.lineNumber)
+							Text(station.lineName())
 								.font(.pretendard(size: 14, family: .regular))
 								.tint(.white)
 						}
@@ -35,6 +33,7 @@ struct SearchView: View {
 						.foregroundColor(.white)
 					}
 				}
+				.buttonStyle(PlainButtonStyle())
 				.listRowInsets(EdgeInsets(
 					top: 16,
 					leading: 0,
@@ -47,5 +46,10 @@ struct SearchView: View {
 			.listStyle(.plain)
 		})
 		.background(.white)
+		.alert("Error", isPresented: $vm.isError) {
+			Button("확인", role: .cancel) {}
+		} message: {
+			Text(vm.errorMessage ?? "")
+		}
 	}
 }

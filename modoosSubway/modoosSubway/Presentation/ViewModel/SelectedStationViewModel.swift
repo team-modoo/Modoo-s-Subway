@@ -13,8 +13,10 @@ class SelectedStationViewModel: ObservableObject {
 	private let subwayUseCase: SubwayUseCaseProtocol
 	private var cancellables = Set<AnyCancellable>()
 	private var key: String = Util.getApiKey()
+	var selectedStation: StationEntity? = nil
 	
 	@Published var errorMessage: String?
+	@Published var isError: Bool = false
 	@Published var arrivals: [ArrivalEntity] = []
 	@Published var stationNames: [String] = []
 	
@@ -62,6 +64,7 @@ class SelectedStationViewModel: ObservableObject {
 					case .unknownError:
 						self?.errorMessage = "알 수 없는 오류가 발생했습니다."
 					}
+					self?.isError = true
 				default:
 					break
 				}
@@ -69,13 +72,18 @@ class SelectedStationViewModel: ObservableObject {
 				return []
 			})
 			.receive(on: DispatchQueue.main)
-			.sink { [weak self] value in
-				self?.arrivals = value
+			.sink { [weak self] values in
+				if !values.isEmpty {
+					self?.arrivals = values.filter { $0.subwayLine() == self?.selectedStation?.lineName() }
+				} else {
+					self?.isError = true
+					self?.errorMessage = "데이터가 없습니다."
+				}
 			}
 			.store(in: &cancellables)
 	}
 	
-	func getSearchSubwayLine(for stationLine: String, service: String, startIndex:Int, endIndex:Int) {
+	func getSearchSubwayLine(for stationLine: String, service: String, startIndex: Int, endIndex: Int) {
 		let request: SearchSubwayRequestDTO = SearchSubwayRequestDTO(key:self.key, service: service, startIndex: startIndex, endIndex: endIndex, stationLine: stationLine)
 		
 		subwayUseCase.executeSearchSubwayLine(request: request)
@@ -106,6 +114,7 @@ class SelectedStationViewModel: ObservableObject {
 					case .unknownError:
 						self?.errorMessage = "알 수 없는 오류가 발생했습니다."
 					}
+					self?.isError = true
 				default:
 					break
 				}
@@ -113,8 +122,17 @@ class SelectedStationViewModel: ObservableObject {
 				
 			})
 			.receive(on: DispatchQueue.main)
-			.sink { [weak self] value in
-				self?.stationNames = value.map { $0.stationName }
+			.sink { [weak self] values in
+				if !values.isEmpty {
+					let stations = values.map { $0.stationName }
+					let count = 4
+					let lastIndex = stations.firstIndex(of: self?.selectedStation?.stationName ?? "" ) ?? 4
+					let startIndex = max(lastIndex - count, 0)
+					self?.stationNames = Array(stations[startIndex...lastIndex])
+				} else {
+					self?.isError = true
+					self?.errorMessage = "데이터가 없습니다."
+				}
 			}
 			.store(in: &cancellables)
 	}

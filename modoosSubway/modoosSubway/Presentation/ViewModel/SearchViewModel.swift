@@ -14,6 +14,7 @@ class SearchViewModel: ObservableObject {
 	private var key: String = Util.getApiKey()
 	
     @Published var errorMessage: String?
+    @Published var isError: Bool = false
     @Published var stations: [StationEntity] = []
     
     init(subwayUseCase: SubwayUseCaseProtocol) {
@@ -51,6 +52,7 @@ class SearchViewModel: ObservableObject {
                     case .unknownError:
                         self?.errorMessage = "알 수 없는 오류가 발생했습니다."
                     }
+					self?.isError = true
                 default:
                     break
                 }
@@ -58,8 +60,13 @@ class SearchViewModel: ObservableObject {
             
             })
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] value in
-				self?.stations = value
+            .sink { [weak self] values in
+				if !values.isEmpty {
+					self?.stations = values
+				} else {
+					self?.isError = true
+					self?.errorMessage = "데이터가 없습니다."
+				}
             }
             .store(in: &cancellables)
     }

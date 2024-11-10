@@ -24,7 +24,7 @@ struct SearchSubwayRequestDTO {
 	let service: String // SearchInfoBySubwayNameService, SearchSTNBySubwayLineInfo
 	let startIndex: Int
 	let endIndex: Int
-	var stationCode: String = ""
-	var stationName: String = "" // "동대문역사문화공원"
+	var stationCode: String = " "
+	var stationName: String = " " // "동대문역사문화공원"
 	var stationLine: String = "" // "1호선"
 }
