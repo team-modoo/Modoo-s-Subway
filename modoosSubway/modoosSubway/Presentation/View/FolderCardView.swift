@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct FolderCardView: View {
+    @State private var showModal = false
     let line = ["7", "서해", "1","경의중앙"]
     var body: some View {
         VStack(alignment: .leading) {
@@ -31,11 +32,22 @@ struct FolderCardView: View {
                 
                 Button {
                     print("icon_More")
+                    showModal.toggle()
                 } label: {
                     Image("icon_more")
                         .background(.red)
                         .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 10))
                 }
+                
+                  .sheet(isPresented: $showModal) {
+                           FolderDecorateView()
+                               .presentationDetents([.fraction(6/12)]) // 화면의 5/12 높이로 설정
+                               .presentationDragIndicator(.visible) // 드래그 인디케이터를 표시
+                               .presentationCornerRadius(30)
+                  
+                      
+                      
+                  }
            }
             
             
