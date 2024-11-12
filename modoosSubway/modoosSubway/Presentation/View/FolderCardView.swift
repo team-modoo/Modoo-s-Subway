@@ -24,7 +24,7 @@ struct FolderCardView: View {
                             .foregroundColor(.white)
                     }
                 }
-                .background(.yellow)
+               // .background(.yellow)
                 .padding(EdgeInsets(top: 10, leading: 10, bottom: 0, trailing: 0))
                 
                 Spacer()
@@ -40,13 +40,11 @@ struct FolderCardView: View {
                 }
                 
                   .sheet(isPresented: $showModal) {
-                           FolderDecorateView()
-                               .presentationDetents([.fraction(6/12)]) // 화면의 5/12 높이로 설정
-                               .presentationDragIndicator(.visible) // 드래그 인디케이터를 표시
-                               .presentationCornerRadius(30)
-                  
                       
-                      
+                          EditFolderView()
+                              .presentationDetents([.fraction(1/4)])
+                              .presentationDragIndicator(.visible)
+                              .presentationCornerRadius(30)
                   }
            }
             

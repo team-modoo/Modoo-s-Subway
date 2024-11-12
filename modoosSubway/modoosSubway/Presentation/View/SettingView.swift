@@ -11,7 +11,7 @@ import SwiftData
 struct SettingView: View {
 	@Environment(\.dismiss) private var dismiss
     let section1: [SettingToggleType] = [.sound, .vibration, .notification]
-    let section2: [InformationType] = [.version, .privacy, .terms, .appUsage]
+    let section2: [InformationType] = [.version, .privacy, .terms]
     var isToggled = false
 	var body: some View {
 		NavigationView {
@@ -54,7 +54,7 @@ struct SettingView: View {
                         Section {
                             ForEach(section2,id: \.self) { index in
                                              
-                                SettingCell(isSection1: false, title: index.rawValue, destination: index.destinationView())
+                                SettingCell(isSection1: false, title: index.rawValue, destination: index.destinationView(),infoType: index)
                                          }
                             
                             .frame(height: 55)
@@ -134,6 +134,7 @@ struct SettingCell: View {
     private var isSection1: Bool
     private var title: String
     private var toggleType: SettingToggleType = .notification
+    private var infoType: InformationType = .version
     private var destination: AnyView?
     
     init(isSection1: Bool, title: String, toggleType: SettingToggleType) {
@@ -144,11 +145,12 @@ struct SettingCell: View {
         self.destination = nil
     }
 
-    init(isSection1: Bool, title: String, destination: AnyView) {
+    init(isSection1: Bool, title: String, destination: AnyView,infoType:InformationType) {
         self.isSection1 = isSection1
         self.title = title
         self._toggleState = AppStorage(wrappedValue: true, "dummy_key")
         self.destination = destination
+        self.infoType = infoType
     }
     
     var body: some View {
@@ -175,13 +177,19 @@ struct SettingCell: View {
                         .foregroundStyle(.black)
                     
                     Spacer()
-                    
-                   Image(systemName: "chevron.right")
-                        .foregroundStyle(.black)
+                    if infoType.rawValue == "버전 정보" {
+                        Text("v 1.0")
+                            .font(.pretendard(size: 14, family: .regular))
+                            .foregroundStyle(.black)
+                    } else {
+                        Image(systemName: "chevron.right")
+                            .foregroundStyle(.black)
+                    }
                 }
                 .background(
-                NavigationLink("", destination: Text("The detail View"))
+                NavigationLink("", destination: destination)
                     .opacity(0)
+                
                 
                 )
             }
@@ -204,18 +212,18 @@ enum InformationType: String {
     case version = "버전 정보"
     case privacy = "개인정보처리방침"
     case terms = "이용 약관"
-    case appUsage = "앱 사용법"
+    //case appUsage = "앱 사용법"
     
     func destinationView() -> AnyView {
         switch self {
         case .version:
-            return AnyView(FolderView())
+            return AnyView(FolderCardView())
         case .privacy:
-            return AnyView(FolderView())
+            return AnyView(FolderListView())
         case .terms:
             return AnyView(FolderView())
-        case .appUsage:
-            return AnyView(FolderView())
+//        case .appUsage:
+//            return AnyView(FolderView())
         }
     }
     
