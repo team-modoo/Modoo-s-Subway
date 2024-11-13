@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct EditFolderView: View {
     let section1: [EditFolderType] = [.modify, .attach, .delete]
@@ -30,7 +31,8 @@ struct EditFolderView: View {
                     ForEach(section1,id: \.self) { item in
                         EditFolderCell(title: item.rawValue, 
                                        destination: item.destinationView(),
-                                       iconName: item.iconImage())
+                                       iconName: item.iconImage(), 
+                                       folderType: item)
                             .listRowSeparator(.hidden)
                             .frame(height: 19)
                             .foregroundStyle(.blue)
@@ -52,19 +54,25 @@ struct EditFolderView: View {
 }
 
 struct EditFolderCell: View {
-    private var infoType: EditFolderType = .modify
+    @Environment(\.dismiss) var dismiss
+    private var folderType: EditFolderType = .modify
     private var destination: AnyView?
     private var title: String
     private var iconName: String
+    
     @State private var showFullScreen = false
-    @State private var selectedDestination: AnyView? = nil  //
-    @Environment(\.dismiss) var dismiss
+    @State private var selectedDestination: AnyView? = nil
+    @State var selectedImages: [UIImage] = [UIImage]()
+    @State private var selectedPhotos: [PhotosPickerItem] = []
+    @State private var showPhotoPicker = false
+    @State private var showSelectedPhotoView = false
+    @State private var isPresentedError = false
     
-    
-    init(title: String, destination: AnyView,iconName: String) {
+    init(title: String, destination: AnyView,iconName: String,folderType:EditFolderType) {
         self.title = title
         self.destination = destination
         self.iconName = iconName
+        self.folderType = folderType
     }
     
     var body: some View {
@@ -86,22 +94,59 @@ struct EditFolderCell: View {
             }
             .background(.red)
             .onTapGesture {
-                //       selectedDestination = destination  // destination 설정
-                showFullScreen = true
+                if folderType == .attach {
+                    showPhotoPicker = true
+                } else {
+                    showFullScreen = true
+                }
                 print("cell \(destination) clicked")
             }
+            .photosPicker(
+                isPresented: $showPhotoPicker,
+                selection: $selectedPhotos,
+                maxSelectionCount: 1,
+                matching: .images,
+                photoLibrary: .shared()
+            )
             
+            .onChange(of: selectedPhotos) { _, newValue in
+                        if !newValue.isEmpty {
+                            handleSelectedPhotos(newValue.first!)
+                        }
+                    }
+            .alert("사진 로드 오류", isPresented: $isPresentedError) {
+                        Button("확인", role: .cancel) {}
+                    } message: {
+                        Text("사진을 불러오는 중 오류가 발생했습니다. 다시 시도해주세요.")
+                }
+            .fullScreenCover(isPresented: $showSelectedPhotoView) {
+                SelectedPhotoView(photo: selectedPhotos.first)
+            }
             .fullScreenCover(isPresented: $showFullScreen) {
                 NavigationStack {
-                    
                     destination
                     
                 }
             }
-            
         }
-        
     }
+    
+    private func handleSelectedPhotos(_ photo: PhotosPickerItem) {
+           photo.loadTransferable(type: Data.self) { result in
+               switch result {
+               case .success(let data):
+                   if let data = data, let _ = UIImage(data: data) {
+                       DispatchQueue.main.async {
+                           showSelectedPhotoView = true
+                       }
+                   }
+               case .failure:
+                   DispatchQueue.main.async {
+                       isPresentedError = true
+                   }
+               }
+           }
+       }
 }
 
 enum EditFolderType: String {
@@ -115,7 +160,7 @@ enum EditFolderType: String {
         case .modify:
             return AnyView(ModifyFolderView())
         case .attach:
-            return AnyView(FolderListView())
+            return AnyView(EmptyView())
         case .delete:
             return AnyView(FolderView())
         }
