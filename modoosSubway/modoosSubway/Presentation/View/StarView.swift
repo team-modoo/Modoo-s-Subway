@@ -140,6 +140,11 @@ struct StarView: View {
 				}
 			})
 		}
+        .task {
+            print("StarView appear")
+           // addItem()
+          
+        }
 		.padding(.top, 22)
 		.padding(.horizontal, 1)
 	}
@@ -148,6 +153,7 @@ struct StarView: View {
 		withAnimation {
 			let newItem = Item(timestamp: Date())
 			modelContext.insert(newItem)
+            print("append items: -- \(newItem)")
 		}
 	}
 	
@@ -163,4 +169,20 @@ struct StarView: View {
 #Preview {
 	StarView()
 		.modelContainer(for: Item.self, inMemory: true)
+}
+
+
+struct AuthorsView: View {
+    @Query(sort: \Folder.content) var movies: [Folder]
+
+    var body: some View {
+        NavigationStack {
+            List(movies,id: \.content) { movie in
+                Text("\(movie.content)")
+              //  Text("Director: \(movie.lineNumber)")
+                
+            }
+            .navigationTitle("Movie Time")
+        }
+    }
 }

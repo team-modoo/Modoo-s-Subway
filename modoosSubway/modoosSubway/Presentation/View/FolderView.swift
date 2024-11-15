@@ -11,6 +11,7 @@ import SwiftData
 struct FolderView: View {
 	@Environment(\.modelContext) private var modelContext
 	@Query private var items: [Item]
+    @Query private var folders: [Folder]
     @State private var viewType: FolderType = .Card
     @State private var sortedType: FolderSortedType = .name
     var item: [Int] = [1,2,3]
@@ -18,7 +19,7 @@ struct FolderView: View {
 	var body: some View {
 		VStack {
 			GeometryReader(content: { geometry in
-				if  item.isEmpty {
+				if  items.isEmpty {
 					VStack {
 						Image(.bookmarkCircle)
 						Text("자주 타는 지하철 노선을 꾸며보세요")
@@ -53,7 +54,7 @@ struct FolderView: View {
                         if viewType == .Card {
                             ScrollView(showsIndicators: false) {
                                 LazyVGrid(columns: [GridItem()],spacing: 16) {
-                                    ForEach(item, id: \.self) { item in
+                                    ForEach(items, id: \.self) { item in
                                         FolderCardView()
                                     }
                                 }
@@ -73,6 +74,10 @@ struct FolderView: View {
                 }
 			})
 		}
+        .task {
+            addItem()
+           
+        }
 		.padding(.top, 22)
 	}
     // MARK: - 폴더 or 즐겨찾기
@@ -86,8 +91,9 @@ struct FolderView: View {
 	
 	private func addItem() {
 		withAnimation {
-			let newItem = Item(timestamp: Date())
+            let newItem = Folder(timestamp: Date(), lineNumber: ["1","3","7"], content: "후후후후후")
 			modelContext.insert(newItem)
+            print("add item complete\(newItem)")
 		}
 	}
 	
@@ -104,48 +110,3 @@ struct FolderView: View {
 	FolderView()
 		.modelContainer(for: Item.self, inMemory: true)
 }
-
-
-//struct FolderView: View {
-//    @Environment(\.modelContext) private var modelContext
-//    @Query private var items: [Item]
-//    @State private var viewType: FolderType = .Card
-//    @State private var sortedType: FolderSortedType = .name
-//    var item: [Int] = [1,2,3]
-//    
-//    var body: some View {
-//        VStack {
-//            GeometryReader(content: { geometry in
-//                    VStack {
-//                        FolderHeaderView(viewType: viewType,sortedType: sortedType)
-//                        
-//                        //Spacer()
-//                      
-//                        if viewType == .Card {
-//                            ScrollView(showsIndicators: false) {
-//                                LazyVGrid(columns: [GridItem()],spacing: 16) {
-//                                    ForEach(item, id: \.self) { item in
-//                                        FolderCardView()
-//                                    }
-//                                }
-//                                .padding(.horizontal, 16)
-//                                .padding(.vertical, 24)
-//                            }
-//                        } else {
-//                            FolderListView()
-//                        }
-//                    }
-//            })
-//        }
-//        .padding(.top, 22)
-//    }
-//    // MARK: - 폴더 or 즐겨찾기
-//    private func changeViewType(_ type: FolderType) {
-//        viewType = type
-//    }
-//    
-//    private func changeSortedType(_ type: FolderSortedType) {
-//        sortedType = type
-//    }
-//}
-
