@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "filename" : "bullet-list.fill.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "bullet-list--points-bullet-unordered-list-lists-bullets (3).png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "bullet-list--points-bullet-unordered-list-lists-bullets (4).png",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

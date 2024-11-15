@@ -11,11 +11,15 @@ import SwiftData
 struct FolderView: View {
 	@Environment(\.modelContext) private var modelContext
 	@Query private var items: [Item]
+    @Query private var folders: [Folder]
+    @State private var viewType: FolderType = .Card
+    @State private var sortedType: FolderSortedType = .name
+    var item: [Int] = [1,2,3]
 	
 	var body: some View {
 		VStack {
 			GeometryReader(content: { geometry in
-				if items.isEmpty {
+				if  items.isEmpty {
 					VStack {
 						Image(.bookmarkCircle)
 						Text("자주 타는 지하철 노선을 꾸며보세요")
@@ -42,34 +46,54 @@ struct FolderView: View {
 //						RoundedRectangle(cornerRadius: 10)
 //							.stroke(.EDEDED)
 //					)
-				} else {
-					List {
-						ForEach(items) { item in
-							VStack {
-								Image(.starCircle)
-								Text("자주 타는 지하철 노선을 추가해주세요.")
-									.font(.pretendard(size: 16, family: .regular))
-									.foregroundStyle(Color("5C5C5C"))
-									.padding(.top, 8)
-							}
-							.frame(width: geometry.size.width, height: 196)
-							.background(
-								RoundedRectangle(cornerRadius: 10)
-									.stroke(.EDEDED)
-							)
-						}
-						.onDelete(perform: deleteItems)
-					}
-				}
+                } else {
+                    VStack {
+                        FolderHeaderView(viewType: $viewType,sortedType: $sortedType)
+                        //Spacer()
+                      
+                        if viewType == .Card {
+                            ScrollView(showsIndicators: false) {
+                                LazyVGrid(columns: [GridItem()],spacing: 16) {
+                                    ForEach(items, id: \.self) { item in
+                                        FolderCardView()
+                                    }
+                                }
+                                .padding(.horizontal, 16)
+                                .padding(.vertical, 24)
+                            }
+                        } else {
+                            VStack {
+                                FolderListView()
+                            }
+                        }
+                      
+
+                    }
+               //     .background(.red)
+                    
+                }
 			})
 		}
+        .task {
+            addItem()
+           
+        }
 		.padding(.top, 22)
 	}
+    // MARK: - 폴더 or 즐겨찾기
+    private func changeViewType(_ type: FolderType) {
+        viewType = type
+    }
+    
+    private func changeSortedType(_ type: FolderSortedType) {
+        sortedType = type
+    }
 	
 	private func addItem() {
 		withAnimation {
-			let newItem = Item(timestamp: Date())
+            let newItem = Folder(timestamp: Date(), lineNumber: ["1","3","7"], content: "후후후후후")
 			modelContext.insert(newItem)
+            print("add item complete\(newItem)")
 		}
 	}
 	
