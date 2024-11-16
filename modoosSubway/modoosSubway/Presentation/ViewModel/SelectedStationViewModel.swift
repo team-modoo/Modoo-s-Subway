@@ -17,38 +17,30 @@ class SelectedStationViewModel: ObservableObject {
 	
 	@Published var errorMessage: String?
 	@Published var isError: Bool = false
-	@Published var arrivals: [ArrivalEntity] = []
-	@Published var stationNames: [String] = []
+	@Published var upStationNames: [String] = []
+	@Published var downStationNames: [String] = []
+	@Published var cards: [CardViewEntity] = []
 	
 	init(subwayUseCase: SubwayUseCaseProtocol) {
 		self.subwayUseCase = subwayUseCase
 	}
 	
 	func getRealtimeStationArrivals(for subwayName: String, startIndex: Int, endIndex: Int) {
-		let request: RealtimeStationArrivalRequestDTO = RealtimeStationArrivalRequestDTO(key: self.key, startIndex: startIndex, endIndex: endIndex, subwayName: subwayName)
+		let request: RealtimeStationArrivalRequestDTO = RealtimeStationArrivalRequestDTO(key: self.key, 
+																						 startIndex: startIndex,
+																						 endIndex: endIndex,
+																						 subwayName: subwayName)
 		
 		subwayUseCase.executeRealtimeStationArrival(request: request)
 			.subscribe(on: DispatchQueue.global(qos: .background))
 			.map({ [weak self] executionType -> [ArrivalEntity] in
 				switch executionType {
 				case .success(let data):
-					let arrivals = data.realtimeArrivalList.map { el in
-						return ArrivalEntity(subwayId: el.subwayId,
-											 upDownLine: el.updnLine,
-											 trainLineName: el.trainLineNm,
-											 stationId: el.statnId,
-											 stationName: el.statnNm,
-											 subwayList: el.subwayList,
-											 stationList: el.statnList,
-											 isExpress: el.btrainSttus,
-											 date: el.recptnDt,
-											 message2: el.arvlMsg2,
-											 message3: el.arvlMsg3,
-											 arrivalCode: el.arvlCd,
-											 isLastCar: el.lstcarAt)
-					}
+					
+					let arrivals: [ArrivalEntity] = data.filter { $0.subwayLine() == self?.selectedStation?.lineName() }
 					
 					return arrivals
+					
 				case .error(let error):
 					switch error {
 					case .invalidURL:
@@ -73,8 +65,90 @@ class SelectedStationViewModel: ObservableObject {
 			})
 			.receive(on: DispatchQueue.main)
 			.sink { [weak self] values in
+				
 				if !values.isEmpty {
-					self?.arrivals = values.filter { $0.subwayLine() == self?.selectedStation?.lineName() }
+					var upArrivalEntities: [ArrivalEntity] = []
+					var downArrivalEntities: [ArrivalEntity] = []
+					var outArrivalEntities: [ArrivalEntity] = []
+					var inArrivalEntities: [ArrivalEntity] = []
+					var upArrivals: [Arrival] = []
+					var downArrivals: [Arrival] = []
+					var outArrivals: [Arrival] = []
+					var inArrivals: [Arrival] = []
+					var upSubwayCard: CardViewEntity?
+					var downSubwayCard: CardViewEntity?
+					var outSubwayCard: CardViewEntity?
+					var inSubwayCard: CardViewEntity?
+					
+					values.forEach { el in
+						switch el.upDownLine {
+						case "상행":
+							upArrivalEntities.append(el)
+							upArrivals.append(Arrival(arrivalCode: el.arrivalCode, station: el.stationName, trainLineName: el.trainLineName))
+						case "하행":
+							downArrivalEntities.append(el)
+							downArrivals.append(Arrival(arrivalCode: el.arrivalCode, station: el.stationName, trainLineName: el.trainLineName))
+						case "외선":
+							outArrivalEntities.append(el)
+							outArrivals.append(Arrival(arrivalCode: el.arrivalCode, station: el.stationName, trainLineName: el.trainLineName))
+						case "내선":
+							inArrivalEntities.append(el)
+							inArrivals.append(Arrival(arrivalCode: el.arrivalCode, station: el.stationName, trainLineName: el.trainLineName))
+						default:
+							break
+						}
+					}
+					
+					upSubwayCard = CardViewEntity(lineName: self?.selectedStation?.lineName() ?? "",
+												  lineNumber: self?.selectedStation?.lineNumber ?? "",
+												  arrivalMessage: upArrivalEntities.first?.message2 ?? "",
+												  isExpress: upArrivalEntities.first?.isExpress ?? "",
+												  arrivals: upArrivals,
+												  stationNames: self?.upStationNames ?? [],
+												  upDownLine: "상행선",
+												  isStar: false,
+												  isFolder: false)
+					
+					downSubwayCard = CardViewEntity(lineName: self?.selectedStation?.lineName() ?? "",
+													lineNumber: self?.selectedStation?.lineNumber ?? "",
+													arrivalMessage: downArrivalEntities.first?.message2 ?? "",
+													isExpress: downArrivalEntities.first?.isExpress ?? "",
+													arrivals: downArrivals,
+													stationNames: self?.upStationNames ?? [],
+													upDownLine: "하행선",
+													isStar: false,
+													isFolder: false)
+					
+					outSubwayCard = CardViewEntity(lineName: self?.selectedStation?.lineName() ?? "",
+												   lineNumber: self?.selectedStation?.lineNumber ?? "",
+												   arrivalMessage: outArrivalEntities.first?.message2 ?? "",
+												   isExpress: outArrivalEntities.first?.isExpress ?? "",
+												   arrivals: outArrivals,
+												   stationNames: self?.upStationNames ?? [],
+												   upDownLine: "외선",
+												   isStar: false,
+												   isFolder: false)
+					
+					inSubwayCard = CardViewEntity(lineName: self?.selectedStation?.lineName() ?? "",
+												  lineNumber: self?.selectedStation?.lineNumber ?? "",
+												  arrivalMessage: inArrivalEntities.first?.message2 ?? "",
+												  isExpress: inArrivalEntities.first?.isExpress ?? "",
+												  arrivals: inArrivals,
+												  stationNames: self?.upStationNames ?? [],
+												  upDownLine: "내선",
+												  isStar: false,
+												  isFolder: false)
+					
+					if let upSubwayCard = upSubwayCard {
+						self?.cards.append(upSubwayCard)
+					} else if let downSubwayCard = downSubwayCard {
+						self?.cards.append(downSubwayCard)
+					} else if let outSubwayCard = outSubwayCard {
+						self?.cards.append(outSubwayCard)
+					} else if let inSubwayCard = inSubwayCard {
+						self?.cards.append(inSubwayCard)
+					}
+					
 				} else {
 					self?.isError = true
 					self?.errorMessage = "데이터가 없습니다."
@@ -89,6 +163,7 @@ class SelectedStationViewModel: ObservableObject {
 		subwayUseCase.executeSearchSubwayLine(request: request)
 			.subscribe(on: DispatchQueue.global(qos: .background))
 			.map( { [weak self] executionType -> [StationEntity] in
+				
 				switch executionType {
 				case .success(let data):
 					let stations = data.SearchSTNBySubwayLineInfo.row.map { el in
@@ -123,12 +198,19 @@ class SelectedStationViewModel: ObservableObject {
 			})
 			.receive(on: DispatchQueue.main)
 			.sink { [weak self] values in
+				
 				if !values.isEmpty {
 					let stations = values.map { $0.stationName }
 					let count = 4
-					let lastIndex = stations.firstIndex(of: self?.selectedStation?.stationName ?? "" ) ?? 4
-					let startIndex = max(lastIndex - count, 0)
-					self?.stationNames = Array(stations[startIndex...lastIndex])
+					
+					let downLastIndex = stations.firstIndex(of: self?.selectedStation?.stationName ?? "" ) ?? 4
+					let downStartIndex = max(downLastIndex - count, 0)
+					self?.downStationNames = Array(stations[downStartIndex...downLastIndex])
+					
+					let upStartIndex = stations.firstIndex(of: self?.selectedStation?.stationName ?? "" ) ?? 0
+					let upLastIndex = upStartIndex + count
+					self?.upStationNames = Array(stations[upStartIndex...upLastIndex])
+					
 				} else {
 					self?.isError = true
 					self?.errorMessage = "데이터가 없습니다."

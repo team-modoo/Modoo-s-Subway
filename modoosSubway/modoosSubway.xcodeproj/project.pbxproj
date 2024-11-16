@@ -34,6 +34,7 @@
 		9AC56CCF2CDF6D1E0067AF3B /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9AEA1E742C56501300A87BF9 /* Pretendard-Medium.otf */; };
 		9AC56CD02CDF6D220067AF3B /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9AEA1E762C56501F00A87BF9 /* Pretendard-Regular.otf */; };
 		9AC56CD22CDF7AAB0067AF3B /* SelectedStationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC56CD12CDF7AAB0067AF3B /* SelectedStationViewModel.swift */; };
+		9AC56CEA2CE90CBB0067AF3B /* CardViewEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC56CE92CE90CBB0067AF3B /* CardViewEntity.swift */; };
 		9AEA1E712C56024D00A87BF9 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9AEA1E702C56024D00A87BF9 /* Launch Screen.storyboard */; };
 		9AEA1E7A2C5651EA00A87BF9 /* UIExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEA1E792C5651EA00A87BF9 /* UIExtension.swift */; };
 		9AEA1E7C2C5DD41E00A87BF9 /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9AEA1E7B2C5DD41E00A87BF9 /* Secrets.plist */; };
@@ -75,6 +76,7 @@
 		9A3698512C4CA72D0019C12A /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		9A36985C2C4D01E90019C12A /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		9AC56CD12CDF7AAB0067AF3B /* SelectedStationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedStationViewModel.swift; sourceTree = "<group>"; };
+		9AC56CE92CE90CBB0067AF3B /* CardViewEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewEntity.swift; sourceTree = "<group>"; };
 		9AEA1E702C56024D00A87BF9 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		9AEA1E732C56500900A87BF9 /* Pretendard-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Bold.otf"; sourceTree = "<group>"; };
 		9AEA1E742C56501300A87BF9 /* Pretendard-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.otf"; sourceTree = "<group>"; };
@@ -284,6 +286,7 @@
 			isa = PBXGroup;
 			children = (
 				9AEA1E852C5DD57100A87BF9 /* SubwayEntity.swift */,
+				9AC56CE92CE90CBB0067AF3B /* CardViewEntity.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -452,6 +455,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4659A1E02CE0959D00889FFC /* FolderListView.swift in Sources */,
+				9AC56CEA2CE90CBB0067AF3B /* CardViewEntity.swift in Sources */,
 				9AEA1E8C2C5DD62800A87BF9 /* EnumType.swift in Sources */,
 				9A36985D2C4D01E90019C12A /* Util.swift in Sources */,
 				9AEA1E8E2C5DD6A000A87BF9 /* SubwayUseCase.swift in Sources */,
