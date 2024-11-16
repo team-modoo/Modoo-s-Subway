@@ -12,6 +12,7 @@
 		4659A1DE2CE079DA00889FFC /* FolderCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659A1DD2CE079DA00889FFC /* FolderCardView.swift */; };
 		4659A1E02CE0959D00889FFC /* FolderListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659A1DF2CE0959D00889FFC /* FolderListView.swift */; };
 		4659A1E22CE0D11E00889FFC /* FolderHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659A1E12CE0D11E00889FFC /* FolderHeaderView.swift */; };
+		46630D5B2CE73A3E00A8DEF9 /* AlarmSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46630D5A2CE73A3E00A8DEF9 /* AlarmSettingView.swift */; };
 		46E23B2D2C6872190059BB62 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E23B2C2C6872190059BB62 /* NetworkError.swift */; };
 		46E8D9D12CE17D6500ABF38C /* EditFolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E8D9D02CE17D6500ABF38C /* EditFolderView.swift */; };
 		46E8D9D32CE2CBDC00ABF38C /* ModifyFolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E8D9D22CE2CBDC00ABF38C /* ModifyFolderView.swift */; };
@@ -53,6 +54,7 @@
 		4659A1DD2CE079DA00889FFC /* FolderCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderCardView.swift; sourceTree = "<group>"; };
 		4659A1DF2CE0959D00889FFC /* FolderListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderListView.swift; sourceTree = "<group>"; };
 		4659A1E12CE0D11E00889FFC /* FolderHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderHeaderView.swift; sourceTree = "<group>"; };
+		46630D5A2CE73A3E00A8DEF9 /* AlarmSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmSettingView.swift; sourceTree = "<group>"; };
 		46E23B2C2C6872190059BB62 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		46E8D9D02CE17D6500ABF38C /* EditFolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditFolderView.swift; sourceTree = "<group>"; };
 		46E8D9D22CE2CBDC00ABF38C /* ModifyFolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyFolderView.swift; sourceTree = "<group>"; };
@@ -190,6 +192,7 @@
 				46E8D9D02CE17D6500ABF38C /* EditFolderView.swift */,
 				46E8D9D22CE2CBDC00ABF38C /* ModifyFolderView.swift */,
 				46E8D9D42CE2DF0100ABF38C /* SelectedPhotoView.swift */,
+				46630D5A2CE73A3E00A8DEF9 /* AlarmSettingView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -460,6 +463,7 @@
 				9AEA1E9A2C68AD6200A87BF9 /* ResponseDTO.swift in Sources */,
 				9AEA1E822C5DD4BC00A87BF9 /* StarViewModel.swift in Sources */,
 				9AEA1E862C5DD57100A87BF9 /* SubwayEntity.swift in Sources */,
+				46630D5B2CE73A3E00A8DEF9 /* AlarmSettingView.swift in Sources */,
 				46E8D9D32CE2CBDC00ABF38C /* ModifyFolderView.swift in Sources */,
 				46E8D9D12CE17D6500ABF38C /* EditFolderView.swift in Sources */,
 				9AC56CD22CDF7AAB0067AF3B /* SelectedStationViewModel.swift in Sources */,

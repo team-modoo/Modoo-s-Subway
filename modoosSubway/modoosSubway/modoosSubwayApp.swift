@@ -26,7 +26,7 @@ struct modoosSubwayApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ModifyView()
+            FolderCardView()
            // FolderListView()
         }
         .modelContainer(sharedModelContainer)
