@@ -33,11 +33,12 @@ struct SearchView: View {
 						.foregroundColor(.white)
 					}
 				}
+				.listRowSeparator(.hidden)
 				.buttonStyle(PlainButtonStyle())
 				.listRowInsets(EdgeInsets(
-					top: 16,
+					top: 24,
 					leading: 0,
-					bottom: 16,
+					bottom: 24,
 					trailing: 0
 				))
 				.listRowBackground(Color.clear)

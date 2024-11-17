@@ -31,7 +31,7 @@ struct StarView: View {
 							.stroke(.EDEDED)
 					)
 				} else {
-					CardView(cards: $cards)
+					CardView(cards: $cards, viewType: .Star)
 						.onAppear {
 							cards = starItems.map { $0.subwayCard }
 						}
