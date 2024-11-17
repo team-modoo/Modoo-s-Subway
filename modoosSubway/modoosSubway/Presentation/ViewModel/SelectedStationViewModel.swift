@@ -224,16 +224,21 @@ class SelectedStationViewModel: ObservableObject {
 			.sink { [weak self] values in
 				
 				if !values.isEmpty {
-					let stations = values.map { $0.stationName }
-					let count = 4
+					let orderedValues: [StationEntity] = values.sorted {
+						let num1 = Int($0.foreignerCode.dropFirst()) ?? 0
+						let num2 = Int($1.foreignerCode.dropFirst()) ?? 0
+						return num1 < num2
+					}
+					let stations: [String] = orderedValues.map { $0.stationName }
+					let count: Int = 4
 					
 					let downLastIndex = stations.firstIndex(of: self?.selectedStation?.stationName ?? "" ) ?? 4
 					let downStartIndex = max(downLastIndex - count, 0)
-					self?.downStationNames = Array(stations[downStartIndex...downLastIndex])
+					self?.downStationNames = Array(stations[safe: downStartIndex...downLastIndex] ?? [])
 					
 					let upStartIndex = stations.firstIndex(of: self?.selectedStation?.stationName ?? "" ) ?? 0
 					let upLastIndex = upStartIndex + count
-					self?.upStationNames = Array(stations[upStartIndex...upLastIndex])
+					self?.upStationNames = Array(stations[safe: upStartIndex...upLastIndex] ?? [])
 					
 					completionHandler()
 					
