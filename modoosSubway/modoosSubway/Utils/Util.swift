@@ -41,6 +41,12 @@ class Util {
 		return message.range(of: #"^\d+분"#, options: .regularExpression) != nil
 	}
 	
+	// MARK: - modify trainLineName
+	static func formatTrainLineName(_ trainLineName: String) -> String {
+		let names = trainLineName.split(separator: " - ")
+		return String(names.first ?? "")
+	}
+	
 	// MARK: - 노선별 컬러
 	static func getLineColor(_ lineNumber: String) -> Color {
 		switch lineNumber {

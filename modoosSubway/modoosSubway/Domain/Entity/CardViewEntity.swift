@@ -7,13 +7,14 @@
 
 import Foundation
 
-struct CardViewEntity: Codable, Identifiable {
+struct CardViewEntity: Codable, Identifiable, Equatable {
 	let id: UUID
 	let lineName: String
 	let lineNumber: String
 	var arrivalMessage: String
 	var isExpress: String
 	var arrivals: [Arrival]
+	var stationName: String
 	var stationNames: [String]
 	var upDownLine: String
 	var isStar: Bool // MARK: - 즐겨찾기 여부
@@ -25,6 +26,7 @@ struct CardViewEntity: Codable, Identifiable {
 		 arrivalMessage: String,
 		 isExpress: String,
 		 arrivals: [Arrival],
+		 stationName: String,
 		 stationNames: [String],
 		 upDownLine: String,
 		 isStar: Bool = false,
@@ -35,6 +37,7 @@ struct CardViewEntity: Codable, Identifiable {
 		self.arrivalMessage = arrivalMessage
 		self.isExpress = isExpress
 		self.arrivals = arrivals
+		self.stationName = stationName
 		self.stationNames = stationNames
 		self.upDownLine = upDownLine
 		self.isStar = isStar
@@ -42,7 +45,7 @@ struct CardViewEntity: Codable, Identifiable {
 	}
 }
 
-struct Arrival: Codable, Identifiable, Hashable {
+struct Arrival: Codable, Identifiable, Hashable, Equatable {
 	let id: UUID
 	let arrivalCode: String
 	let station: String

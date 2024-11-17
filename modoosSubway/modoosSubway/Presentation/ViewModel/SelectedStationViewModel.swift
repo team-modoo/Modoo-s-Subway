@@ -25,6 +25,7 @@ class SelectedStationViewModel: ObservableObject {
 		self.subwayUseCase = subwayUseCase
 	}
 	
+	// MARK: - 실시간 열차 위치정보 가져오기
 	func getRealtimeStationArrivals(for subwayName: String, startIndex: Int, endIndex: Int) {
 		let request: RealtimeStationArrivalRequestDTO = RealtimeStationArrivalRequestDTO(key: self.key, 
 																						 startIndex: startIndex,
@@ -80,18 +81,25 @@ class SelectedStationViewModel: ObservableObject {
 					var outSubwayCard: CardViewEntity?
 					var inSubwayCard: CardViewEntity?
 					
+					var count: Int = 0
+					
 					values.forEach { el in
-						switch el.upDownLine {
-						case "상행":
+						
+						count += 1
+						
+						let upDownLine: UpDownLineType? = UpDownLineType(rawValue: el.upDownLine)
+						
+						switch upDownLine {
+						case .Up:
 							upArrivalEntities.append(el)
 							upArrivals.append(Arrival(arrivalCode: el.arrivalCode, station: el.stationName, trainLineName: el.trainLineName))
-						case "하행":
+						case .Down:
 							downArrivalEntities.append(el)
 							downArrivals.append(Arrival(arrivalCode: el.arrivalCode, station: el.stationName, trainLineName: el.trainLineName))
-						case "외선":
+						case .Out:
 							outArrivalEntities.append(el)
 							outArrivals.append(Arrival(arrivalCode: el.arrivalCode, station: el.stationName, trainLineName: el.trainLineName))
-						case "내선":
+						case .In:
 							inArrivalEntities.append(el)
 							inArrivals.append(Arrival(arrivalCode: el.arrivalCode, station: el.stationName, trainLineName: el.trainLineName))
 						default:
@@ -99,54 +107,69 @@ class SelectedStationViewModel: ObservableObject {
 						}
 					}
 					
-					upSubwayCard = CardViewEntity(lineName: self?.selectedStation?.lineName() ?? "",
-												  lineNumber: self?.selectedStation?.lineNumber ?? "",
-												  arrivalMessage: upArrivalEntities.first?.message2 ?? "",
-												  isExpress: upArrivalEntities.first?.isExpress ?? "",
-												  arrivals: upArrivals,
-												  stationNames: self?.upStationNames ?? [],
-												  upDownLine: "상행선",
-												  isStar: false,
-												  isFolder: false)
-					
-					downSubwayCard = CardViewEntity(lineName: self?.selectedStation?.lineName() ?? "",
-													lineNumber: self?.selectedStation?.lineNumber ?? "",
-													arrivalMessage: downArrivalEntities.first?.message2 ?? "",
-													isExpress: downArrivalEntities.first?.isExpress ?? "",
-													arrivals: downArrivals,
-													stationNames: self?.upStationNames ?? [],
-													upDownLine: "하행선",
-													isStar: false,
-													isFolder: false)
-					
-					outSubwayCard = CardViewEntity(lineName: self?.selectedStation?.lineName() ?? "",
-												   lineNumber: self?.selectedStation?.lineNumber ?? "",
-												   arrivalMessage: outArrivalEntities.first?.message2 ?? "",
-												   isExpress: outArrivalEntities.first?.isExpress ?? "",
-												   arrivals: outArrivals,
-												   stationNames: self?.upStationNames ?? [],
-												   upDownLine: "외선",
-												   isStar: false,
-												   isFolder: false)
-					
-					inSubwayCard = CardViewEntity(lineName: self?.selectedStation?.lineName() ?? "",
-												  lineNumber: self?.selectedStation?.lineNumber ?? "",
-												  arrivalMessage: inArrivalEntities.first?.message2 ?? "",
-												  isExpress: inArrivalEntities.first?.isExpress ?? "",
-												  arrivals: inArrivals,
-												  stationNames: self?.upStationNames ?? [],
-												  upDownLine: "내선",
-												  isStar: false,
-												  isFolder: false)
-					
-					if let upSubwayCard = upSubwayCard {
-						self?.cards.append(upSubwayCard)
-					} else if let downSubwayCard = downSubwayCard {
-						self?.cards.append(downSubwayCard)
-					} else if let outSubwayCard = outSubwayCard {
-						self?.cards.append(outSubwayCard)
-					} else if let inSubwayCard = inSubwayCard {
-						self?.cards.append(inSubwayCard)
+					if values.count == count {
+						
+						var temp: Int = 0
+						
+						values.forEach { el in
+							
+							temp += 1
+							
+							let upDownLine: UpDownLineType? = UpDownLineType(rawValue: el.upDownLine)
+							
+							switch upDownLine {
+							case .Up:
+								upSubwayCard = CardViewEntity(lineName: self?.selectedStation?.lineName() ?? "",
+															  lineNumber: self?.selectedStation?.lineNumber ?? "",
+															  arrivalMessage: upArrivalEntities.first?.message2 ?? "",
+															  isExpress: upArrivalEntities.first?.isExpress ?? "",
+															  arrivals: upArrivals,
+															  stationName: self?.selectedStation?.stationName ?? "",
+															  stationNames: self?.upStationNames ?? [],
+															  upDownLine: "상행선",
+															  isStar: false,
+															  isFolder: false)
+							case .Down:
+								downSubwayCard = CardViewEntity(lineName: self?.selectedStation?.lineName() ?? "",
+																lineNumber: self?.selectedStation?.lineNumber ?? "",
+																arrivalMessage: downArrivalEntities.first?.message2 ?? "",
+																isExpress: downArrivalEntities.first?.isExpress ?? "",
+																arrivals: downArrivals,
+																stationName: self?.selectedStation?.stationName ?? "",
+																stationNames: self?.downStationNames ?? [],
+																upDownLine: "하행선",
+																isStar: false,
+																isFolder: false)
+							case .Out:
+								outSubwayCard = CardViewEntity(lineName: self?.selectedStation?.lineName() ?? "",
+															   lineNumber: self?.selectedStation?.lineNumber ?? "",
+															   arrivalMessage: outArrivalEntities.first?.message2 ?? "",
+															   isExpress: outArrivalEntities.first?.isExpress ?? "",
+															   arrivals: outArrivals,
+															   stationName: self?.selectedStation?.stationName ?? "",
+															   stationNames: self?.upStationNames ?? [],
+															   upDownLine: "외선",
+															   isStar: false,
+															   isFolder: false)
+							case .In:
+								inSubwayCard = CardViewEntity(lineName: self?.selectedStation?.lineName() ?? "",
+															  lineNumber: self?.selectedStation?.lineNumber ?? "",
+															  arrivalMessage: inArrivalEntities.first?.message2 ?? "",
+															  isExpress: inArrivalEntities.first?.isExpress ?? "",
+															  arrivals: inArrivals,
+															  stationName: self?.selectedStation?.stationName ?? "",
+															  stationNames: self?.downStationNames ?? [],
+															  upDownLine: "내선",
+															  isStar: false,
+															  isFolder: false)
+							default:
+								break
+							}
+						}
+						
+						if values.count == temp {
+							self?.cards = [upSubwayCard, downSubwayCard, outSubwayCard, inSubwayCard].compactMap { $0 }
+						}
 					}
 					
 				} else {
@@ -157,7 +180,8 @@ class SelectedStationViewModel: ObservableObject {
 			.store(in: &cancellables)
 	}
 	
-	func getSearchSubwayLine(for stationLine: String, service: String, startIndex: Int, endIndex: Int) {
+	// MAKR: - 노선으로 검색하여 역명 가져오기
+	func getSearchSubwayLine(for stationLine: String, service: String, startIndex: Int, endIndex: Int, completionHandler: @escaping () -> Void) {
 		let request: SearchSubwayRequestDTO = SearchSubwayRequestDTO(key:self.key, service: service, startIndex: startIndex, endIndex: endIndex, stationLine: stationLine)
 		
 		subwayUseCase.executeSearchSubwayLine(request: request)
@@ -211,11 +235,26 @@ class SelectedStationViewModel: ObservableObject {
 					let upLastIndex = upStartIndex + count
 					self?.upStationNames = Array(stations[upStartIndex...upLastIndex])
 					
+					completionHandler()
+					
 				} else {
 					self?.isError = true
 					self?.errorMessage = "데이터가 없습니다."
 				}
 			}
 			.store(in: &cancellables)
+	}
+	
+	// MARK: - 즐겨찾기 토글
+	func toggleStar(for item: CardViewEntity) {
+		if let index = cards.firstIndex(where: { $0 == item }) {
+			cards[index].isStar.toggle()
+			
+			if cards[index].isStar {
+				DataManager.shared.addStar(item: Star(subwayCard: item))
+			} else {
+				DataManager.shared.deleteStar(item: Star(subwayCard: item))
+			}
+		}
 	}
 }
