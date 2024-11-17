@@ -5,7 +5,7 @@
 //  Created by 김지현 on 2024/07/20.
 //
 
-import Foundation
+import SwiftUI
 import SwiftData
 
 @Model
@@ -39,4 +39,13 @@ final class Folder {
         self.lineNumber = lineNumber
         self.content = content
     }
+}
+
+@Model
+final class Star {
+	var subwayCard: CardViewEntity
+	
+	init(subwayCard: CardViewEntity) {
+		self.subwayCard = subwayCard
+	}
 }

@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 protocol SubwayUseCaseProtocol {
-    func executeRealtimeStationArrival(request: RealtimeStationArrivalRequestDTO) -> AnyPublisher<ExecutionType<RealtimeStationArrivalResponseDTO>, Never>
+    func executeRealtimeStationArrival(request: RealtimeStationArrivalRequestDTO) -> AnyPublisher<ExecutionType<[ArrivalEntity]>, Never>
     func executeSearchSubwayStation(request: SearchSubwayRequestDTO) -> AnyPublisher<ExecutionType<SearchSubwayStationResponseDTO>,Never>
     func executeSearchSubwayLine(request: SearchSubwayRequestDTO) -> AnyPublisher<ExecutionType<SearchSubwayLineResponseDTO>,Never>
 }
@@ -24,8 +24,8 @@ class SubwayUseCase: SubwayUseCaseProtocol {
     }
 	
 	// MARK: - 실시간 열차 도착 정보 가져오기
-	func executeRealtimeStationArrival(request: RealtimeStationArrivalRequestDTO) -> AnyPublisher<ExecutionType<RealtimeStationArrivalResponseDTO>, Never> {
-		return Future<ExecutionType<RealtimeStationArrivalResponseDTO>, Never> { promise in
+	func executeRealtimeStationArrival(request: RealtimeStationArrivalRequestDTO) -> AnyPublisher<ExecutionType<[ArrivalEntity]>, Never> {
+		return Future<ExecutionType<[ArrivalEntity]>, Never> { promise in
 			self.repository.fetchRealtimeStationArrival(request: request)
 				.sink { completion in
 					switch completion {
@@ -36,7 +36,24 @@ class SubwayUseCase: SubwayUseCaseProtocol {
 						return promise(.success(.error(error)))
 					}
 				} receiveValue: { (data: RealtimeStationArrivalResponseDTO) in
-					return promise(.success(.success(data)))
+					
+					let arrivals = data.realtimeArrivalList.map { el in
+						return ArrivalEntity(subwayId: el.subwayId,
+											 upDownLine: el.updnLine,
+											 trainLineName: el.trainLineNm,
+											 stationId: el.statnId,
+											 stationName: el.statnNm,
+											 subwayList: el.subwayList,
+											 stationList: el.statnList,
+											 isExpress: el.btrainSttus,
+											 date: el.recptnDt,
+											 message2: el.arvlMsg2,
+											 message3: el.arvlMsg3,
+											 arrivalCode: el.arvlCd,
+											 isLastCar: el.lstcarAt)
+					}
+					
+					return promise(.success(.success(arrivals)))
 				}
 				.store(in: &self.cancellables)
 		}

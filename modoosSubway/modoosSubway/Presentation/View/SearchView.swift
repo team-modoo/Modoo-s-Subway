@@ -29,7 +29,7 @@ struct SearchView: View {
 						}
 						.padding(.horizontal, 14)
 						.padding(.vertical, 7.5)
-						.background(Capsule().fill(station.lineColor()))
+						.background(Capsule().fill(Util.getLineColor(station.lineNumber)))
 						.foregroundColor(.white)
 					}
 				}

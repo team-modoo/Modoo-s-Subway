@@ -31,7 +31,7 @@ class SubwayRepository: SubwayRepositoryProtocol {
 						if data.errorMessage.code != "INFO-000" {
 							return promise(.failure(
 								NetworkError.customError(
-									code: data.errorMessage.code,
+									code: "\(data.errorMessage.status)",
 									message: data.errorMessage.message
 								)
 							))

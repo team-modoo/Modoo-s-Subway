@@ -27,15 +27,15 @@ struct HomeView: View {
 					Spacer()
 					
 					Button(action: {
-						changeViewType(.Folder)
-					}, label: {
-						viewType == .Folder ? Image(.iconBookmarkGreen) : Image(.iconBookmark)
-					})
-					
-					Button(action: {
 						changeViewType(.Star)
 					}, label: {
 						viewType == .Star ? Image(.iconStarYellowBig) : Image(.iconStar)
+					})
+					
+					Button(action: {
+						changeViewType(.Folder)
+					}, label: {
+						viewType == .Folder ? Image(.iconBookmarkGreen) : Image(.iconBookmark)
 					})
 					
 					NavigationLink(destination: {
