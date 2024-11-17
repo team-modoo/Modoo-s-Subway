@@ -251,9 +251,9 @@ class SelectedStationViewModel: ObservableObject {
 			cards[index].isStar.toggle()
 			
 			if cards[index].isStar {
-				DataManager.shared.addStar(item: Star(subwayCard: item))
+				DataManager.shared.addStar(item: Star(subwayCard: cards[index]))
 			} else {
-				DataManager.shared.deleteStar(item: Star(subwayCard: item))
+				DataManager.shared.deleteStar(item: Star(subwayCard: cards[index]))
 			}
 		}
 	}

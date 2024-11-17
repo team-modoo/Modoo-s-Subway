@@ -12,9 +12,12 @@ struct CardView: View {
 
 	@Environment(\.modelContext) private var modelContext
 	@Binding var cards: [CardViewEntity]
+	@State private var showModal = false
+	private var viewType: ViewType?
 	
-	init(cards: Binding<[CardViewEntity]>) {
-		_cards = cards 
+	init(cards: Binding<[CardViewEntity]>, viewType: ViewType? = nil) {
+		_cards = cards
+		self.viewType = viewType
 	}
 	
 	var body: some View {
@@ -34,13 +37,22 @@ struct CardView: View {
 					
 					Spacer()
 					
+					// MARK: - 즐겨찾기 버튼
 					Button(action: {
-						// MARK: - 즐겨찾기 액션
 						toggleStar(for: card)
 					}, label: {
 						card.isStar ?  Image(.iconStarYellowBig) : Image(.iconStar)
 					})
 					.buttonStyle(BorderlessButtonStyle())
+					
+					if let _ = viewType {
+						// MARK: - 더보기 버튼
+						Button(action: {
+							showModal.toggle()
+						}, label: {
+							Image(.iconMore)
+						})
+					}
 				}
 				.padding(.top, 24)
 				
@@ -93,6 +105,7 @@ struct CardView: View {
 							)
 					)
 			}
+			.buttonStyle(PlainButtonStyle())
 			.listRowSeparator(.hidden)
 			.padding(.horizontal, 20)
 			.frame(width: 350, height: 213)
@@ -102,6 +115,13 @@ struct CardView: View {
 			)
 		}
 		.listStyle(.plain)
+		.scrollIndicators(.hidden)
+		.sheet(isPresented: $showModal) {
+			AddFolderView()
+				.presentationDetents([.fraction(1/3)])
+				.presentationDragIndicator(.visible)
+				.presentationCornerRadius(18)
+		}
 	}
 	
 	// MARK: - 지하철 5개의 정거장 라인 뷰
@@ -136,13 +156,13 @@ struct CardView: View {
 			cards[index].isStar.toggle()
 			
 			if cards[index].isStar {
-				let star = Star(subwayCard: item)
+				let star = Star(subwayCard: cards[index])
 				DataManager.shared.addStar(item: star)
 			} else {
 				// 삭제할 Star 찾기
 				let descriptor = FetchDescriptor<Star>()
 				if let stars = try? modelContext.fetch(descriptor),
-				   let starToDelete = stars.first(where: { $0.subwayCard.id == item.id }) {
+				   let starToDelete = stars.first(where: { $0.subwayCard == item }) {
 					DataManager.shared.deleteStar(item: starToDelete)
 				}
 			}

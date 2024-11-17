@@ -36,6 +36,7 @@
 		9AC56CD22CDF7AAB0067AF3B /* SelectedStationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC56CD12CDF7AAB0067AF3B /* SelectedStationViewModel.swift */; };
 		9AC56CEA2CE90CBB0067AF3B /* CardViewEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC56CE92CE90CBB0067AF3B /* CardViewEntity.swift */; };
 		9AC56CEC2CE9970B0067AF3B /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC56CEB2CE9970B0067AF3B /* CardView.swift */; };
+		9AC56CEE2CE9BE090067AF3B /* AddFolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC56CED2CE9BE090067AF3B /* AddFolderView.swift */; };
 		9AEA1E712C56024D00A87BF9 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9AEA1E702C56024D00A87BF9 /* Launch Screen.storyboard */; };
 		9AEA1E7A2C5651EA00A87BF9 /* UIExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEA1E792C5651EA00A87BF9 /* UIExtension.swift */; };
 		9AEA1E7C2C5DD41E00A87BF9 /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9AEA1E7B2C5DD41E00A87BF9 /* Secrets.plist */; };
@@ -79,6 +80,7 @@
 		9AC56CD12CDF7AAB0067AF3B /* SelectedStationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedStationViewModel.swift; sourceTree = "<group>"; };
 		9AC56CE92CE90CBB0067AF3B /* CardViewEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewEntity.swift; sourceTree = "<group>"; };
 		9AC56CEB2CE9970B0067AF3B /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		9AC56CED2CE9BE090067AF3B /* AddFolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFolderView.swift; sourceTree = "<group>"; };
 		9AEA1E702C56024D00A87BF9 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		9AEA1E732C56500900A87BF9 /* Pretendard-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Bold.otf"; sourceTree = "<group>"; };
 		9AEA1E742C56501300A87BF9 /* Pretendard-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.otf"; sourceTree = "<group>"; };
@@ -195,6 +197,7 @@
 				46E8D9D22CE2CBDC00ABF38C /* ModifyFolderView.swift */,
 				46E8D9D42CE2DF0100ABF38C /* SelectedPhotoView.swift */,
 				9AC56CEB2CE9970B0067AF3B /* CardView.swift */,
+				9AC56CED2CE9BE090067AF3B /* AddFolderView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -468,6 +471,7 @@
 				9AEA1E822C5DD4BC00A87BF9 /* StarViewModel.swift in Sources */,
 				9AEA1E862C5DD57100A87BF9 /* SubwayEntity.swift in Sources */,
 				46E8D9D32CE2CBDC00ABF38C /* ModifyFolderView.swift in Sources */,
+				9AC56CEE2CE9BE090067AF3B /* AddFolderView.swift in Sources */,
 				46E8D9D12CE17D6500ABF38C /* EditFolderView.swift in Sources */,
 				9AC56CD22CDF7AAB0067AF3B /* SelectedStationViewModel.swift in Sources */,
 				3BF3CADD2C81FEC40058345F /* SelectedStationView.swift in Sources */,
@@ -621,7 +625,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 24111701;
 				DEVELOPMENT_ASSET_PATHS = "\"modoosSubway/Preview Content\"";
 				DEVELOPMENT_TEAM = 6RZ3FF956G;
 				ENABLE_PREVIEWS = YES;
@@ -657,7 +661,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 24111701;
 				DEVELOPMENT_ASSET_PATHS = "\"modoosSubway/Preview Content\"";
 				DEVELOPMENT_TEAM = 6RZ3FF956G;
 				ENABLE_PREVIEWS = YES;
