@@ -10,8 +10,10 @@ import SwiftData
 
 struct SettingView: View {
 	@Environment(\.dismiss) private var dismiss
-    let section1: [SettingToggleType] = [.sound, .vibration, .notification]
-    let section2: [InformationType] = [.version, .privacy, .terms]
+    let section1: [SettingToggleType] = [.sound, .vibration, .notification, .manner]
+    let section2 = ["1"]
+    let section3: [InformationType] = [.version, .privacy, .terms]
+
     var isToggled = false
 	var body: some View {
 		NavigationView {
@@ -36,49 +38,104 @@ struct SettingView: View {
                     List {
                         Section {
                             ForEach(section1,id: \.self) { index in
-                              
                                 SettingCell(isSection1: true, title: index.rawValue, toggleType: index)
                                     .listRowBackground(Color.clear)
-                                    .frame(height: 55)
+                                    .frame(height:30)
                                     .listRowSeparator(.hidden)
-                                    
-                                    
+                                    .padding(.bottom, index == section1.last ? 3 : 20)
                             }
-                          
-                            .listRowInsets(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 16))
-                          
+                            .listRowInsets(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
                         } header: {
-                            ListHeaderView(iconImage: "icon-alarm", titleLabel: "알림")
+                            ListHeaderView(iconImage: "icon-alarm", titleLabel: "알림 ")
+                                .background(.white)
+                                .listRowInsets(EdgeInsets(top: 30, leading: 20, bottom: 30, trailing: 20))
+                        } footer: {
+                            VStack {
+                    
+                                HStack {
+                                    Text("설정한 시간 동안 알림 거부")
+                                        .font(.pretendard(size: 14, family: .regular))
+                                        .foregroundStyle(._5_C_5_C_5_C)
+                                    Spacer()
+                                }
+                                .listRowInsets(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
+                                .background(.clear)
+                                
+                                HStack {
+                                    Button {
+                                        
+                                    } label: {
+                                        ZStack {
+                                            RoundedRectangle(cornerRadius: 10)
+                                                .foregroundStyle(.D_9_D_9_D_9)
+                                                .frame(width: 94, height: 34)
+                                                   
+                                            Text("오전 7:00")
+                                                .font(.pretendard(size: 17, family: .regular))
+                                                .foregroundStyle(.black)
+                                            }
+                                        }
+                                        .buttonStyle(.borderless)
+                                    
+                                    Text("~")
+                                        .font(.pretendard(size: 17, family: .bold))
+                                    
+                                    Button {
+                                        
+                                    } label: {
+                                        ZStack {
+                                            RoundedRectangle(cornerRadius: 10)
+                                                .foregroundStyle(.D_9_D_9_D_9)
+                                                .frame(width: 94, height: 34)
+                                                   
+                                            Text("오후 11:00")
+                                                .font(.pretendard(size: 17, family: .regular))
+                                                .foregroundStyle(.black)
+                                            }
+                                    }
+                                    .buttonStyle(.borderless)
+                                    
+                                    Spacer()
+
+                                }
+                                .padding(.top,5)
+                            }
                         }
+                            Section {
+                                ForEach(section2,id: \.self) { index in
+                                    HStack {
+                                         Rectangle()
+                                            .foregroundStyle(.D_9_D_9_D_9)
+                                            .frame(height:1)
+                                    }
+                                    .padding(.vertical, 20)
+                                    .listRowBackground(Color.clear)
+                                    .frame(height:1)
+                                    .listRowSeparator(.hidden)
+                                }
+                            }
                         
                         Section {
-                            ForEach(section2,id: \.self) { index in
-                                             
+                            ForEach(section3,id: \.self) { index in
                                 SettingCell(isSection1: false, title: index.rawValue, destination: index.destinationView(),infoType: index)
-                                         }
-                            
-                            .frame(height: 55)
-                            .listRowBackground(Color.clear)
-                            .listRowSeparator(.hidden)
-                            
-                          
-                            .listRowInsets(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 16))
-                          
-                        }
-                        
-                    header: {
+                                    .listRowBackground(Color.clear)
+                                    .frame(height:30)
+                                    .listRowSeparator(.hidden)
+                                    .padding(.bottom, index == section3.last ? 3 : 20)
+                            }
+                            .listRowInsets(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
+                        } header: {
                             ListHeaderView(iconImage: "icon-alarm", titleLabel: "정보 및 약관")
+                                .background(.white)
+                                .listRowInsets(EdgeInsets(top: 20, leading: 20, bottom: 30, trailing: 20))
                         }
-
                     }
-                   //   .frame( maxWidth: .infinity)
-                     // .edgesIgnoringSafeArea(.all)
+                    .listSectionSpacing(0)
                     .listStyle(GroupedListStyle())
-                    
                     .scrollContentBackground(.hidden)
                     .background(Color.white)
                 }
-                .background(.blue)
+                .background(.clear)
 				
 				Spacer()
 			}
@@ -87,16 +144,10 @@ struct SettingView: View {
         .task {
             print("")
         }
-      //  .background(.red)
 		.toolbar(.hidden, for: .navigationBar)
 	}
        
 }
-
-
-//#Preview {
-//	SettingView()
-//}
 
 struct ListHeaderView: View {
     var iconImage: String = ""
@@ -113,10 +164,10 @@ struct ListHeaderView: View {
             Image(iconImage)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
-                .frame(width: 20,height: 20)
+                .frame(width: 18,height: 18)
             
             Text("\(titleLabel)")
-                .font(.pretendard(size: 20, family: .bold))
+                .font(.pretendard(size: 18, family: .semiBold))
                 .foregroundStyle(.black)
             
         }
@@ -157,7 +208,7 @@ struct SettingCell: View {
         if isSection1 {
             HStack {
                 Text(title)
-                    .font(.pretendard(size: 20, family: .regular))
+                    .font(.pretendard(size: 16, family: .medium))
                     .foregroundStyle(.black)
                 Spacer()
                 Toggle(isOn: $toggleState) {
@@ -168,29 +219,35 @@ struct SettingCell: View {
                     handleToggleChange(newValue)
                 }
             }
+            .frame(height: 30)
+            .background(.white)
         } else {
             // 두 번째 섹션 - 네비게이션 링크
             if let destination = destination {
                 HStack {
                     Text(title)
-                        .font(.pretendard(size: 20, family: .regular))
+                        .font(.pretendard(size: 16, family: .medium))
                         .foregroundStyle(.black)
                     
                     Spacer()
                     if infoType.rawValue == "버전 정보" {
                         Text("v 1.0")
-                            .font(.pretendard(size: 14, family: .regular))
-                            .foregroundStyle(.black)
+                            .font(.pretendard(size: 14, family: .semiBold))
+                            .foregroundStyle(.BFBFBF)
                     } else {
                         Image(systemName: "chevron.right")
                             .foregroundStyle(.black)
                     }
                 }
+                .frame(height: 30)
+                .background(.white)
                 .background(
-                NavigationLink("", destination: destination)
-                    .opacity(0)
-                
-                
+                    Group {
+                        if infoType.rawValue != "버전 정보" {
+                            NavigationLink("", destination: destination)
+                                .opacity(0)
+                        }
+                    }
                 )
             }
         }
@@ -206,6 +263,7 @@ enum SettingToggleType: String {
     case sound = "효과음"
     case vibration = "진동"
     case notification = "푸시 알림"
+    case manner = "에티켓 시간 설정"
 }
 
 enum InformationType: String {
@@ -228,5 +286,4 @@ enum InformationType: String {
     }
     
 }
-
 

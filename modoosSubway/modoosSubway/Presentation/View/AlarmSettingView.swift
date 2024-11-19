@@ -59,17 +59,14 @@ struct AlarmSettingView: View {
                                      cellType: item, 
                                      isExpanded: expandedCell == item,
                                      onTapExpand: {
-                            if expandedCell == item {
-                                expandedCell = nil
-                                if item == .timeSetting {
-                                    modalHeight = .fraction(3/4)
-                                }
-                            } else {
-                                expandedCell = item
-                                if item == .timeSetting {
-                                    modalHeight = .large
-                                }
-                            }
+                        if expandedCell == item {
+                            expandedCell = nil
+                            modalHeight = .fraction(3/4)
+                        } else {
+                            expandedCell = item
+                            modalHeight = item == .timeSetting ? .large : .fraction(3/4)
+                        }
+
                         }
                     )
                     .listRowSeparator(.automatic)
