@@ -29,15 +29,16 @@ struct SearchView: View {
 						}
 						.padding(.horizontal, 14)
 						.padding(.vertical, 7.5)
-						.background(Capsule().fill(station.lineColor()))
+						.background(Capsule().fill(Util.getLineColor(station.lineNumber)))
 						.foregroundColor(.white)
 					}
 				}
+				.listRowSeparator(.hidden)
 				.buttonStyle(PlainButtonStyle())
 				.listRowInsets(EdgeInsets(
-					top: 16,
+					top: 24,
 					leading: 0,
-					bottom: 16,
+					bottom: 24,
 					trailing: 0
 				))
 				.listRowBackground(Color.clear)
