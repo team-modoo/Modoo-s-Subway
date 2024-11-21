@@ -250,6 +250,14 @@ struct ImageSelectedView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                 }
                 .background(.red)
+                .onChange(of: image) { _, _ in
+                                   // 이미지가 변경될 때마다 렌더링
+                                   renderCroppedImage(image)
+                               }
+                               .onAppear {
+                                   // 뷰가 나타날 때 초기 렌더링
+                                   renderCroppedImage(image)
+                               }
                 
             } else {
                 PhotosPicker(selection: $selectedItem, matching: .images) {
@@ -281,7 +289,9 @@ struct ImageSelectedView: View {
                         lastImageOffset = .zero
                         imageScale = 1.0
                         lastImageScale = 1.0
-                        renderCroppedImage(uiImage)
+                        DispatchQueue.main.async {
+                            renderCroppedImage(uiImage)
+                        }
                     }
                 }
             }

@@ -10,11 +10,24 @@ import SwiftData
 
 struct SettingView: View {
 	@Environment(\.dismiss) private var dismiss
+    @State private var showSheet = false
+    @State private var startTime = Date()
+    @State private var endTime = Date()
+    @State private var showStartTimePicker = false
+    @State private var showEndTimePicker = false
+    
     let section1: [SettingToggleType] = [.sound, .vibration, .notification, .manner]
     let section2 = ["1"]
     let section3: [InformationType] = [.version, .privacy, .terms]
-
     var isToggled = false
+    
+    private let timeFormatter: DateFormatter = {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "a h:mm"
+            formatter.locale = Locale(identifier: "ko_KR")
+            return formatter
+        }()
+    
 	var body: some View {
 		NavigationView {
 			VStack {
@@ -63,38 +76,61 @@ struct SettingView: View {
                                 
                                 HStack {
                                     Button {
-                                        
+                                        self.showStartTimePicker = true
                                     } label: {
                                         ZStack {
                                             RoundedRectangle(cornerRadius: 10)
                                                 .foregroundStyle(.D_9_D_9_D_9)
                                                 .frame(width: 94, height: 34)
                                                    
-                                            Text("오전 7:00")
+                                            Text(timeFormatter.string(from: startTime))
                                                 .font(.pretendard(size: 17, family: .regular))
                                                 .foregroundStyle(.black)
                                             }
                                         }
-                                        .buttonStyle(.borderless)
+                                    .sheet(isPresented: $showStartTimePicker) {
+                                                    // sheet가 닫힐 때 유효성 검사
+                                                    validateTimeRange()
+                                                } content: {
+                                                    TimeSelectedView(
+                                                        selectedDate: $startTime,
+                                                        selectionType: .start
+                                                    )
+                                                    .presentationDetents([.fraction(1/2)])
+                                                    .presentationDragIndicator(.visible)
+                                                    .presentationCornerRadius(30)
+                                                }
+                                            .buttonStyle(.borderless)
                                     
                                     Text("~")
                                         .font(.pretendard(size: 17, family: .bold))
                                     
                                     Button {
-                                        
+                                        self.showEndTimePicker = true
                                     } label: {
                                         ZStack {
                                             RoundedRectangle(cornerRadius: 10)
                                                 .foregroundStyle(.D_9_D_9_D_9)
                                                 .frame(width: 94, height: 34)
                                                    
-                                            Text("오후 11:00")
+                                            Text(timeFormatter.string(from: endTime))
                                                 .font(.pretendard(size: 17, family: .regular))
                                                 .foregroundStyle(.black)
                                             }
                                     }
                                     .buttonStyle(.borderless)
-                                    
+                                    .sheet(isPresented: $showEndTimePicker) {
+                                        validateTimeRange()
+                                    } content: {
+                                        TimeSelectedView(
+                                            selectedDate: $endTime,
+                                            selectionType: .end
+                                        )
+                                        .presentationDetents([.fraction(1/2)])
+                                        .presentationDragIndicator(.visible)
+                                        .presentationCornerRadius(30)
+                                    }
+                                
                                     Spacer()
 
                                 }
@@ -146,6 +182,13 @@ struct SettingView: View {
         }
 		.toolbar(.hidden, for: .navigationBar)
 	}
+    
+    
+    private func validateTimeRange() {
+            if endTime < startTime {
+                endTime = Calendar.current.date(byAdding: .hour, value: 1, to: startTime) ?? startTime
+            }
+        }
        
 }
 
@@ -287,3 +330,75 @@ enum InformationType: String {
     
 }
 
+enum TimeSelectionType {
+    case start
+    case end
+    
+    var title: String {
+        switch self {
+        case .start: return "시작 시간"
+        case .end: return "종료 시간"
+        }
+    }
+}
+
+struct TimeSelectedView: View {
+    @Binding var selectedDate: Date
+    let selectionType: TimeSelectionType
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        VStack {
+            HStack {
+                Text("알림 설정하기")
+                    .font(.pretendard(size: 20, family: .bold))
+                    .foregroundStyle(.black)
+                Spacer()
+            }
+            .padding(.horizontal, 20)
+            .padding(.top, 30)
+            
+            HStack {
+                Image("_icon_clock")
+                    .resizable()
+                    .frame(width: 18,height: 18)
+                
+                Text("시간 설정하기")
+                    .font(.pretendard(size: 16, family: .medium))
+                    .foregroundStyle(.black)
+                
+                Spacer()
+
+            }
+            .padding(.horizontal, 20)
+            .padding(.top, 10)
+            
+            VStack {
+                DatePicker("", selection: $selectedDate,
+                           displayedComponents: [.hourAndMinute])
+                .datePickerStyle(.wheel)
+                .labelsHidden()
+                .frame(width: 390)
+                .frame(maxHeight: 250, alignment: .center)
+                .clipped()
+                .accentColor(.green)
+                .padding(.horizontal, 16)
+                
+            }
+
+            Button {
+                print("설정하기")
+                dismiss()
+            } label: {
+                Text("설정하기")
+                    .font(.pretendard(size: 16, family: .medium))
+                    .foregroundStyle(.white)
+                    .font(.pretendard(size: 16, family: .medium))
+                    .foregroundStyle(.white)
+                    .frame(width: 350, height: 56)
+                    .background(.green)
+                    .cornerRadius(10)
+            }
+        }
+    }
+}
