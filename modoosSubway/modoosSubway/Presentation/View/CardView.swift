@@ -118,7 +118,7 @@ struct CardView: View {
 		.scrollIndicators(.hidden)
 		.sheet(isPresented: $showModal) {
 			AddFolderView()
-				.presentationDetents([.fraction(1/3)])
+				.presentationDetents([.fraction(2/5)])
 				.presentationDragIndicator(.visible)
 				.presentationCornerRadius(18)
 		}

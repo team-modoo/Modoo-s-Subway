@@ -171,7 +171,6 @@ struct AlarmSettingCell: View {
         case .timeSetting:
             timeSettingView
                 .frame(height: 300)
-                .background(.brown)
         case .daySetting:
             DaySettingView(selectedDays: $selectedDays)
                 .frame(height: 100)
