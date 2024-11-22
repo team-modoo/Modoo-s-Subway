@@ -70,15 +70,25 @@ struct CardView: View {
 				
 				HStack {
 					ForEach(card.arrivals, id: \.self) { el in
-						Text(Util.formatTrainLineName(el.trainLineName))
-							.font(.pretendard(size: 12, family: .medium))
-							.padding(.horizontal, 8)
-							.padding(.vertical, 5)
-							.foregroundColor(._333333)
-							.background(
-								RoundedRectangle(cornerRadius: 6)
-									.fill(.F_4_F_6_EB)
-							)
+                        
+                        VStack(spacing: -4) {
+                            Text(Util.formatTrainLineName(el.trainLineName))
+                                .font(.pretendard(size: 12, family: .medium))
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 5)
+                                .foregroundColor(._333333)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 6)
+                                        .fill(.F_4_F_6_EB)
+                                )
+                            
+                            Image(.group4)
+                                .frame(width: 8,height: 8)
+                                .foregroundStyle(Util.getLineColor(card.lineNumber))
+                                .offset(y:19)
+                        }
+                        
+					
 					}
 				}
 				
@@ -117,10 +127,10 @@ struct CardView: View {
 		.listStyle(.plain)
 		.scrollIndicators(.hidden)
 		.sheet(isPresented: $showModal) {
-			AddFolderView()
-				.presentationDetents([.fraction(2/5)])
+            MoreMenuListView()
+				.presentationDetents([.fraction(1/4)])
 				.presentationDragIndicator(.visible)
-				.presentationCornerRadius(18)
+				.presentationCornerRadius(26)
 		}
 	}
 	

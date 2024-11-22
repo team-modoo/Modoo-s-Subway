@@ -90,7 +90,7 @@ struct AlarmSettingView: View {
                     .font(.pretendard(size: 16, family: .medium))
                     .foregroundStyle(.white)
                     .frame(width: 350, height: 56)
-                    .background(.green)
+                    .background(.theme)
                     .cornerRadius(10)
             }
         }

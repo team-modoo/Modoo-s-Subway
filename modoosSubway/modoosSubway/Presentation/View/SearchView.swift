@@ -14,7 +14,6 @@ struct SearchView: View {
 	var body: some View {
 		GeometryReader(content: { geometry in
 			List(vm.stations) { station in
-				NavigationLink(destination: SelectedStationView(selectedStation: station)) {
 					HStack {
 						Text(station.stationName)
 							.font(.pretendard(size: 16, family: .regular))
@@ -32,7 +31,10 @@ struct SearchView: View {
 						.background(Capsule().fill(Util.getLineColor(station.lineNumber)))
 						.foregroundColor(.white)
 					}
-				}
+                .background(
+                    NavigationLink("", destination: SelectedStationView(selectedStation: station))
+                        .opacity(0)
+                )
 				.listRowSeparator(.hidden)
 				.buttonStyle(PlainButtonStyle())
 				.listRowInsets(EdgeInsets(

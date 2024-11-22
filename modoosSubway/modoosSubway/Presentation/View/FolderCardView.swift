@@ -41,8 +41,8 @@ struct FolderCardView: View {
                 
                   .sheet(isPresented: $showModal) {
                       
-                        AlarmSettingView()
-                              .presentationDetents([.fraction(3/4)])
+                          EditFolderView()
+                              .presentationDetents([.fraction(1/4)])
                               .presentationDragIndicator(.visible)
                               .presentationCornerRadius(30)
                               //.interactiveDismissDisabled(true)

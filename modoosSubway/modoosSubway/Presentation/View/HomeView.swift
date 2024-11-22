@@ -31,13 +31,14 @@ struct HomeView: View {
 					}, label: {
 						viewType == .Star ? Image(.iconStarYellowBig) : Image(.iconStar)
 					})
+                   .padding(.trailing, 10)
 					
 					Button(action: {
 						changeViewType(.Folder)
 					}, label: {
-						viewType == .Folder ? Image(.iconBookmarkGreen) : Image(.iconBookmark)
+                        viewType == .Folder ? Image("icon_greenFolder") : Image("icon_folder")
 					})
-					
+                    .padding(.trailing, 10)
 					NavigationLink(destination: {
 						SettingView()
 					}, label: {

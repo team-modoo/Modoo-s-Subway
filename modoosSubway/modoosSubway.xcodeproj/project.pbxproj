@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		059068096F693A9FBCAE40C4 /* Pods_modoosSubway.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51F25182ABE227FC4381A366 /* Pods_modoosSubway.framework */; };
 		3BF3CADD2C81FEC40058345F /* SelectedStationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF3CADC2C81FEC40058345F /* SelectedStationView.swift */; };
+		461D2BA42CF04E7A009BAF92 /* MoreMenuListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461D2BA32CF04E7A009BAF92 /* MoreMenuListView.swift */; };
 		4659A1DE2CE079DA00889FFC /* FolderCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659A1DD2CE079DA00889FFC /* FolderCardView.swift */; };
 		4659A1E02CE0959D00889FFC /* FolderListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659A1DF2CE0959D00889FFC /* FolderListView.swift */; };
 		4659A1E22CE0D11E00889FFC /* FolderHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659A1E12CE0D11E00889FFC /* FolderHeaderView.swift */; };
@@ -55,6 +56,7 @@
 
 /* Begin PBXFileReference section */
 		3BF3CADC2C81FEC40058345F /* SelectedStationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedStationView.swift; sourceTree = "<group>"; };
+		461D2BA32CF04E7A009BAF92 /* MoreMenuListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreMenuListView.swift; sourceTree = "<group>"; };
 		4659A1DD2CE079DA00889FFC /* FolderCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderCardView.swift; sourceTree = "<group>"; };
 		4659A1DF2CE0959D00889FFC /* FolderListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderListView.swift; sourceTree = "<group>"; };
 		4659A1E12CE0D11E00889FFC /* FolderHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderHeaderView.swift; sourceTree = "<group>"; };
@@ -200,12 +202,10 @@
 				46E8D9D02CE17D6500ABF38C /* EditFolderView.swift */,
 				46E8D9D22CE2CBDC00ABF38C /* ModifyFolderView.swift */,
 				46E8D9D42CE2DF0100ABF38C /* SelectedPhotoView.swift */,
-
 				46630D5A2CE73A3E00A8DEF9 /* AlarmSettingView.swift */,
-
 				9AC56CEB2CE9970B0067AF3B /* CardView.swift */,
 				9AC56CED2CE9BE090067AF3B /* AddFolderView.swift */,
-
+				461D2BA32CF04E7A009BAF92 /* MoreMenuListView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -489,6 +489,7 @@
 				46E8D9D52CE2DF0100ABF38C /* SelectedPhotoView.swift in Sources */,
 				9A3698522C4CA72D0019C12A /* DataManager.swift in Sources */,
 				9A36984B2C4CA6690019C12A /* DetailView.swift in Sources */,
+				461D2BA42CF04E7A009BAF92 /* MoreMenuListView.swift in Sources */,
 				46F0F7E32C6879E100444C98 /* SearchViewModel.swift in Sources */,
 				9A3698302C4BC0480019C12A /* HomeView.swift in Sources */,
 				4659A1E22CE0D11E00889FFC /* FolderHeaderView.swift in Sources */,

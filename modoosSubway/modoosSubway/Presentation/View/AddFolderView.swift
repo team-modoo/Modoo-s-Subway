@@ -9,7 +9,10 @@ import SwiftUI
 
 struct AddFolderView: View {
     @State private var selectedFolder: String?
-	let folders: [String] = ["집으로 가는 길", "전철 타고 춘천 여행", "할머니댁에 가는 길", "퇴근하고 싶은 출근 길","7호선 탐방기", "123","345","456"]
+	let folders: [String] = []
+    
+    
+  //  ["집으로 가는 길", "전철 타고 춘천 여행", "할머니댁에 가는 길", "퇴근하고 싶은 출근 길","7호선 탐방기", "123","345","456"]
 	
 	var body: some View {
 		NavigationView {

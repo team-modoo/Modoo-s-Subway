@@ -75,7 +75,7 @@ struct FolderView: View {
 			})
 		}
         .task {
-            addItem()
+         //   addItem()
            
         }
 		.padding(.top, 22)
