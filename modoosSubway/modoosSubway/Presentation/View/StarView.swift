@@ -34,12 +34,32 @@ struct StarView: View {
 					CardView(cards: $cards, viewType: .Star)
 						.onAppear {
 							cards = starItems.map { $0.subwayCard }
+                            print("전체 저장된 아이템:")
+                            starItems.enumerated().forEach { index, star in
+                                   print("""
+                                       
+                                       카드 \(index + 1)
+                                       ID: \(star.subwayCard.id)
+                                       역명: \(star.subwayCard.stationName)
+                                       호선: \(star.subwayCard.lineNumber)
+                                       방향: \(star.subwayCard.upDownLine)
+                                       도착 메시지: \(star.subwayCard.arrivalMessage)
+                                       급행여부: \(star.subwayCard.isExpress)
+                                       즐겨찾기: \(star.subwayCard.isStar)
+                                       폴더여부: \(star.subwayCard.isFolder)
+                                       하하: \(star.subwayCard)
+                                       --------------------------------
+                                       """)
+                               }
+
+                            print("현재 표시되는 카드 수: \(cards.count)")
 						}
 				}
 			})
 		}
 		.onAppear {
 			DataManager.shared.setModelContext(modelContext)
+            print("StarView appeared - 저장된 아이템 수: \(starItems.count)")
 		}
 		.padding(.top, 22)
 		.padding(.horizontal, 1)

@@ -318,13 +318,11 @@ enum InformationType: String {
     func destinationView() -> AnyView {
         switch self {
         case .version:
-            return AnyView(FolderCardView())
+            return AnyView(FolderView())
         case .privacy:
-            return AnyView(FolderListView())
+            return AnyView(FolderView())
         case .terms:
             return AnyView(FolderView())
-//        case .appUsage:
-//            return AnyView(FolderView())
         }
     }
     

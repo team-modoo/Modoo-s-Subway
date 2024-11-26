@@ -46,7 +46,7 @@ struct SelectedPhotoView: View {
                 
              
                 VStack {
-                    FolderCardView()
+                //    FolderCardView(folder: <#Folder#>)
                 }
                 .padding(.top, 30)
                 Spacer()

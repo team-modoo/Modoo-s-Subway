@@ -158,7 +158,7 @@ enum EditFolderType: String {
     func destinationView() -> AnyView {
         switch self {
         case .modify:
-            return AnyView(ModifyFolderView())
+            return AnyView(FolderFormView(formType: .modify))
         case .attach:
             return AnyView(EmptyView())
         case .delete:

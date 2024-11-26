@@ -39,6 +39,7 @@ class SelectedStationViewModel: ObservableObject {
 				case .success(let data):
 					
 					let arrivals: [ArrivalEntity] = data.filter { $0.subwayLine() == self?.selectedStation?.lineName() }
+                    print("arrivals : ------------------\(arrivals)")
 					
 					return arrivals
 					
@@ -84,10 +85,12 @@ class SelectedStationViewModel: ObservableObject {
 					var count: Int = 0
 					
 					values.forEach { el in
-						
+                        print("el----------------\(el.id)")
 						count += 1
 						
 						let upDownLine: UpDownLineType? = UpDownLineType(rawValue: el.upDownLine)
+                        
+                        print("UpDownLine: ---------------\(String(describing: upDownLine))")
 						
 						switch upDownLine {
 						case .Up:

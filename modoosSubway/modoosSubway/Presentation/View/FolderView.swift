@@ -19,7 +19,7 @@ struct FolderView: View {
 	var body: some View {
 		VStack {
 			GeometryReader(content: { geometry in
-				if  items.isEmpty {
+				if  folders.isEmpty {
 					VStack {
 						Image(.bookmarkCircle)
 						Text("자주 타는 지하철 노선을 꾸며보세요")
@@ -54,8 +54,8 @@ struct FolderView: View {
                         if viewType == .Card {
                             ScrollView(showsIndicators: false) {
                                 LazyVGrid(columns: [GridItem()],spacing: 16) {
-                                    ForEach(items, id: \.self) { item in
-                                        FolderCardView()
+                                    ForEach(folders, id: \.self) { folders in
+                                        FolderCardView(folder: folders)
                                     }
                                 }
                                 .padding(.horizontal, 16)
@@ -63,7 +63,7 @@ struct FolderView: View {
                             }
                         } else {
                             VStack {
-                                FolderListView()
+                                FolderListView(folder: folders)
                             }
                         }
                       
@@ -75,11 +75,41 @@ struct FolderView: View {
 			})
 		}
         .task {
-         //   addItem()
-           
-        }
+              let allFolders = DataManager.shared.getAllFolders()
+              for folder in allFolders {
+                  
+                  let imageSize: String
+                        if let base64String = folder.backgroundImage,
+                           let imageData = Data(base64Encoded: base64String),
+                           let image = UIImage(data: imageData) {
+                           let dimensions = "(\(Int(image.size.width)) x \(Int(image.size.height)))"
+                           let fileSize = Double(imageData.count) / 1024.0
+                            imageSize = "\(dimensions), \(String(format: "%.2f", fileSize))KB"
+                        } else {
+                            imageSize = "이미지 없음"
+                        }
+                  
+                  let imagePreview = folder.backgroundImage?.prefix(100)
+                  print("""
+                      ID: \(folder.id)
+                      제목: \(folder.title)
+                      내용: \(String(describing: folder.content))
+                      호선: \(folder.lineNumber)
+                      이미지 존재 여부: \(folder.backgroundImage != nil ? "있음" : "없음")
+                      이미지 데이터 길이: \(folder.backgroundImage?.count ?? 0)
+                       이미지 미리보기: \(imagePreview ?? "없음")...
+                      이미지 크기: \(imageSize)
+                      --------------------------------
+                      """)
+              }
+          }
+        .onAppear {
+            print("folderview init()")
+
+              }
 		.padding(.top, 22)
 	}
+        
     // MARK: - 폴더 or 즐겨찾기
     private func changeViewType(_ type: FolderType) {
         viewType = type
@@ -91,7 +121,7 @@ struct FolderView: View {
 	
 	private func addItem() {
 		withAnimation {
-            let newItem = Folder(timestamp: Date(), lineNumber: ["1","3","7"], content: "후후후후후")
+            let newItem = Folder(timestamp: Date(), lineNumber: ["1","3","7"], title: "123", content: "후후후후후")
 			modelContext.insert(newItem)
             print("add item complete\(newItem)")
 		}
@@ -109,4 +139,63 @@ struct FolderView: View {
 #Preview {
 	FolderView()
 		.modelContainer(for: Item.self, inMemory: true)
+}
+
+
+
+class ImageCache {
+    static let shared = ImageCache()
+    private var cache = NSCache<NSString, UIImage>()
+    
+    func get(forkey key: String) -> UIImage? {
+        return cache.object(forKey: key as NSString)
+    }
+    
+    func set(_ image: UIImage, forkey key: String) {
+        cache.setObject(image, forKey: key as NSString)
+    }
+    
+}
+
+struct FolderBackgroundImage: View {
+    let imageString: String?
+    @State private var image: UIImage?
+    
+    var body: some View {
+        Group {
+            if let uiImage = image {
+                Image(uiImage: uiImage)
+                    .resizable()
+                    .scaledToFill()
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+            } else {
+                Image("image 5 (1)")
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+            }
+        }
+        .onAppear {
+            loadImage()
+        }
+    }
+    
+    private func loadImage() {
+        guard let base64String = imageString else { return }
+        
+        if let cachedImage = ImageCache.shared.get(forkey: base64String) {
+            image = cachedImage
+            return
+        }
+        
+        DispatchQueue.global(qos: .userInitiated).async {
+            if let imageData = Data(base64Encoded: base64String),
+               let uiImage = UIImage(data: imageData) {
+                ImageCache.shared.set(uiImage, forkey: base64String)
+                DispatchQueue.main.async {
+                    image = uiImage
+                }
+            }
+        }
+
+    }
+
 }

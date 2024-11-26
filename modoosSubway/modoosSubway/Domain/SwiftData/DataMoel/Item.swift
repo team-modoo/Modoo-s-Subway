@@ -25,7 +25,8 @@ final class Item {
 @Model
 final class Folder {
     let id: UUID
-    var content: String
+    var title: String
+    var content: String?
     var timestamp: Date
     var backgroundImage: String?
     var lineNumber: [String]
@@ -33,10 +34,11 @@ final class Folder {
     @Relationship(deleteRule: .nullify)
     var items: [Item] = []
     
-    init(timestamp: Date,lineNumber: [String],content: String) {
+    init(timestamp: Date,lineNumber: [String],title: String, content: String?) {
         self.id = UUID()
         self.timestamp = timestamp
         self.lineNumber = lineNumber
+        self.title = title
         self.content = content
     }
 }

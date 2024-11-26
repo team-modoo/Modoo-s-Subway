@@ -41,7 +41,7 @@ struct SelectedStationView: View {
 			if let selectedStation = selectedStation {
 				print("task 작업 확인")
 				vm.getSearchSubwayLine(for: selectedStation.lineName(), service: "SearchSTNBySubwayLineInfo", startIndex: 1, endIndex: 100) {
-					vm.getRealtimeStationArrivals(for: selectedStation.stationName, startIndex: 1, endIndex: 5)
+					vm.getRealtimeStationArrivals(for: selectedStation.stationName, startIndex: 1, endIndex: 100)
 				}
 			}
 		}
