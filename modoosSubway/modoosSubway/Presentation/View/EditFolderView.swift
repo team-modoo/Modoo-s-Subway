@@ -33,7 +33,7 @@ struct EditFolderView: View {
                         EditFolderCell(title: item.rawValue, 
                                        destination: item.destinationView(folder: item == .modify ? folder : nil),
                                        iconName: item.iconImage(),
-                                       folderType: item)
+                                       folderType: item,folder: folder)
                             .listRowSeparator(.hidden)
                             .frame(height: 19)
                             .foregroundStyle(.blue)
@@ -53,10 +53,12 @@ struct EditFolderView: View {
 
 struct EditFolderCell: View {
     @Environment(\.dismiss) var dismiss
+    @Environment(\.modelContext) private var modelContext
     private var folderType: EditFolderType = .modify
     private var destination: AnyView?
     private var title: String
     private var iconName: String
+    let folder: Folder?
     
     @State private var showFullScreen = false
     @State private var selectedDestination: AnyView? = nil
@@ -65,12 +67,14 @@ struct EditFolderCell: View {
     @State private var showPhotoPicker = false
     @State private var showSelectedPhotoView = false
     @State private var isPresentedError = false
+    @State private var showDeleteAlert = false
     
-    init(title: String, destination: AnyView,iconName: String,folderType:EditFolderType) {
+    init(title: String, destination: AnyView,iconName: String,folderType:EditFolderType,folder: Folder? = nil) {
         self.title = title
         self.destination = destination
         self.iconName = iconName
         self.folderType = folderType
+        self.folder = folder
     }
     
     var body: some View {
@@ -92,13 +96,25 @@ struct EditFolderCell: View {
             }
             .background(.red)
             .onTapGesture {
-                if folderType == .attach {
-                    showPhotoPicker = true
-                } else {
+                switch folderType {
+                case .modify:
                     showFullScreen = true
+                case .attach:
+                    showPhotoPicker = true
+                case .delete:
+                    showDeleteAlert = true
                 }
+
                 print("cell \(destination) clicked")
             }
+            .alert("폴더 삭제", isPresented: $showDeleteAlert) {
+                           Button("취소", role: .cancel) { }
+                           Button("삭제", role: .destructive) {
+                               deleteFolder()
+                           }
+                       } message: {
+                           Text("정말 이 폴더를 삭제하시겠습니까?")
+                       }
             .photosPicker(
                 isPresented: $showPhotoPicker,
                 selection: $selectedPhotos,
@@ -145,6 +161,13 @@ struct EditFolderCell: View {
                }
            }
        }
+    
+    private func deleteFolder() {
+        if let folder = folder {
+            DataManager.shared.deleteFolder(folder, context: modelContext)
+            dismiss()
+        }
+    }
 }
 
 enum EditFolderType: String {

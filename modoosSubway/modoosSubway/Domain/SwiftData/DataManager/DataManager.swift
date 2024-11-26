@@ -122,6 +122,32 @@ class DataManager {
         }
         
     }
+    //MARK: - 폴더 삭제하기
+    func deleteFolder(_ folder:Folder, context: ModelContext) {
+        print("삭제 시도:")
+        print("ID: \(folder.id)")
+        print("제목: \(folder.title)")
+      
+        do {
+            context.delete(folder)
+            try context.save()
+            
+            print("""
+                폴더 삭제 완료:
+                ID: \(folder.id)
+                제목: \(folder.title)
+                """)
+            let descriptor = FetchDescriptor<Folder>(
+                sortBy: [SortDescriptor(\.timestamp,order: .reverse)]
+            )
+            if let remainingFolders = try? context.fetch(descriptor) {
+                print("남은 폴더 수: \(remainingFolders.count)")
+            }
+
+        } catch {
+            print("폴더 삭제 실패: \(error)")
+        }
+    }
     
     
     private func optimizeImage(_ image: UIImage) -> UIImage {
@@ -144,4 +170,7 @@ class DataManager {
         return optimizedImage ?? image
     
     }
+    
+    
+    
 }
