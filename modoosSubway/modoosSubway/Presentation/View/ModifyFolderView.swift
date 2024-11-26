@@ -355,14 +355,32 @@ struct FolderFormView: View {
     @State private var selectedImage: UIImage?
     
     let formType: FolderFormType
-    let existingData: String?
+    let folder: Folder?
     
-    init(formType: FolderFormType,existingData:String? = nil) {
+    init(formType: FolderFormType,folder: Folder? = nil) {
         self.formType = formType
-        self.existingData = existingData
+        self.folder = folder
+        
+        
+        if formType == .modify, let folder = folder {
+            _title = State(initialValue: folder.title)
+            _description = State(initialValue: folder.content ?? "")
+            
+            if let base64String = folder.backgroundImage,
+               let imageData = Data(base64Encoded: base64String),
+               let uiImage = UIImage(data: imageData) {
+                _selectedImage = State(initialValue: uiImage)
+            } else {
+                _selectedImage = State(initialValue: nil)
+            }
+        } else {
+            _title = State(initialValue: "")
+            _description = State(initialValue: "")
+            _selectedImage = State(initialValue: nil)
+
+        }
     }
-    
-    
+
     var body: some View {
         VStack {
             HStack {
@@ -381,8 +399,32 @@ struct FolderFormView: View {
                     
                     if formType == .create {
                         DataManager.shared.createFolder(title:title, content: description, image: selectedImage, context: modelContext)
-                    } else {
+                    } else if formType == .modify, let folder = self.folder {
                         print("수정하기 버튼 클릭")
+                        print("수정 전 폴더 상태:")
+                        print("ID: \(folder.id)")
+                        print("제목: \(folder.title)")
+                        print("설명: \(folder.content ?? "설명 없음")")
+//                        
+//                        folder.title = title
+//                        folder.content = description
+//                        if let image = selectedImage,
+//                                              let imageData = image.jpegData(compressionQuality: 0.7) {
+//                                               folder.backgroundImage = imageData.base64EncodedString()
+//                                           }
+//                                           
+//                                           // ModelContext에 저장
+//                                           do {
+//                                               try modelContext.save()
+//                                               print("수정 후 폴더 상태:")
+//                                               print("ID: \(folder.id)")
+//                                               print("제목: \(folder.title)")
+//                                               print("설명: \(folder.content ?? "설명 없음")")
+//                                           } catch {
+//                                               print("저장 실패: \(error)")
+//                                           }
+                        
+                       DataManager.shared.updateFolder(folder,title: title,content: description,image: selectedImage, context: modelContext)
                     }
 
                     dismiss()

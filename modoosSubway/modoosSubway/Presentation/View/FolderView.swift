@@ -32,20 +32,7 @@ struct FolderView: View {
 						RoundedRectangle(cornerRadius: 10)
 							.stroke(.EDEDED)
 					)
-					
-//					VStack {
-//						HStack {
-//							Text("7호선")
-//								.font(.pretendard(size: 16, family: .regular))
-//								.foregroundStyle(Color("5C5C5C"))
-//								.padding(.top, 8)
-//						}
-//					}
-//					.frame(width: geometry.size.width, height: 196)
-//					.background(
-//						RoundedRectangle(cornerRadius: 10)
-//							.stroke(.EDEDED)
-//					)
+
                 } else {
                     VStack {
                         FolderHeaderView(viewType: $viewType,sortedType: $sortedType)
@@ -56,6 +43,7 @@ struct FolderView: View {
                                 LazyVGrid(columns: [GridItem()],spacing: 16) {
                                     ForEach(folders, id: \.self) { folders in
                                         FolderCardView(folder: folders)
+                                            .id(folders.id)
                                     }
                                 }
                                 .padding(.horizontal, 16)
@@ -66,14 +54,20 @@ struct FolderView: View {
                                 FolderListView(folder: folders)
                             }
                         }
-                      
-
                     }
-               //     .background(.red)
-                    
+
                 }
 			})
 		}
+        .onChange(of: folders) { old, new in
+                 print("폴더 데이터 변경됨")
+                 print("현재 폴더 개수: \(new.count)")
+                 for folder in new {
+                     print("폴더 ID: \(folder.id), 제목: \(folder.content)")
+                 }
+             }
+
+
         .task {
               let allFolders = DataManager.shared.getAllFolders()
               for folder in allFolders {
@@ -160,42 +154,45 @@ class ImageCache {
 struct FolderBackgroundImage: View {
     let imageString: String?
     @State private var image: UIImage?
+    @State private var displayImage: UIImage?
     
     var body: some View {
         Group {
-            if let uiImage = image {
+            if let uiImage = displayImage {
                 Image(uiImage: uiImage)
                     .resizable()
                     .scaledToFill()
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
             } else {
                 Image("image 5 (1)")
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
             }
         }
-        .onAppear {
-            loadImage()
+        .task {
+            await loadImage()
         }
+        .onChange(of: imageString) { _, _ in
+                   Task {
+                       await loadImage()
+                   }
+               }
     }
     
-    private func loadImage() {
+    private func loadImage() async {
         guard let base64String = imageString else { return }
         
         if let cachedImage = ImageCache.shared.get(forkey: base64String) {
-            image = cachedImage
+            displayImage = cachedImage
             return
         }
-        
-        DispatchQueue.global(qos: .userInitiated).async {
+    
             if let imageData = Data(base64Encoded: base64String),
                let uiImage = UIImage(data: imageData) {
                 ImageCache.shared.set(uiImage, forkey: base64String)
-                DispatchQueue.main.async {
-                    image = uiImage
+                await MainActor.run {
+                   displayImage = uiImage
                 }
             }
-        }
-
+       
     }
-
 }
+
+

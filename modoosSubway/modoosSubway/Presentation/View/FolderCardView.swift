@@ -53,10 +53,11 @@ struct FolderCardView: View {
                     .foregroundStyle(.white)
                     .padding(EdgeInsets(top: 0, leading: 10, bottom: 16, trailing: 0))
             }
+
             .frame(width: 340, height: 196)
         }
         .sheet(isPresented: $showModal) {
-            EditFolderView()
+            EditFolderView(folder: folder)
                 .presentationDetents([.fraction(1/4)])
                 .presentationDragIndicator(.visible)
                 .presentationCornerRadius(30)
@@ -65,3 +66,5 @@ struct FolderCardView: View {
 }
 
    
+
+

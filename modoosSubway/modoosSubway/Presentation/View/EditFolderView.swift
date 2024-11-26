@@ -9,6 +9,7 @@ import SwiftUI
 import PhotosUI
 
 struct EditFolderView: View {
+    let folder: Folder
     let section1: [EditFolderType] = [.modify, .attach, .delete]
     var body: some View {
         NavigationView {
@@ -30,8 +31,8 @@ struct EditFolderView: View {
                 List {
                     ForEach(section1,id: \.self) { item in
                         EditFolderCell(title: item.rawValue, 
-                                       destination: item.destinationView(),
-                                       iconName: item.iconImage(), 
+                                       destination: item.destinationView(folder: item == .modify ? folder : nil),
+                                       iconName: item.iconImage(),
                                        folderType: item)
                             .listRowSeparator(.hidden)
                             .frame(height: 19)
@@ -49,9 +50,6 @@ struct EditFolderView: View {
     }
 }
 
-#Preview {
-    EditFolderView()
-}
 
 struct EditFolderCell: View {
     @Environment(\.dismiss) var dismiss
@@ -155,14 +153,17 @@ enum EditFolderType: String {
     case delete = "폴더 삭제하기"
   
     
-    func destinationView() -> AnyView {
+    func destinationView(folder:Folder? = nil) -> AnyView {
         switch self {
         case .modify:
-            return AnyView(FolderFormView(formType: .modify))
+            if let folder = folder {
+                return AnyView(FolderFormView(formType: .modify,folder: folder))
+            }
+            return AnyView(EmptyView())
         case .attach:
             return AnyView(EmptyView())
         case .delete:
-            return AnyView(FolderView())
+            return AnyView(EmptyView())
         }
     }
     

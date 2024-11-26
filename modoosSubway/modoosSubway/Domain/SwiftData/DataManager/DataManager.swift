@@ -32,13 +32,20 @@ class DataManager {
     func createFolder(title: String,content: String?, image: UIImage?, context: ModelContext) {
            // 이미지 데이터를 문자열로 변환 (Base64)
            let imageString: String?
-           if let image = image,
-              let imageData = image.jpegData(compressionQuality: 0.7) {
-               imageString = imageData.base64EncodedString()
+           if let image = image {
+               let optimizedImage = optimizeImage(image)
+               if let imageData = optimizedImage.jpegData(compressionQuality: 0.7) {
+                   imageString = imageData.base64EncodedString()
+                   print("원본 이미지 크기: \(image.size)")
+                   print("최적화된 이미지 크기: \(optimizedImage.size)")
+                   print("이미지 데이터 크기: \(Double(imageData.count) / 1024.0)KB")
+               } else {
+                   imageString = nil
+               }
+            
            } else {
                imageString = nil
            }
-           
            let folder = Folder(
                timestamp: Date(),
                lineNumber: [], 
@@ -51,9 +58,13 @@ class DataManager {
            
            do {
                try context.save()
-               print("폴더가 성공적으로 저장되었습니다:")
-               print("제목: \(title)")
-               print("이미지 여부: \(image != nil)")
+               print("""
+                    폴더 생성 완료:
+                    ID: \(folder.id)
+                    제목: \(folder.title)
+                    설명: \(folder.content ?? "설명 없음")
+                    이미지 존재 여부: \(folder.backgroundImage != nil ? "O" : "X")
+                    """)
            } catch {
                print("폴더 저장 실패: \(error)")
            }
@@ -72,5 +83,65 @@ class DataManager {
                print("Failed to fetch folders: \(error)")
                return []
            }
-       }
+      }
+      
+    func updateFolder(_ folder: Folder, title: String? = nil, content: String? = nil,image:UIImage? = nil, context:ModelContext) {
+        print("업데이트 전 폴더 상태:")
+            print("ID: \(folder.id)")
+            print("제목: \(folder.title)")
+            print("설명: \(folder.content ?? "설명 없음")")
+        
+        if let title = title {
+            folder.title = title
+        }
+        
+        if let content = content {
+            folder.content = content
+        }
+        
+        if let image = image {
+            let optimizedImage = optimizeImage(image)
+            if let imageData = optimizedImage.jpegData(compressionQuality: 0.7) {
+                folder.backgroundImage = imageData.base64EncodedString()
+                print("원본 이미지 크기: \(image.size)")
+                print("최적화된 이미지 크기: \(optimizedImage.size)")
+                print("이미지 데이터 크기: \(Double(imageData.count) / 1024.0)KB")
+            }
+        }
+        do {
+            try context.save()
+            print("""
+                폴더 수정 완료:
+                ID: \(folder.id)
+                제목: \(folder.title)
+                설명: \(folder.content ?? "설명 없음")
+                이미지 존재 여부: \(folder.backgroundImage != nil ? "O" : "X")
+                """)
+        } catch {
+            print("폴더 수정 실패: \(error)")
+        }
+        
+    }
+    
+    
+    private func optimizeImage(_ image: UIImage) -> UIImage {
+        let maxSize: CGFloat = 1024
+        
+        let scale = min(maxSize/image.size.width, maxSize/image.size.height)
+        
+        if scale >= 1 {
+            return image
+        }
+        
+        let newSize = CGSize(width: image.size.width * scale, height: image.size.height * scale)
+        
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+   
+        image.draw(in: CGRect(origin: .zero, size: newSize))
+        let optimizedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+
+        return optimizedImage ?? image
+    
+    }
 }
