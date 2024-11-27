@@ -93,6 +93,7 @@ struct FolderView: View {
                       이미지 데이터 길이: \(folder.backgroundImage?.count ?? 0)
                        이미지 미리보기: \(imagePreview ?? "없음")...
                       이미지 크기: \(imageSize)
+                      포함된 카드: \(folder.cardIDs)
                       --------------------------------
                       """)
               }

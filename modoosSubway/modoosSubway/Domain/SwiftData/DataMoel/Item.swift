@@ -13,7 +13,7 @@ final class Item {
     let id: UUID
     var timestamp: Date
     
-    @Relationship(inverse:\Folder.items)
+   
     var folders: [Folder] = []
     
     init(timestamp: Date) {
@@ -30,9 +30,8 @@ final class Folder {
     var timestamp: Date
     var backgroundImage: String?
     var lineNumber: [String]
-    
-    @Relationship(deleteRule: .nullify)
-    var items: [Item] = []
+
+    var cardIDs: [UUID] = []
     
     init(timestamp: Date,lineNumber: [String],title: String, content: String?) {
         self.id = UUID()

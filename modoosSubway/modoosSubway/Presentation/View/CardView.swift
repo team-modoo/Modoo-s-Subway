@@ -16,6 +16,7 @@ struct CardView: View {
     private var viewType: ViewType?
     @State private var showAlert = false
     @State private var alertMessage = ""
+    @State private var selectedCard: CardViewEntity?
     
     init(cards: Binding<[CardViewEntity]>, viewType: ViewType? = nil) {
         _cards = cards
@@ -51,7 +52,7 @@ struct CardView: View {
                     if let _ = viewType {
                         // MARK: - 더보기 버튼
                         Button(action: {
-                            showModal.toggle()
+                            selectedCard = card
                         }, label: {
                             Image(.iconMore)
                         })
@@ -130,11 +131,13 @@ struct CardView: View {
         }
         .listStyle(.plain)
         .scrollIndicators(.hidden)
-        .sheet(isPresented: $showModal) {
-            MoreMenuListView()
-                .presentationDetents([.fraction(1/4)])
-                .presentationDragIndicator(.visible)
-                .presentationCornerRadius(26)
+        .sheet(item: $selectedCard) { card in
+            MoreMenuListView(card: card)
+                    .presentationDetents([.fraction(1/4)])
+                    .presentationDragIndicator(.visible)
+                    .presentationCornerRadius(26)
+         
+           
         }
         .alert("알림", isPresented: $showAlert) {
             Button("확인", role: .cancel) {}

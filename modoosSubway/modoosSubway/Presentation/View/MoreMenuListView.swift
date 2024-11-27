@@ -9,6 +9,11 @@ import SwiftUI
 
 struct MoreMenuListView: View {
     var moreMenuType: [MoreMenuType] = [.moveFolder,.changeOrder]
+    let card: CardViewEntity
+    
+    init(card: CardViewEntity) {
+          self.card = card
+      }
     var body: some View {
         NavigationStack {
             VStack {
@@ -26,7 +31,7 @@ struct MoreMenuListView: View {
                     ForEach(moreMenuType,id: \.self) { item in
                         MoreMeCell(iconImage:item.iconImage,
                                    titleLabel: item.rawValue,
-                                   destination: item.destinationView(), 
+                                   destination: item.destinationView(card:card),
                                    menuType: item)
                     }
                     .listRowSeparator(.hidden)
@@ -103,12 +108,12 @@ enum MoreMenuType: String {
     case moveFolder = "폴더 이동하기"
     case changeOrder = "순서 변경하기"
     
-    func destinationView() -> AnyView {
+    func destinationView(card:CardViewEntity) -> AnyView {
         switch self {
         case .moveFolder:
-            return AnyView(AddFolderView())
+            return AnyView(AddFolderView(card: card))
         case .changeOrder:
-            return AnyView(AddFolderView())
+            return AnyView(StarView())
         }
     }
     
