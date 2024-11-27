@@ -50,14 +50,17 @@ struct Arrival: Codable, Identifiable, Hashable, Equatable {
 	let arrivalCode: String
 	let station: String
 	let trainLineName: String
+    let barvlDt: String
 	
 	init(id: UUID = UUID(),
 		 arrivalCode: String,
 		 station: String,
-		 trainLineName: String) {
+         trainLineName: String,
+         barvlDt:String) {
 		self.id = id
 		self.arrivalCode = arrivalCode
 		self.station = station
 		self.trainLineName = trainLineName
+        self.barvlDt = barvlDt
 	}
 }

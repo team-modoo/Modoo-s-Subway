@@ -85,26 +85,26 @@ class SelectedStationViewModel: ObservableObject {
 					var count: Int = 0
 					
 					values.forEach { el in
-                        print("el----------------\(el.id)")
+                      //  print("el----------------\(el)")
 						count += 1
 						
 						let upDownLine: UpDownLineType? = UpDownLineType(rawValue: el.upDownLine)
                         
-                        print("UpDownLine: ---------------\(String(describing: upDownLine))")
+                  //      print("UpDownLine: ---------------\(String(describing: upDownLine))")
 						
 						switch upDownLine {
 						case .Up:
 							upArrivalEntities.append(el)
-							upArrivals.append(Arrival(arrivalCode: el.arrivalCode, station: el.stationName, trainLineName: el.trainLineName))
+                            upArrivals.append(Arrival(arrivalCode: el.arrivalCode, station: el.stationName, trainLineName: el.trainLineName, barvlDt: el.barvlDt))
 						case .Down:
 							downArrivalEntities.append(el)
-							downArrivals.append(Arrival(arrivalCode: el.arrivalCode, station: el.stationName, trainLineName: el.trainLineName))
+                            downArrivals.append(Arrival(arrivalCode: el.arrivalCode, station: el.stationName, trainLineName: el.trainLineName, barvlDt: el.barvlDt))
 						case .Out:
 							outArrivalEntities.append(el)
-							outArrivals.append(Arrival(arrivalCode: el.arrivalCode, station: el.stationName, trainLineName: el.trainLineName))
+                            outArrivals.append(Arrival(arrivalCode: el.arrivalCode, station: el.stationName, trainLineName: el.trainLineName, barvlDt: el.barvlDt))
 						case .In:
 							inArrivalEntities.append(el)
-							inArrivals.append(Arrival(arrivalCode: el.arrivalCode, station: el.stationName, trainLineName: el.trainLineName))
+                            inArrivals.append(Arrival(arrivalCode: el.arrivalCode, station: el.stationName, trainLineName: el.trainLineName, barvlDt: el.barvlDt))
 						default:
 							break
 						}

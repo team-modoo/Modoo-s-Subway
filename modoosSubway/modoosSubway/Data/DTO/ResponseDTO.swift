@@ -37,6 +37,7 @@ struct RealtimeArrivalDTO: Codable {
 	let arvlMsg3: String // "서울"
 	let arvlCd: String // "1"
 	let lstcarAt: String // "0"
+    let barvlDt: String
 }
 
 // MARK: - 지하철역 정보 검색(역명) 응답 DTO
