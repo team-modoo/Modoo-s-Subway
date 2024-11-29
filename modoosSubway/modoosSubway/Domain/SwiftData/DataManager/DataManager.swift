@@ -122,6 +122,24 @@ class DataManager {
         }
         
     }
+    
+    func updateFolderCardOrder(_ folder:Folder, newOrder: [UUID],context:ModelContext) {
+        print("카드 순서 업데이트 시작:")
+        print("폴더 ID: \(folder.id)")
+        print("이전 카드 순서: \(folder.cardIDs)")
+        print("새로운 카드 순서: \(newOrder)")
+        
+        folder.cardIDs = newOrder
+        
+        do {
+            try context.save()
+            print("카드 순서 업데이트 완료")
+        } catch {
+            print("카드 순서 업데이트 실패: \(error)")
+        }
+    }
+    
+    
     //MARK: - 폴더 삭제하기
     func deleteFolder(_ folder:Folder, context: ModelContext) {
         print("삭제 시도:")

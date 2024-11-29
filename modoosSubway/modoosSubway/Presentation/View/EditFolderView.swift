@@ -10,7 +10,7 @@ import PhotosUI
 
 struct EditFolderView: View {
     let folder: Folder
-    let section1: [EditFolderType] = [.modify, .attach, .delete]
+    let section1: [EditFolderType] = [.modify, .delete]
     var body: some View {
         NavigationView {
             VStack {
@@ -22,7 +22,7 @@ struct EditFolderView: View {
                     
                     Spacer()
                 }
-                .padding(.top,20)
+                .padding(.top,40)
                 .padding(.leading,8)
                 .background(.white)
                 
@@ -94,13 +94,12 @@ struct EditFolderCell: View {
                     .foregroundStyle(.black)
                 
             }
-            .background(.red)
             .onTapGesture {
                 switch folderType {
                 case .modify:
                     showFullScreen = true
-                case .attach:
-                    showPhotoPicker = true
+//                case .attach:
+//                    showPhotoPicker = true
                 case .delete:
                     showDeleteAlert = true
                 }
@@ -172,7 +171,7 @@ struct EditFolderCell: View {
 
 enum EditFolderType: String {
     case modify = "폴더 수정하기"
-    case attach = "사진 첨부하기"
+//    case attach = "사진 첨부하기"
     case delete = "폴더 삭제하기"
   
     
@@ -183,8 +182,8 @@ enum EditFolderType: String {
                 return AnyView(FolderFormView(formType: .modify,folder: folder))
             }
             return AnyView(EmptyView())
-        case .attach:
-            return AnyView(EmptyView())
+//        case .attach:
+//            return AnyView(EmptyView())
         case .delete:
             return AnyView(EmptyView())
         }
@@ -194,8 +193,8 @@ enum EditFolderType: String {
         switch self {
         case .modify:
             return "icon_edit"
-        case .attach:
-            return "icon_photo"
+//        case .attach:
+//            return "icon_photo"
         case .delete:
             return "icon_trash"
         }

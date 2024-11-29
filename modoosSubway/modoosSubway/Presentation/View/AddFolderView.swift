@@ -13,14 +13,16 @@ struct AddFolderView: View {
     @Environment(\.modelContext) private var modelContext
     @State private var selectedFolder: Folder?
     @State private var showCreateFolder = false
-    @State private var folders: [Folder] = []
+    @Query(sort: \Folder.timestamp, order: .reverse) private var folders: [Folder]
     let card: CardViewEntity
+    let currentFolder: Folder?
     
     @State private var showAlert = false
     @State private var alertMessage = ""
     
-    init(card: CardViewEntity) {
+    init(card: CardViewEntity, currentFolder: Folder? = nil) {
         self.card = card
+        self.currentFolder = currentFolder
     }
     
     var body: some View {
@@ -42,11 +44,33 @@ struct AddFolderView: View {
                         Spacer()
                         
                         Button {
-                            selectedFolder = item
-                            saveCardToFolder(item)
+                            if item.cardIDs.contains(card.id) {
+                                // 이미 있는 경우 알림만 표시
+                                alertMessage = "\(item.title) 폴더에\n이미 저장된 카드입니다"
+                                showAlert = true
+                            } else {
+                                // 없는 경우 저장
+                                if currentFolder != nil {
+                                    
+                                          // 폴더 안에서 호출된 경우 -> 이동
+                                          moveCardToFolder(item)
+                                      } else {
+                                          // StarView에서 호출된 경우 -> 추가
+                                          saveCardToFolder(item)
+                                      }
+                            }
+                            //
+                            //
+                            //                            selectedFolder = item
+                            //                            saveCardToFolder(item)
                         } label: {
-                            if let selected = selectedFolder,
-                               selected == item {
+                            //                            if let selected = selectedFolder,
+                            //                               selected == item {
+                            //                                Image("icon-check")
+                            //                            } else {
+                            //                                Image("icon_plus")
+                            //                            }
+                            if item.cardIDs.contains(card.id) {
                                 Image("icon-check")
                             } else {
                                 Image("icon_plus")
@@ -57,7 +81,9 @@ struct AddFolderView: View {
                     .listRowInsets(EdgeInsets())
                     
                 }
-        
+                
+                if currentFolder == nil {
+                
                 VStack(spacing: 8) {
                     
                     Rectangle()
@@ -89,8 +115,10 @@ struct AddFolderView: View {
                     
                     
                 }
+                .background(.red)
                 .listRowSeparator(.hidden)
                 .listRowInsets(EdgeInsets())
+            }
                 
             }
             .scrollIndicators(.hidden)
@@ -103,10 +131,10 @@ struct AddFolderView: View {
             Spacer()
         }
         .task {
-            let allFolders = DataManager.shared.getAllFolders()
-            self.folders = allFolders
-            for folder in allFolders {
-                
+            
+            
+            
+            for folder in folders {
                 let imageSize: String
                 if let base64String = folder.backgroundImage,
                    let imageData = Data(base64Encoded: base64String),
@@ -166,6 +194,30 @@ struct AddFolderView: View {
         try? modelContext.save()
 
         alertMessage = "\(folder.title) 폴더에\n저장되었습니다"
+        showAlert = true
+    }
+    
+    private func moveCardToFolder(_ targetFolder: Folder) {
+        if targetFolder.cardIDs.contains(card.id) {
+            alertMessage = "\(targetFolder.title) 폴더에\n이미 저장된 카드입니다"
+            showAlert = true
+            return
+        }
+        
+        // 현재 폴더에서 제거
+        if let currentFolder = currentFolder {
+            currentFolder.cardIDs.removeAll { $0 == card.id }
+            try? modelContext.save()
+        }
+
+        // 새 폴더에 추가
+        targetFolder.cardIDs.append(card.id)
+        if !targetFolder.lineNumber.contains(card.lineNumber) {
+            targetFolder.lineNumber.append(card.lineNumber)
+        }
+        try? modelContext.save()
+        
+        alertMessage = "\(targetFolder.title) 폴더에\n이동되었습니다"
         showAlert = true
     }
 }

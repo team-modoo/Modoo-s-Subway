@@ -8,11 +8,14 @@
 import SwiftUI
 
 struct MoreMenuListView: View {
-    var moreMenuType: [MoreMenuType] = [.moveFolder,.changeOrder]
+    var moreMenuType: [MoreMenuType]
     let card: CardViewEntity
+    let folder: Folder?
     
-    init(card: CardViewEntity) {
-          self.card = card
+    init(card: CardViewEntity,folder:Folder? = nil) {
+        self.card = card
+        self.folder = folder
+        self.moreMenuType = folder != nil ? [.moveFolder, .changeOrder] : [.moveFolder]
       }
     var body: some View {
         NavigationStack {
@@ -31,7 +34,7 @@ struct MoreMenuListView: View {
                     ForEach(moreMenuType,id: \.self) { item in
                         MoreMeCell(iconImage:item.iconImage,
                                    titleLabel: item.rawValue,
-                                   destination: item.destinationView(card:card),
+                                   destination: item.destinationView(card:card, folder: folder),
                                    menuType: item)
                     }
                     .listRowSeparator(.hidden)
@@ -50,15 +53,17 @@ struct MoreMeCell: View {
     var titleLabel: String = ""
     var destination:AnyView?
     var menuType: MoreMenuType
+    let folder: Folder?
     @State private var showSheet = false
     @State private var showFullScreen = false
  
     
-    init(iconImage: String, titleLabel: String,destination:AnyView,menuType:MoreMenuType) {
+    init(iconImage: String, titleLabel: String,destination:AnyView,menuType:MoreMenuType,folder: Folder? = nil) {
         self.iconImage = iconImage
         self.titleLabel = titleLabel
         self.destination = destination
         self.menuType = menuType
+        self.folder = folder
     }
     
     var body: some View {
@@ -108,12 +113,15 @@ enum MoreMenuType: String {
     case moveFolder = "폴더 이동하기"
     case changeOrder = "순서 변경하기"
     
-    func destinationView(card:CardViewEntity) -> AnyView {
+    func destinationView(card:CardViewEntity,folder:Folder?) -> AnyView {
         switch self {
         case .moveFolder:
-            return AnyView(AddFolderView(card: card))
+            return AnyView(AddFolderView(card: card,currentFolder: folder))
         case .changeOrder:
-            return AnyView(StarView())
+            if let folder = folder {
+                return AnyView(FilteredStarView(folder: folder, isEditingMode: true))
+            }
+            return AnyView(EmptyView())
         }
     }
     

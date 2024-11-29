@@ -17,15 +17,27 @@ struct CardView: View {
     @State private var showAlert = false
     @State private var alertMessage = ""
     @State private var selectedCard: CardViewEntity?
+    let folder: Folder?
+
+    var isEditingMode: Bool
+    var onOrderChanged: (([CardViewEntity]) -> Void)?
     
-    init(cards: Binding<[CardViewEntity]>, viewType: ViewType? = nil) {
+    init(cards: Binding<[CardViewEntity]>, 
+         viewType: ViewType? = nil,
+         isEditingMode: Bool = false,
+         folder: Folder? = nil,
+         onOrderChanged: (([CardViewEntity]) -> Void)? = nil
+         ) {
         _cards = cards
         self.viewType = viewType
+        self.isEditingMode = isEditingMode
+        self.folder = folder
+        self.onOrderChanged = onOrderChanged
     }
     
     var body: some View {
-        List(cards) { card in
-            
+        List {
+            ForEach(cards) { card in
             VStack {
                 HStack {
                     Text(card.lineName)
@@ -120,23 +132,41 @@ struct CardView: View {
                             )
                     )
             }
+            
             .buttonStyle(PlainButtonStyle())
             .listRowSeparator(.hidden)
-            .padding(.horizontal, 20)
+            .padding(.horizontal,20)
             .frame(width: 350, height: 213)
             .background(
                 RoundedRectangle(cornerRadius: 10)
                     .stroke(.EDEDED)
             )
         }
+            .onMove(perform: isEditingMode ? { from, to in  // 편집 모드일 때만 이동 가능
+                           cards.move(fromOffsets: from, toOffset: to)
+                           onOrderChanged?(cards)
+                       } : nil)
+
+        }
+        
         .listStyle(.plain)
         .scrollIndicators(.hidden)
+        .environment(\.editMode, .constant(isEditingMode ? .active : .inactive))
         .sheet(item: $selectedCard) { card in
-            MoreMenuListView(card: card)
-                    .presentationDetents([.fraction(1/4)])
+            if let folder = folder {
+                MoreMenuListView(card: card,folder: folder)
+                        .presentationDetents([.fraction(1/4)])
+                        .presentationDragIndicator(.visible)
+                        .presentationCornerRadius(26)
+             
+               
+            } else {
+                // StarView에서 열었을 때
+                AddFolderView(card: card)  // folder 없이 호출
+                    .presentationDetents([.fraction(0.5)])
                     .presentationDragIndicator(.visible)
                     .presentationCornerRadius(26)
-         
+            }
            
         }
         .alert("알림", isPresented: $showAlert) {
@@ -209,3 +239,35 @@ struct CardView: View {
         }
     }
 }
+
+
+//struct CardView: View {
+//    // ... 기존 프로퍼티들 ...
+//    
+//    var body: some View {
+//        List {
+//            ForEach(cards) { card in
+//                VStack {
+//                    // ... 카드 내용 ...
+//                }
+//                .buttonStyle(PlainButtonStyle())
+//                .listRowSeparator(.hidden)
+//                .padding(.horizontal, isEditingMode ? 20 : 0)  // 편집 모드일 때만 왼쪽 패딩
+//                .frame(width: 350, height: 213)
+//                .background(
+//                    RoundedRectangle(cornerRadius: 10)
+//                        .stroke(.EDEDED)
+//                )
+//            }
+//            .onMove(perform: isEditingMode ? { from, to in
+//                cards.move(fromOffsets: from, toOffset: to)
+//                onOrderChanged?(cards)
+//            } : nil)
+//        }
+//        .listStyle(.plain)
+//        .scrollIndicators(.hidden)
+//        .environment(\.editMode, .constant(isEditingMode ? .active : .inactive))
+//        // 편집 모드가 아닐 때는 중앙 정렬
+//        .frame(maxWidth: .infinity, alignment: isEditingMode ? .leading : .center)
+//    }
+//}

@@ -13,7 +13,7 @@ struct StarView: View {
 	@Environment(\.modelContext) private var modelContext
 	@Query private var starItems: [Star]
 	@State private var cards: [CardViewEntity] = []
-	
+
 	var body: some View {
 		VStack {
 			GeometryReader(content: { geometry in
@@ -31,7 +31,7 @@ struct StarView: View {
 							.stroke(.EDEDED)
 					)
 				} else {
-					CardView(cards: $cards, viewType: .Star)
+                    CardView(cards:$cards, viewType: .Star)
 						.onAppear {
 							cards = starItems.map { $0.subwayCard }
                             print("전체 저장된 아이템:")
@@ -60,6 +60,7 @@ struct StarView: View {
 		.onAppear {
 			DataManager.shared.setModelContext(modelContext)
             print("StarView appeared - 저장된 아이템 수: \(starItems.count)")
+
 		}
 		.padding(.top, 22)
 		.padding(.horizontal, 1)

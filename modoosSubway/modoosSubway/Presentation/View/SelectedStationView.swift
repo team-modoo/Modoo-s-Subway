@@ -32,7 +32,7 @@ struct SelectedStationView: View {
 				.padding(.horizontal, 20)
 				.padding(.top, 22)
 				
-				CardView(cards: $vm.cards)
+                CardView(cards: $vm.cards)
 				
 				Spacer()
 			}

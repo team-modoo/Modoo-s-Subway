@@ -11,54 +11,66 @@ import SwiftData
 struct FolderView: View {
 	@Environment(\.modelContext) private var modelContext
 	@Query private var items: [Item]
-    @Query private var folders: [Folder]
+//    @Query private var folders: [Folder]
     @State private var viewType: FolderType = .Card
     @State private var sortedType: FolderSortedType = .name
     var item: [Int] = [1,2,3]
-	
-	var body: some View {
-		VStack {
-			GeometryReader(content: { geometry in
-				if  folders.isEmpty {
-					VStack {
-						Image(.bookmarkCircle)
-						Text("자주 타는 지하철 노선을 꾸며보세요")
-							.font(.pretendard(size: 16, family: .regular))
-							.foregroundStyle(Color("5C5C5C"))
-							.padding(.top, 8)
-					}
-					.frame(width: geometry.size.width, height: 196)
-					.background(
-						RoundedRectangle(cornerRadius: 10)
-							.stroke(.EDEDED)
-					)
+    
+    var folders: [Folder] {
+            let descriptor = FetchDescriptor<Folder>(
+                sortBy: sortedType == .latest ?
+                    [SortDescriptor(\Folder.timestamp, order: .reverse)] :
+                    [SortDescriptor(\Folder.title, order: .forward)]
+            )
+            return (try? modelContext.fetch(descriptor)) ?? []
+        }
+    
 
-                } else {
-                    VStack {
-                        FolderHeaderView(viewType: $viewType,sortedType: $sortedType)
-                        //Spacer()
-                      
-                        if viewType == .Card {
-                            ScrollView(showsIndicators: false) {
-                                LazyVGrid(columns: [GridItem()],spacing: 16) {
-                                    ForEach(folders, id: \.self) { folders in
-                                        FolderCardView(folder: folders)
-                                            .id(folders.id)
+	var body: some View {
+        NavigationStack {
+            VStack {
+                GeometryReader(content: { geometry in
+                    if  folders.isEmpty {
+                        VStack {
+                            Image(.bookmarkCircle)
+                            Text("자주 타는 지하철 노선을 꾸며보세요")
+                                .font(.pretendard(size: 16, family: .regular))
+                                .foregroundStyle(Color("5C5C5C"))
+                                .padding(.top, 8)
+                        }
+                        .frame(width: geometry.size.width, height: 196)
+                        .background(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(.EDEDED)
+                        )
+                        
+                    } else {
+                        VStack {
+                            FolderHeaderView(viewType: $viewType,sortedType: $sortedType)
+                            //Spacer()
+                            
+                            if viewType == .Card {
+                                ScrollView(showsIndicators: false) {
+                                    LazyVGrid(columns: [GridItem()],spacing: 16) {
+                                        ForEach(folders, id: \.self) { folders in
+                                            FolderCardView(folder: folders)
+                                                .id(folders.id)
+                                        }
                                     }
+                                    .padding(.horizontal, 16)
+                                    .padding(.vertical, 24)
                                 }
-                                .padding(.horizontal, 16)
-                                .padding(.vertical, 24)
-                            }
-                        } else {
-                            VStack {
-                                FolderListView(folder: folders)
+                            } else {
+                                VStack {
+                                    FolderListView(folder: folders)
+                                }
                             }
                         }
+                        
                     }
-
-                }
-			})
-		}
+                })
+            }
+        }
         .onChange(of: folders) { old, new in
                  print("폴더 데이터 변경됨")
                  print("현재 폴더 개수: \(new.count)")
@@ -66,8 +78,6 @@ struct FolderView: View {
                      print("폴더 ID: \(folder.id), 제목: \(folder.content)")
                  }
              }
-
-
         .task {
               let allFolders = DataManager.shared.getAllFolders()
               for folder in allFolders {
@@ -94,6 +104,7 @@ struct FolderView: View {
                        이미지 미리보기: \(imagePreview ?? "없음")...
                       이미지 크기: \(imageSize)
                       포함된 카드: \(folder.cardIDs)
+                      폴더생성일시: \(folder.timestamp)
                       --------------------------------
                       """)
               }
