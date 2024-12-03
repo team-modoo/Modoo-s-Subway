@@ -85,7 +85,7 @@ class SelectedStationViewModel: ObservableObject {
 					var count: Int = 0
 					
 					values.forEach { el in
-                      //  print("el----------------\(el)")
+                        print("el----------------\(el.stationName):\(el.barvlDt):\(el.message2):\(el.message3)")
 						count += 1
 						
 						let upDownLine: UpDownLineType? = UpDownLineType(rawValue: el.upDownLine)

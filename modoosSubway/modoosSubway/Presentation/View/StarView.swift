@@ -9,33 +9,33 @@ import SwiftUI
 import SwiftData
 
 struct StarView: View {
-	
-	@Environment(\.modelContext) private var modelContext
-	@Query private var starItems: [Star]
-	@State private var cards: [CardViewEntity] = []
-
-	var body: some View {
-		VStack {
-			GeometryReader(content: { geometry in
-				if starItems.isEmpty {
-					VStack {
-						Image(.starCircle)
-						Text("자주 타는 지하철 노선을 추가해주세요")
-							.font(.pretendard(size: 16, family: .regular))
-							.foregroundStyle(Color("5C5C5C"))
-							.padding(.top, 8)
-					}
-					.frame(width: geometry.size.width, height: 196)
-					.background(
-						RoundedRectangle(cornerRadius: 10)
-							.stroke(.EDEDED)
-					)
-				} else {
-                    CardView(cards:$cards, viewType: .Star)
-						.onAppear {
-							cards = starItems.map { $0.subwayCard }
-                            print("전체 저장된 아이템:")
-                            starItems.enumerated().forEach { index, star in
+   @Environment(\.modelContext) private var modelContext
+   @Query private var starItems: [Star]
+   @State private var cards: [CardViewEntity] = []
+   
+   var body: some View {
+    //   ZStack(alignment: .bottomTrailing) {
+           VStack {
+               GeometryReader(content: { geometry in
+                   if starItems.isEmpty {
+                       VStack {
+                           Image(.starCircle)
+                           Text("자주 타는 지하철 노선을 추가해주세요")
+                               .font(.pretendard(size: 16, family: .regular))
+                               .foregroundStyle(Color("5C5C5C"))
+                               .padding(.top, 8)
+                       }
+                       .frame(width: geometry.size.width, height: 196)
+                       .background(
+                           RoundedRectangle(cornerRadius: 10)
+                               .stroke(.EDEDED)
+                       )
+                   } else {
+                       CardView(cards:$cards, viewType: .Star)
+                           .onAppear {
+                               cards = starItems.map { $0.subwayCard }
+                               print("전체 저장된 아이템:")
+                               starItems.enumerated().forEach { index, star in
                                    print("""
                                        
                                        카드 \(index + 1)
@@ -51,23 +51,41 @@ struct StarView: View {
                                        --------------------------------
                                        """)
                                }
-
-                            print("현재 표시되는 카드 수: \(cards.count)")
-						}
-				}
-			})
-		}
-		.onAppear {
-			DataManager.shared.setModelContext(modelContext)
-            print("StarView appeared - 저장된 아이템 수: \(starItems.count)")
-
-		}
-		.padding(.top, 22)
-		.padding(.horizontal, 1)
-	}
-}
-
-#Preview {
-	StarView()
-		.modelContainer(for: Star.self, inMemory: true)
+                               
+                               print("현재 표시되는 카드 수: \(cards.count)")
+                           }
+                   }
+               })
+           }
+           .onAppear {
+               DataManager.shared.setModelContext(modelContext)
+               print("StarView appeared - 저장된 아이템 수: \(starItems.count)")
+           }
+           .padding(.top, 22)
+           .padding(.horizontal, 1)
+           
+           
+//           VStack(spacing: 16) {
+//               Button(action: {
+//                  print("시간")
+//               }) {
+//                   Image("Group 2634")
+//                       .resizable()
+//                       .frame(width: 50, height: 50)
+//                       .foregroundColor(.blue)
+//               }
+//               
+//               Button(action: {
+//                   print("새로고침")
+//               }) {
+//                   Image("Group 2633")
+//                       .resizable()
+//                       .frame(width: 50, height: 50)
+//                       .foregroundColor(.green)
+//               }
+//           }
+//           .padding(.trailing, -4)
+//           .padding(.bottom, 20)
+ //      }
+   }
 }

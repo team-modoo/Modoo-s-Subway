@@ -167,6 +167,26 @@ class DataManager {
         }
     }
     
+     func removeCardFromFolder(cardID:UUID, folder:Folder, context: ModelContext) -> Bool {
+        print("폴더에서 카드 제거 시작:")
+        print("폴더: \(folder.title)")
+        print("카드 ID: \(cardID)")
+        
+        folder.cardIDs.removeAll {$0 == cardID}
+        
+        do {
+            try context.save()
+            print("카드가 폴더에서 제거되었습니다")
+            return true
+        } catch {
+            print("카드 제거 실패: \(error)")
+            return false
+        }
+        
+    }
+    
+    
+    
     
     private func optimizeImage(_ image: UIImage) -> UIImage {
         let maxSize: CGFloat = 1024

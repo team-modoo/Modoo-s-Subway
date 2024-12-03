@@ -17,6 +17,7 @@ struct CardView: View {
     @State private var showAlert = false
     @State private var alertMessage = ""
     @State private var selectedCard: CardViewEntity?
+    var onStarSaved: ((Bool) -> Void)? = nil
     let folder: Folder?
 
     var isEditingMode: Bool
@@ -26,14 +27,16 @@ struct CardView: View {
          viewType: ViewType? = nil,
          isEditingMode: Bool = false,
          folder: Folder? = nil,
-         onOrderChanged: (([CardViewEntity]) -> Void)? = nil
+         onOrderChanged: (([CardViewEntity]) -> Void)? = nil,
+         onStarSaved: ((Bool) -> Void)? = nil
          ) {
         _cards = cards
         self.viewType = viewType
         self.isEditingMode = isEditingMode
         self.folder = folder
         self.onOrderChanged = onOrderChanged
-    }
+        self.onStarSaved = onStarSaved
+     }
     
     var body: some View {
         List {
@@ -226,6 +229,7 @@ struct CardView: View {
                 cards[index].isStar.toggle()
                 let star = Star(subwayCard: cards[index])
                 DataManager.shared.addStar(item: star)
+                onStarSaved?(true)
                 
                 
             } else {
