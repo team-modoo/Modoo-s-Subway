@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -15,21 +15,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash" translatesAutoresizingMaskIntoConstraints="NO" id="ZBR-BW-qNw">
-                                <rect key="frame" x="0.0" y="396" width="393" height="60"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="60" id="1SG-we-PLw"/>
-                                </constraints>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="모두의 지하철" translatesAutoresizingMaskIntoConstraints="NO" id="WNX-bZ-cHF">
+                                <rect key="frame" x="128" y="376" width="137" height="100"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Bcu-3y-fUS"/>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstItem="ZBR-BW-qNw" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="AZf-EA-Odb"/>
-                            <constraint firstItem="Bcu-3y-fUS" firstAttribute="trailing" secondItem="ZBR-BW-qNw" secondAttribute="trailing" id="FYP-va-Oyj"/>
-                            <constraint firstItem="ZBR-BW-qNw" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="vW8-Ts-4gy"/>
-                            <constraint firstItem="ZBR-BW-qNw" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="w1a-3j-J0k"/>
-                        </constraints>
+                        <color key="backgroundColor" red="0.054901960784313725" green="0.77254901960784317" blue="0.54509803921568623" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="tintColor" red="0.054901960784313725" green="0.77254901960784317" blue="0.54509803921568623" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -38,6 +31,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="splash" width="390" height="60"/>
+        <image name="모두의 지하철" width="137" height="100"/>
     </resources>
 </document>

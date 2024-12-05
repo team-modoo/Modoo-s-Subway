@@ -9,7 +9,8 @@ import SwiftUI
 import PhotosUI
 
 struct EditFolderView: View {
-    let section1: [EditFolderType] = [.modify, .attach, .delete]
+    let folder: Folder
+    let section1: [EditFolderType] = [.modify, .delete]
     var body: some View {
         NavigationView {
             VStack {
@@ -21,7 +22,7 @@ struct EditFolderView: View {
                     
                     Spacer()
                 }
-                .padding(.top,20)
+                .padding(.top,40)
                 .padding(.leading,8)
                 .background(.white)
                 
@@ -30,9 +31,9 @@ struct EditFolderView: View {
                 List {
                     ForEach(section1,id: \.self) { item in
                         EditFolderCell(title: item.rawValue, 
-                                       destination: item.destinationView(),
-                                       iconName: item.iconImage(), 
-                                       folderType: item)
+                                       destination: item.destinationView(folder: item == .modify ? folder : nil),
+                                       iconName: item.iconImage(),
+                                       folderType: item,folder: folder)
                             .listRowSeparator(.hidden)
                             .frame(height: 19)
                             .foregroundStyle(.blue)
@@ -49,16 +50,15 @@ struct EditFolderView: View {
     }
 }
 
-#Preview {
-    EditFolderView()
-}
 
 struct EditFolderCell: View {
     @Environment(\.dismiss) var dismiss
+    @Environment(\.modelContext) private var modelContext
     private var folderType: EditFolderType = .modify
     private var destination: AnyView?
     private var title: String
     private var iconName: String
+    let folder: Folder?
     
     @State private var showFullScreen = false
     @State private var selectedDestination: AnyView? = nil
@@ -67,12 +67,14 @@ struct EditFolderCell: View {
     @State private var showPhotoPicker = false
     @State private var showSelectedPhotoView = false
     @State private var isPresentedError = false
+    @State private var showDeleteAlert = false
     
-    init(title: String, destination: AnyView,iconName: String,folderType:EditFolderType) {
+    init(title: String, destination: AnyView,iconName: String,folderType:EditFolderType,folder: Folder? = nil) {
         self.title = title
         self.destination = destination
         self.iconName = iconName
         self.folderType = folderType
+        self.folder = folder
     }
     
     var body: some View {
@@ -92,15 +94,26 @@ struct EditFolderCell: View {
                     .foregroundStyle(.black)
                 
             }
-            .background(.red)
             .onTapGesture {
-                if folderType == .attach {
-                    showPhotoPicker = true
-                } else {
+                switch folderType {
+                case .modify:
                     showFullScreen = true
+//                case .attach:
+//                    showPhotoPicker = true
+                case .delete:
+                    showDeleteAlert = true
                 }
+
                 print("cell \(destination) clicked")
             }
+            .alert("폴더 삭제", isPresented: $showDeleteAlert) {
+                           Button("취소", role: .cancel) { }
+                           Button("삭제", role: .destructive) {
+                               deleteFolder()
+                           }
+                       } message: {
+                           Text("정말 이 폴더를 삭제하시겠습니까?")
+                       }
             .photosPicker(
                 isPresented: $showPhotoPicker,
                 selection: $selectedPhotos,
@@ -147,22 +160,32 @@ struct EditFolderCell: View {
                }
            }
        }
+    
+    private func deleteFolder() {
+        if let folder = folder {
+            DataManager.shared.deleteFolder(folder, context: modelContext)
+            dismiss()
+        }
+    }
 }
 
 enum EditFolderType: String {
     case modify = "폴더 수정하기"
-    case attach = "사진 첨부하기"
+//    case attach = "사진 첨부하기"
     case delete = "폴더 삭제하기"
   
     
-    func destinationView() -> AnyView {
+    func destinationView(folder:Folder? = nil) -> AnyView {
         switch self {
         case .modify:
-            return AnyView(ModifyFolderView())
-        case .attach:
+            if let folder = folder {
+                return AnyView(FolderFormView(formType: .modify,folder: folder))
+            }
             return AnyView(EmptyView())
+//        case .attach:
+//            return AnyView(EmptyView())
         case .delete:
-            return AnyView(FolderView())
+            return AnyView(EmptyView())
         }
     }
     
@@ -170,8 +193,8 @@ enum EditFolderType: String {
         switch self {
         case .modify:
             return "icon_edit"
-        case .attach:
-            return "icon_photo"
+//        case .attach:
+//            return "icon_photo"
         case .delete:
             return "icon_trash"
         }

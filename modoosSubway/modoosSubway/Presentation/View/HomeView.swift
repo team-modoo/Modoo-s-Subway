@@ -11,7 +11,7 @@ import SwiftData
 struct HomeView: View {
 	// TODO: - DI Container 적용 필요함
 	@StateObject var vm: SearchViewModel = SearchViewModel(subwayUseCase: SubwayUseCase(repository: SubwayRepository()))
-	
+    @StateObject var vm2: SelectedStationViewModel = SelectedStationViewModel(subwayUseCase: SubwayUseCase(repository: SubwayRepository()))
 	@State private var viewType: ViewType = .Star
 	@State private var textFieldString: String = ""
 	@State private var expressActiveState: Bool = false
@@ -31,13 +31,14 @@ struct HomeView: View {
 					}, label: {
 						viewType == .Star ? Image(.iconStarYellowBig) : Image(.iconStar)
 					})
+                   .padding(.trailing, 10)
 					
 					Button(action: {
 						changeViewType(.Folder)
 					}, label: {
-						viewType == .Folder ? Image(.iconBookmarkGreen) : Image(.iconBookmark)
+                        viewType == .Folder ? Image("icon_greenFolder") : Image("icon_folder")
 					})
-					
+                    .padding(.trailing, 10)
 					NavigationLink(destination: {
 						SettingView()
 					}, label: {
@@ -52,13 +53,16 @@ struct HomeView: View {
 						expressActiveState ? Image(.expressActive) : Image(.expressInactive)
 					})
 					.toggleStyle(.button)
-					
+                    .padding(.leading, 16)
+                  
 					TextField(text: $textFieldString) {
 						Text("지하철 역명을 검색해 주세요")
 							.font(.pretendard(size: 14, family: .regular))
                             .foregroundStyle(Color._5_C_5_C_5_C)
 					}
+                    .padding(.leading, -6)
                     .foregroundStyle(.black)
+
 					.submitLabel(.search)
 					.onSubmit {
 						handleSearch()
@@ -92,11 +96,11 @@ struct HomeView: View {
 						handleSearch()
 					}, label: {
 						Image(.iconSearch)
+                            .resizable()
+                            .frame(width: 24,height: 24)
 					})
+                    .padding(.trailing, 16)
 				}
-				.padding(.trailing, 16)
-				.padding(.leading, 10)
-				.padding(.vertical, 4)
 				.background(Color("F5F5F5"))
 				.clipShape(RoundedRectangle(cornerRadius: 10))
 			

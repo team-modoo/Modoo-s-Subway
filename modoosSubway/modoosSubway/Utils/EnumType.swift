@@ -21,6 +21,16 @@ enum FolderType {
 enum FolderSortedType {
     case latest // 최신순
     case name // 이름순
+    
+    var sortDescriptor: SortDescriptor<Folder> {
+        switch self {
+        case .latest:
+            return SortDescriptor(\Folder.timestamp,order: .reverse)
+        case .name:
+            return SortDescriptor(\Folder.title,order: .forward)
+        }
+    }
+    
 }
 
 // MARK: - 지하철 upDownLine의 타입

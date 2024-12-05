@@ -50,7 +50,8 @@ class SubwayUseCase: SubwayUseCaseProtocol {
 											 message2: el.arvlMsg2,
 											 message3: el.arvlMsg3,
 											 arrivalCode: el.arvlCd,
-											 isLastCar: el.lstcarAt)
+                                             isLastCar: el.lstcarAt, 
+                                             barvlDt: el.barvlDt)
 					}
 					
 					return promise(.success(.success(arrivals)))

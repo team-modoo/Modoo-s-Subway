@@ -9,9 +9,13 @@
 /* Begin PBXBuildFile section */
 		059068096F693A9FBCAE40C4 /* Pods_modoosSubway.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51F25182ABE227FC4381A366 /* Pods_modoosSubway.framework */; };
 		3BF3CADD2C81FEC40058345F /* SelectedStationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF3CADC2C81FEC40058345F /* SelectedStationView.swift */; };
+		461D2BA42CF04E7A009BAF92 /* MoreMenuListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461D2BA32CF04E7A009BAF92 /* MoreMenuListView.swift */; };
+		46519A902CF974E5006B2880 /* ToastTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46519A8F2CF974E5006B2880 /* ToastTest.swift */; };
+		46519A922CFEC256006B2880 /* LocalNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46519A912CFEC256006B2880 /* LocalNotification.swift */; };
 		4659A1DE2CE079DA00889FFC /* FolderCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659A1DD2CE079DA00889FFC /* FolderCardView.swift */; };
 		4659A1E02CE0959D00889FFC /* FolderListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659A1DF2CE0959D00889FFC /* FolderListView.swift */; };
 		4659A1E22CE0D11E00889FFC /* FolderHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659A1E12CE0D11E00889FFC /* FolderHeaderView.swift */; };
+		46630D5B2CE73A3E00A8DEF9 /* AlarmSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46630D5A2CE73A3E00A8DEF9 /* AlarmSettingView.swift */; };
 		46E23B2D2C6872190059BB62 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E23B2C2C6872190059BB62 /* NetworkError.swift */; };
 		46E8D9D12CE17D6500ABF38C /* EditFolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E8D9D02CE17D6500ABF38C /* EditFolderView.swift */; };
 		46E8D9D32CE2CBDC00ABF38C /* ModifyFolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E8D9D22CE2CBDC00ABF38C /* ModifyFolderView.swift */; };
@@ -54,9 +58,13 @@
 
 /* Begin PBXFileReference section */
 		3BF3CADC2C81FEC40058345F /* SelectedStationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedStationView.swift; sourceTree = "<group>"; };
+		461D2BA32CF04E7A009BAF92 /* MoreMenuListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreMenuListView.swift; sourceTree = "<group>"; };
+		46519A8F2CF974E5006B2880 /* ToastTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastTest.swift; sourceTree = "<group>"; };
+		46519A912CFEC256006B2880 /* LocalNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotification.swift; sourceTree = "<group>"; };
 		4659A1DD2CE079DA00889FFC /* FolderCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderCardView.swift; sourceTree = "<group>"; };
 		4659A1DF2CE0959D00889FFC /* FolderListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderListView.swift; sourceTree = "<group>"; };
 		4659A1E12CE0D11E00889FFC /* FolderHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderHeaderView.swift; sourceTree = "<group>"; };
+		46630D5A2CE73A3E00A8DEF9 /* AlarmSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmSettingView.swift; sourceTree = "<group>"; };
 		46E23B2C2C6872190059BB62 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		46E8D9D02CE17D6500ABF38C /* EditFolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditFolderView.swift; sourceTree = "<group>"; };
 		46E8D9D22CE2CBDC00ABF38C /* ModifyFolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyFolderView.swift; sourceTree = "<group>"; };
@@ -198,8 +206,11 @@
 				46E8D9D02CE17D6500ABF38C /* EditFolderView.swift */,
 				46E8D9D22CE2CBDC00ABF38C /* ModifyFolderView.swift */,
 				46E8D9D42CE2DF0100ABF38C /* SelectedPhotoView.swift */,
+				46630D5A2CE73A3E00A8DEF9 /* AlarmSettingView.swift */,
 				9AC56CEB2CE9970B0067AF3B /* CardView.swift */,
 				9AC56CED2CE9BE090067AF3B /* AddFolderView.swift */,
+				461D2BA32CF04E7A009BAF92 /* MoreMenuListView.swift */,
+				46519A8F2CF974E5006B2880 /* ToastTest.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -228,6 +239,7 @@
 			children = (
 				9A36985C2C4D01E90019C12A /* Util.swift */,
 				9AEA1E8B2C5DD62800A87BF9 /* EnumType.swift */,
+				46519A912CFEC256006B2880 /* LocalNotification.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -469,11 +481,13 @@
 				9A36985D2C4D01E90019C12A /* Util.swift in Sources */,
 				9AEA1E8E2C5DD6A000A87BF9 /* SubwayUseCase.swift in Sources */,
 				9AC56CF02CEA16F40067AF3B /* CollectionExtension.swift in Sources */,
+				46519A922CFEC256006B2880 /* LocalNotification.swift in Sources */,
 				9A3698452C4CA6490019C12A /* SearchView.swift in Sources */,
 				9AEA1E932C5DD71A00A87BF9 /* Router.swift in Sources */,
 				9AEA1E9A2C68AD6200A87BF9 /* ResponseDTO.swift in Sources */,
 				9AEA1E822C5DD4BC00A87BF9 /* StarViewModel.swift in Sources */,
 				9AEA1E862C5DD57100A87BF9 /* SubwayEntity.swift in Sources */,
+				46630D5B2CE73A3E00A8DEF9 /* AlarmSettingView.swift in Sources */,
 				46E8D9D32CE2CBDC00ABF38C /* ModifyFolderView.swift in Sources */,
 				9AC56CEE2CE9BE090067AF3B /* AddFolderView.swift in Sources */,
 				46E8D9D12CE17D6500ABF38C /* EditFolderView.swift in Sources */,
@@ -482,6 +496,7 @@
 				46E8D9D52CE2DF0100ABF38C /* SelectedPhotoView.swift in Sources */,
 				9A3698522C4CA72D0019C12A /* DataManager.swift in Sources */,
 				9A36984B2C4CA6690019C12A /* DetailView.swift in Sources */,
+				461D2BA42CF04E7A009BAF92 /* MoreMenuListView.swift in Sources */,
 				46F0F7E32C6879E100444C98 /* SearchViewModel.swift in Sources */,
 				9A3698302C4BC0480019C12A /* HomeView.swift in Sources */,
 				4659A1E22CE0D11E00889FFC /* FolderHeaderView.swift in Sources */,
@@ -497,6 +512,7 @@
 				9A3698492C4CA6590019C12A /* StarView.swift in Sources */,
 				9AC56CEC2CE9970B0067AF3B /* CardView.swift in Sources */,
 				4659A1DE2CE079DA00889FFC /* FolderCardView.swift in Sources */,
+				46519A902CF974E5006B2880 /* ToastTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -631,7 +647,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 24111702;
 				DEVELOPMENT_ASSET_PATHS = "\"modoosSubway/Preview Content\"";
-				DEVELOPMENT_TEAM = 6RZ3FF956G;
+				DEVELOPMENT_TEAM = 7K76RWRQBL;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -667,7 +683,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 24111702;
 				DEVELOPMENT_ASSET_PATHS = "\"modoosSubway/Preview Content\"";
-				DEVELOPMENT_TEAM = 6RZ3FF956G;
+				DEVELOPMENT_TEAM = 7K76RWRQBL;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;

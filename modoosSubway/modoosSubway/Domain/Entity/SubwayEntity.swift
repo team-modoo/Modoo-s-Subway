@@ -24,6 +24,7 @@ struct ArrivalEntity: Hashable, Identifiable {
 	let message3: String // 열차 위치 역명
 	let arrivalCode: String // arvlCd - 도착코드 (0:진입, 1:도착, 2:출발, 3:전역출발, 4:전역진입, 5:전역도착, 99:운행중)
 	let isLastCar: String // lstcarAt - 막차여부 (1:막차, 0:아님)
+    let barvlDt: String
 	
 	func subwayLine() -> String {
 		switch self.subwayId {
