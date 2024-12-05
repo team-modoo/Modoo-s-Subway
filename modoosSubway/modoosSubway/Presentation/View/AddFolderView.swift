@@ -59,17 +59,8 @@ struct AddFolderView: View {
                                           saveCardToFolder(item)
                                       }
                             }
-                            //
-                            //
-                            //                            selectedFolder = item
-                            //                            saveCardToFolder(item)
+
                         } label: {
-                            //                            if let selected = selectedFolder,
-                            //                               selected == item {
-                            //                                Image("icon-check")
-                            //                            } else {
-                            //                                Image("icon_plus")
-                            //                            }
                             if item.cardIDs.contains(card.id) {
                                 Image("icon-check")
                             } else {

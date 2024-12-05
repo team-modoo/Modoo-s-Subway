@@ -11,10 +11,18 @@ import SwiftData
 struct SettingView: View {
 	@Environment(\.dismiss) private var dismiss
     @State private var showSheet = false
-    @State private var startTime = Date()
-    @State private var endTime = Date()
+//    @State private var startTime = Date()
+//    @State private var endTime = Date()
     @State private var showStartTimePicker = false
     @State private var showEndTimePicker = false
+    
+    // AppStorage로 시작, 끝 시간 저장
+       @AppStorage("startTime") private var startTimeInterval: TimeInterval = Date().timeIntervalSince1970
+       @AppStorage("endTime") private var endTimeInterval: TimeInterval = Date().timeIntervalSince1970
+       
+       // 저장된 TimeInterval을 Date로 변환하여 사용할 State 변수
+       @State private var startTime: Date
+       @State private var endTime: Date
     
     let section1: [SettingToggleType] = [.sound, .vibration, .notification, .manner]
     let section2 = ["1"]
@@ -27,6 +35,13 @@ struct SettingView: View {
             formatter.locale = Locale(identifier: "ko_KR")
             return formatter
         }()
+    
+    init() {
+        let startInterval = UserDefaults.standard.double(forKey: "startTime")
+        let endInterval = UserDefaults.standard.double(forKey: "endTime")
+          _startTime = State(initialValue: Date(timeIntervalSince1970: UserDefaults.standard.double(forKey: "startTime")))
+          _endTime = State(initialValue: Date(timeIntervalSince1970: UserDefaults.standard.double(forKey: "endTime")))
+      }
     
 	var body: some View {
 		NavigationView {
@@ -180,6 +195,18 @@ struct SettingView: View {
         .task {
             print("")
         }
+        // startDate가 변경될 때마다 AppStorage 업데이트
+              .onChange(of: startTime) { _, newValue in
+                  startTimeInterval = newValue.timeIntervalSince1970
+              }
+              
+              // endDate도 같은 방식으로
+              .onChange(of: endTime) { _, newValue in
+                  endTimeInterval = newValue.timeIntervalSince1970
+              }
+              .onDisappear {
+                  UserDefaults.standard.synchronize()
+              }
 		.toolbar(.hidden, for: .navigationBar)
 	}
     
@@ -386,6 +413,7 @@ struct TimeSelectedView: View {
 
             Button {
                 print("설정하기")
+                UserDefaults.standard.synchronize()
                 dismiss()
             } label: {
                 Text("설정하기")
