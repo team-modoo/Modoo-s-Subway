@@ -10,7 +10,6 @@ import SwiftData
 
 struct FolderView: View {
 	@Environment(\.modelContext) private var modelContext
-	@Query private var items: [Item]
 //    @Query private var folders: [Folder]
     @State private var viewType: FolderType = .Card
     @State private var sortedType: FolderSortedType = .name
@@ -132,20 +131,8 @@ struct FolderView: View {
             print("add item complete\(newItem)")
 		}
 	}
-	
-	private func deleteItems(offsets: IndexSet) {
-		withAnimation {
-			for index in offsets {
-				modelContext.delete(items[index])
-			}
-		}
-	}
 }
 
-#Preview {
-	FolderView()
-		.modelContainer(for: Item.self, inMemory: true)
-}
 
 
 

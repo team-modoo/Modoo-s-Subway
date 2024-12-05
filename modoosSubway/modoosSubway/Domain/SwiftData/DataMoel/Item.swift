@@ -9,20 +9,6 @@ import SwiftUI
 import SwiftData
 
 @Model
-final class Item {
-    let id: UUID
-    var timestamp: Date
-    
-   
-    var folders: [Folder] = []
-    
-    init(timestamp: Date) {
-        self.id = UUID()
-        self.timestamp = timestamp
-    }
-}
-
-@Model
 final class Folder {
     let id: UUID
     var title: String

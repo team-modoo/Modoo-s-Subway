@@ -13,7 +13,6 @@ struct modoosSubwayApp: App {
     @State var isSplashView = true
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            Item.self,
 			Folder.self,
 			Star.self
         ])
