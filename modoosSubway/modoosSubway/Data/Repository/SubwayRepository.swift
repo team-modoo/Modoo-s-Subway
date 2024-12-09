@@ -53,7 +53,7 @@ class SubwayRepository: SubwayRepositoryProtocol {
                     let statusCode = response.response?.statusCode ?? 0
                     
                     print("*[지하철역 정보 검색(역명) API 요청 status code] \(statusCode)")
-                    print(JSON(response.data as Any))
+                    print(JSON(response.data as Any),"222222")
                     
                     switch response.result {
                     case .success(let data):

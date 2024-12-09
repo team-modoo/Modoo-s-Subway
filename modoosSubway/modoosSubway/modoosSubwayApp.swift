@@ -10,6 +10,7 @@ import SwiftData
 
 @main
 struct modoosSubwayApp: App {
+    let container = DIContainer()
     @State var isSplashView = true
     @State private var isFirstLaunch = true
     @AppStorage("hasLaunchedBefore") private var hasLaunchedBefore = false
@@ -42,7 +43,7 @@ struct modoosSubwayApp: App {
                 if !hasLaunchedBefore  {
                     DemoStartView()
                 } else {
-                    HomeView()
+                    HomeView(container: container)
                 }
             }
             //SettingView()

@@ -9,7 +9,8 @@ import SwiftUI
 import SwiftData
 
 struct SearchView: View {
-	@StateObject var vm: SearchViewModel
+    let container: DIContainer
+    @ObservedObject var vm: SearchViewModel
 	
 	var body: some View {
 		GeometryReader(content: { geometry in
@@ -32,7 +33,7 @@ struct SearchView: View {
 						.foregroundColor(.white)
 					}
                 .background(
-                    NavigationLink("", destination: SelectedStationView(selectedStation: station))
+                    NavigationLink("", destination: SelectedStationView(container: container, selectedStation: station))
                         .opacity(0)
                 )
 				.listRowSeparator(.hidden)

@@ -48,7 +48,7 @@ struct FancyToastModifier: ViewModifier {
                         .offset(y: -30)
                 }.animation(.spring(), value: toast)
             )
-            .onChange(of: toast) { value in
+            .onChange(of: toast) { _, value in
                 showToast()
             }
     }
@@ -154,6 +154,9 @@ struct ToastBasicView: View {
 }
 
 struct FancyToastView: View {
+    
+    @EnvironmentObject private var homeViewModel: HomeViewModel
+    @Environment(\.dismiss) private var dismiss
     var type: FancyToastStyle
     var title: String
     var onCancelTapped: (() -> Void)
@@ -173,7 +176,8 @@ struct FancyToastView: View {
                 Spacer(minLength: 10)
                 
                 Button {
-                    onCancelTapped()
+                    homeViewModel.changeViewType(.Star)
+                    dismiss()  // SelectedStationView 닫기
                 } label: {
                     Text("이동하기")
                         .foregroundColor(Color.black)
