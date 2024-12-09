@@ -49,18 +49,18 @@ struct HomeView: View {
 				
 				// MARK: - 서치바
 				HStack {
-					Toggle(isOn: $expressActiveState, label: {
-						expressActiveState ? Image(.expressActive) : Image(.expressInactive)
-					})
-					.toggleStyle(.button)
-                    .padding(.leading, 16)
+//					Toggle(isOn: $expressActiveState, label: {
+//						expressActiveState ? Image(.expressActive) : Image(.expressInactive)
+//					})
+//					.toggleStyle(.button)
+//                    .padding(.leading, 16)
                   
 					TextField(text: $textFieldString) {
 						Text("지하철 역명을 검색해 주세요")
 							.font(.pretendard(size: 14, family: .regular))
                             .foregroundStyle(Color._5_C_5_C_5_C)
 					}
-                    .padding(.leading, -6)
+                    .padding(.leading, 20)
                     .foregroundStyle(.black)
 
 					.submitLabel(.search)
@@ -101,6 +101,7 @@ struct HomeView: View {
 					})
                     .padding(.trailing, 16)
 				}
+                .frame(height: 56)
 				.background(Color("F5F5F5"))
 				.clipShape(RoundedRectangle(cornerRadius: 10))
 			

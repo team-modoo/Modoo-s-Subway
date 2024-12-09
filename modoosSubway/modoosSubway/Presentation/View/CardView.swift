@@ -237,41 +237,16 @@ struct CardView: View {
                 let descriptor = FetchDescriptor<Star>()
                 if let stars = try? modelContext.fetch(descriptor),
                    let starToDelete = stars.first(where: { $0.subwayCard == item }) {
-                    DataManager.shared.deleteStar(item: starToDelete)
+//                    DataManager.shared.deleteStar(item: starToDelete)
+                    if let folder = folder {
+                                DataManager.shared.deleteStar(item: starToDelete)
+                                DataManager.shared.updateFolderLineNumbers(folder, context: modelContext)
+                            } else {
+                                // 폴더가 없는 경우(StarView 등)는 기존처럼 처리
+                                DataManager.shared.deleteStar(item: starToDelete)
+                            }
                 }
             }
         }
     }
 }
-
-
-//struct CardView: View {
-//    // ... 기존 프로퍼티들 ...
-//    
-//    var body: some View {
-//        List {
-//            ForEach(cards) { card in
-//                VStack {
-//                    // ... 카드 내용 ...
-//                }
-//                .buttonStyle(PlainButtonStyle())
-//                .listRowSeparator(.hidden)
-//                .padding(.horizontal, isEditingMode ? 20 : 0)  // 편집 모드일 때만 왼쪽 패딩
-//                .frame(width: 350, height: 213)
-//                .background(
-//                    RoundedRectangle(cornerRadius: 10)
-//                        .stroke(.EDEDED)
-//                )
-//            }
-//            .onMove(perform: isEditingMode ? { from, to in
-//                cards.move(fromOffsets: from, toOffset: to)
-//                onOrderChanged?(cards)
-//            } : nil)
-//        }
-//        .listStyle(.plain)
-//        .scrollIndicators(.hidden)
-//        .environment(\.editMode, .constant(isEditingMode ? .active : .inactive))
-//        // 편집 모드가 아닐 때는 중앙 정렬
-//        .frame(maxWidth: .infinity, alignment: isEditingMode ? .leading : .center)
-//    }
-//}

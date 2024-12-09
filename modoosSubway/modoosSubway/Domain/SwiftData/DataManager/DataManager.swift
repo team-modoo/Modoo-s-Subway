@@ -176,6 +176,7 @@ class DataManager {
         
         do {
             try context.save()
+            updateFolderLineNumbers(folder, context: context) 
             print("카드가 폴더에서 제거되었습니다")
             return true
         } catch {
@@ -209,6 +210,24 @@ class DataManager {
     
     }
     
+    func updateFolderLineNumbers(_ folder: Folder, context: ModelContext) {
+        // 현재 폴더에 있는 cardIDs를 기반으로 호선 정보 업데이트
+        var uniqueLineNumbers = Set<String>()
+        
+        for cardID in folder.cardIDs {
+            let descriptor = FetchDescriptor<Star>(
+                predicate: #Predicate<Star> { star in
+                    star.subwayCard.id == cardID
+                }
+            )
+            if let star = try? context.fetch(descriptor).first {
+                uniqueLineNumbers.insert(star.subwayCard.lineNumber)
+            }
+        }
+        
+        folder.lineNumber = Array(uniqueLineNumbers)
+        try? context.save()
+    }
     
     
 }
