@@ -60,7 +60,7 @@ struct HomeView: View {
 				
 				// MARK: - 서치바
 				HStack {
-					TextField(text: $textFieldString) {
+					TextField(text: $homeViewModel.searchText) {
 						Text("지하철 역명을 검색해 주세요")
 							.font(.pretendard(size: 14, family: .regular))
                             .foregroundStyle(Color._5_C_5_C_5_C)
@@ -139,7 +139,8 @@ struct HomeView: View {
 	
 	private func handleSearch() {
 		hideKeyboard()
-        homeViewModel.handleSearch(textFieldString, searchViewModel: searchViewModel)
+        homeViewModel.handleSearch(searchViewModel: searchViewModel)
+        print("\(textFieldString)")
 	}
 }
 

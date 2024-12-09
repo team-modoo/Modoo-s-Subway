@@ -108,6 +108,12 @@ struct StarHeaderView: View {
     @Binding var viewType: FolderType
     @Binding var sortedType: FolderSortedType
     @State private var expressActiveState: Bool = false
+    @State private var selectedDirection: Direction? = nil
+    
+    enum Direction {
+        case upward // 상행/외선
+        case downward // 하행/내선
+    }
 
     var body: some View {
         HStack {

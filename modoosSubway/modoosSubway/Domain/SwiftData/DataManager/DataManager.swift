@@ -99,15 +99,17 @@ class DataManager {
             folder.content = content
         }
         
-        if let image = image {
-            let optimizedImage = optimizeImage(image)
-            if let imageData = optimizedImage.jpegData(compressionQuality: 0.7) {
-                folder.backgroundImage = imageData.base64EncodedString()
-                print("원본 이미지 크기: \(image.size)")
-                print("최적화된 이미지 크기: \(optimizedImage.size)")
-                print("이미지 데이터 크기: \(Double(imageData.count) / 1024.0)KB")
+        if image == nil {
+                folder.backgroundImage = nil
+            } else {
+                let optimizedImage = optimizeImage(image!)
+                if let imageData = optimizedImage.jpegData(compressionQuality: 0.7) {
+                    folder.backgroundImage = imageData.base64EncodedString()
+                    print("원본 이미지 크기: \(image!.size)")
+                    print("최적화된 이미지 크기: \(optimizedImage.size)")
+                    print("이미지 데이터 크기: \(Double(imageData.count) / 1024.0)KB")
+                }
             }
-        }
         do {
             try context.save()
             print("""

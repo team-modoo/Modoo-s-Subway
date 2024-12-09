@@ -10,9 +10,9 @@ import SwiftData
 
 struct FolderView: View {
 	@Environment(\.modelContext) private var modelContext
-//    @Query private var folders: [Folder]
-    @State private var viewType: FolderType = .Card
-    @State private var sortedType: FolderSortedType = .name
+
+    @State private var viewType: FolderType
+    @State private var sortedType: FolderSortedType
     var item: [Int] = [1,2,3]
     
     var folders: [Folder] {
@@ -24,7 +24,14 @@ struct FolderView: View {
             return (try? modelContext.fetch(descriptor)) ?? []
         }
     
-
+    init() {
+            let savedViewType = UserDefaults.standard.string(forKey: "folder_view_type")
+            let savedSortType = UserDefaults.standard.string(forKey: "folder_sort_type")
+            
+            _viewType = State(initialValue: FolderType(rawValue: savedViewType ?? "") ?? .Card)
+            _sortedType = State(initialValue: FolderSortedType(rawValue: savedSortType ?? "") ?? .name)
+        }
+    
 	var body: some View {
         NavigationStack {
             VStack {
@@ -70,6 +77,12 @@ struct FolderView: View {
                 })
             }
         }
+        .onChange(of: viewType) { _, newValue in
+                    UserDefaults.standard.set(newValue.rawValue, forKey: "folder_view_type")
+                }
+                .onChange(of: sortedType) { _, newValue in
+                    UserDefaults.standard.set(newValue.rawValue, forKey: "folder_sort_type")
+                }
         .onChange(of: folders) { old, new in
                  print("폴더 데이터 변경됨")
                  print("현재 폴더 개수: \(new.count)")
@@ -148,6 +161,9 @@ class ImageCache {
         cache.setObject(image, forKey: key as NSString)
     }
     
+    func remove(forkey key: String) {
+        cache.removeObject(forKey: key as NSString)
+    }
 }
 
 struct FolderBackgroundImage: View {
@@ -162,21 +178,35 @@ struct FolderBackgroundImage: View {
                     .resizable()
                     .scaledToFill()
             } else {
-                Image("image 5 (1)")
+               // Image("image 5 (1)")
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(.EDEDED)
             }
         }
         .task {
             await loadImage()
         }
-        .onChange(of: imageString) { _, _ in
-                   Task {
-                       await loadImage()
-                   }
-               }
+        .onChange(of: imageString) { _, newValue in
+            if newValue == nil {
+                displayImage = nil
+                if let oldImageString = imageString {
+                    ImageCache.shared.remove(forkey: oldImageString)
+                }
+            } else {
+                Task {
+                    await loadImage()
+                }
+            }
+        }
     }
     
     private func loadImage() async {
-        guard let base64String = imageString else { return }
+        guard let base64String = imageString else {
+            await MainActor.run {
+                displayImage = nil
+        }
+            return
+        }
         
         if let cachedImage = ImageCache.shared.get(forkey: base64String) {
             displayImage = cachedImage

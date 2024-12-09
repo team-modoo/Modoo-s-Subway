@@ -13,6 +13,7 @@ class HomeViewModel: ObservableObject {
     @Published var searchStations: [StationEntity] = []
     @Published var searchText: String = ""
     
+    
     func changeViewType(_ type: ViewType) {
         selectedTab = type
         isSearchViewHidden = true
@@ -20,18 +21,18 @@ class HomeViewModel: ObservableObject {
         searchText = ""
     }
     
-    func handleSearch(_ searchText: String, searchViewModel: SearchViewModel) {
-            if !searchText.isEmpty {
-                isSearchViewHidden = false
-                searchViewModel.getSearchSubwayStations(
-                    for: searchText,
-                    service: "SearchInfoBySubwayNameService",
-                    startIndex: 1,
-                    endIndex: 5
-                )
-            } else {
-                isSearchViewHidden = true
-                searchViewModel.stations = []
-            }
-        }
+    func handleSearch(searchViewModel: SearchViewModel) {
+           if !searchText.isEmpty {
+               isSearchViewHidden = false
+               searchViewModel.getSearchSubwayStations(
+                   for: searchText,
+                   service: "SearchInfoBySubwayNameService",
+                   startIndex: 1,
+                   endIndex: 5
+               )
+           } else {
+               isSearchViewHidden = true
+               searchViewModel.stations = []
+           }
+       }
 }

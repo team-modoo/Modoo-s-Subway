@@ -240,7 +240,7 @@ class SelectedStationViewModel: ObservableObject {
 					self?.downStationNames = Array(stations[safe: downStartIndex...downLastIndex] ?? [])
 					
 					let upStartIndex = stations.firstIndex(of: self?.selectedStation?.stationName ?? "" ) ?? 0
-					let upLastIndex = upStartIndex + count
+                    var upLastIndex = min(upStartIndex + count, stations.count - 1 )
 					self?.upStationNames = Array(stations[safe: upStartIndex...upLastIndex] ?? [])
 					
 					completionHandler()
