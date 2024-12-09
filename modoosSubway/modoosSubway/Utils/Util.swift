@@ -44,7 +44,10 @@ class Util {
 	// MARK: - modify trainLineName
 	static func formatTrainLineName(_ trainLineName: String) -> String {
 		let names = trainLineName.split(separator: " - ")
-		return String(names.first ?? "")
+        if let firstPart = names.first {
+               return String(firstPart.split(separator: "행").first ?? firstPart)
+           }
+           return ""
 	}
 	
 	// MARK: - 노선별 컬러

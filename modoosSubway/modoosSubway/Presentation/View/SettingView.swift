@@ -11,14 +11,20 @@ import SwiftData
 struct SettingView: View {
 	@Environment(\.dismiss) private var dismiss
     @State private var showSheet = false
-//    @State private var startTime = Date()
-//    @State private var endTime = Date()
     @State private var showStartTimePicker = false
     @State private var showEndTimePicker = false
     
     // AppStorage로 시작, 끝 시간 저장
-       @AppStorage("startTime") private var startTimeInterval: TimeInterval = Date().timeIntervalSince1970
-       @AppStorage("endTime") private var endTimeInterval: TimeInterval = Date().timeIntervalSince1970
+    @AppStorage("startTime") private var startTimeInterval: TimeInterval = Date().timeIntervalSince1970 {
+            didSet {
+                startTime = Date(timeIntervalSince1970: startTimeInterval)
+            }
+        }
+        @AppStorage("endTime") private var endTimeInterval: TimeInterval = Date().timeIntervalSince1970 {
+            didSet {
+                endTime = Date(timeIntervalSince1970: endTimeInterval)
+            }
+        }
        
        // 저장된 TimeInterval을 Date로 변환하여 사용할 State 변수
        @State private var startTime: Date
@@ -37,11 +43,11 @@ struct SettingView: View {
         }()
     
     init() {
-        let startInterval = UserDefaults.standard.double(forKey: "startTime")
-        let endInterval = UserDefaults.standard.double(forKey: "endTime")
-          _startTime = State(initialValue: Date(timeIntervalSince1970: UserDefaults.standard.double(forKey: "startTime")))
-          _endTime = State(initialValue: Date(timeIntervalSince1970: UserDefaults.standard.double(forKey: "endTime")))
-      }
+            let savedStartTime = UserDefaults.standard.double(forKey: "startTime")
+            let savedEndTime = UserDefaults.standard.double(forKey: "endTime")
+            _startTime = State(initialValue: Date(timeIntervalSince1970: savedStartTime))
+            _endTime = State(initialValue: Date(timeIntervalSince1970: savedEndTime))
+        }
     
 	var body: some View {
 		NavigationView {
@@ -192,6 +198,11 @@ struct SettingView: View {
 			}
            .background(.white)
 		}
+        .onAppear {
+                // 뷰가 나타날 때마다 저장된 시간 다시 로드
+                startTime = Date(timeIntervalSince1970: UserDefaults.standard.double(forKey: "startTime"))
+                endTime = Date(timeIntervalSince1970: UserDefaults.standard.double(forKey: "endTime"))
+            }
         .task {
             print("")
         }
@@ -413,7 +424,16 @@ struct TimeSelectedView: View {
 
             Button {
                 print("설정하기")
-                UserDefaults.standard.synchronize()
+                let timeInterval = selectedDate.timeIntervalSince1970
+                          let key = selectionType == .start ? "startTime" : "endTime"
+                          UserDefaults.standard.set(timeInterval, forKey: key)
+                          UserDefaults.standard.synchronize()
+                          
+                          // State 업데이트
+                          withAnimation {
+                              selectedDate = selectedDate
+                          }
+                            
                 dismiss()
             } label: {
                 Text("설정하기")

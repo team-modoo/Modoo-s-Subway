@@ -106,7 +106,7 @@ struct AddFolderView: View {
                     
                     
                 }
-                .background(.red)
+//                .background(.red)
                 .listRowSeparator(.hidden)
                 .listRowInsets(EdgeInsets())
             }
@@ -199,6 +199,7 @@ struct AddFolderView: View {
         if let currentFolder = currentFolder {
             currentFolder.cardIDs.removeAll { $0 == card.id }
             try? modelContext.save()
+            DataManager.shared.updateFolderLineNumbers(currentFolder, context: modelContext)
         }
 
         // 새 폴더에 추가
@@ -207,6 +208,7 @@ struct AddFolderView: View {
             targetFolder.lineNumber.append(card.lineNumber)
         }
         try? modelContext.save()
+        DataManager.shared.updateFolderLineNumbers(targetFolder, context: modelContext)
         
         alertMessage = "\(targetFolder.title) 폴더에\n이동되었습니다"
         showAlert = true

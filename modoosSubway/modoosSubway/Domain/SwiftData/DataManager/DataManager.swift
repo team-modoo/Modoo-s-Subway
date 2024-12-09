@@ -99,15 +99,17 @@ class DataManager {
             folder.content = content
         }
         
-        if let image = image {
-            let optimizedImage = optimizeImage(image)
-            if let imageData = optimizedImage.jpegData(compressionQuality: 0.7) {
-                folder.backgroundImage = imageData.base64EncodedString()
-                print("원본 이미지 크기: \(image.size)")
-                print("최적화된 이미지 크기: \(optimizedImage.size)")
-                print("이미지 데이터 크기: \(Double(imageData.count) / 1024.0)KB")
+        if image == nil {
+                folder.backgroundImage = nil
+            } else {
+                let optimizedImage = optimizeImage(image!)
+                if let imageData = optimizedImage.jpegData(compressionQuality: 0.7) {
+                    folder.backgroundImage = imageData.base64EncodedString()
+                    print("원본 이미지 크기: \(image!.size)")
+                    print("최적화된 이미지 크기: \(optimizedImage.size)")
+                    print("이미지 데이터 크기: \(Double(imageData.count) / 1024.0)KB")
+                }
             }
-        }
         do {
             try context.save()
             print("""
@@ -176,6 +178,7 @@ class DataManager {
         
         do {
             try context.save()
+            updateFolderLineNumbers(folder, context: context) 
             print("카드가 폴더에서 제거되었습니다")
             return true
         } catch {
@@ -209,6 +212,24 @@ class DataManager {
     
     }
     
+    func updateFolderLineNumbers(_ folder: Folder, context: ModelContext) {
+        // 현재 폴더에 있는 cardIDs를 기반으로 호선 정보 업데이트
+        var uniqueLineNumbers = Set<String>()
+        
+        for cardID in folder.cardIDs {
+            let descriptor = FetchDescriptor<Star>(
+                predicate: #Predicate<Star> { star in
+                    star.subwayCard.id == cardID
+                }
+            )
+            if let star = try? context.fetch(descriptor).first {
+                uniqueLineNumbers.insert(star.subwayCard.lineNumber)
+            }
+        }
+        
+        folder.lineNumber = Array(uniqueLineNumbers)
+        try? context.save()
+    }
     
     
 }

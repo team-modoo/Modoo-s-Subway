@@ -94,12 +94,11 @@ struct EditFolderCell: View {
                     .foregroundStyle(.black)
                 
             }
+            .contentShape(Rectangle())
             .onTapGesture {
                 switch folderType {
                 case .modify:
                     showFullScreen = true
-//                case .attach:
-//                    showPhotoPicker = true
                 case .delete:
                     showDeleteAlert = true
                 }

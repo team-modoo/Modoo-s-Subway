@@ -10,11 +10,20 @@ import SwiftData
 
 struct SelectedStationView: View {
 	// TODO: - DI Container 적용 필요함
+    private let container: DIContainer
+    @StateObject var vm: SelectedStationViewModel
+    @EnvironmentObject private var homeViewModel: HomeViewModel
     @State private var timer: Timer? = nil
-	@StateObject var vm: SelectedStationViewModel = SelectedStationViewModel(subwayUseCase: SubwayUseCase(repository: SubwayRepository()))
 	@Environment(\.dismiss) private var dismiss
 	@State var selectedStation: StationEntity?
     @State private var toast: FancyToast? = nil
+    
+    init(container: DIContainer, selectedStation: StationEntity?) {
+        self.container = container
+        self.selectedStation = selectedStation
+        
+        _vm = StateObject(wrappedValue: container.makeSelectedStationViewModel())
+    }
 	
 	var body: some View {
 		NavigationView {
@@ -43,6 +52,11 @@ struct SelectedStationView: View {
 				Spacer()
 			}
 		}
+        .toastView(toast: $toast,onMoveToStarView: {
+            homeViewModel.changeViewType(.Star)
+                            dismiss()
+        })
+
 		.task {
 			if let selectedStation = selectedStation {
 				print("task 작업 확인")

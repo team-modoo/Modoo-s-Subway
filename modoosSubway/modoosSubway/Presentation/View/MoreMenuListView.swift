@@ -96,7 +96,7 @@ struct MoreMenuCell: View {
                     .foregroundStyle(.black)
 
         }
-        .background(.red)
+//        .background(.red)
         .onTapGesture {
             switch menuType {
             case .moveFolder:

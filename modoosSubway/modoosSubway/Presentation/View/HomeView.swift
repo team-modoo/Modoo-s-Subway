@@ -10,12 +10,23 @@ import SwiftData
 
 struct HomeView: View {
 	// TODO: - DI Container 적용 필요함
-	@StateObject var vm: SearchViewModel = SearchViewModel(subwayUseCase: SubwayUseCase(repository: SubwayRepository()))
-    @StateObject var vm2: SelectedStationViewModel = SelectedStationViewModel(subwayUseCase: SubwayUseCase(repository: SubwayRepository()))
+    private let container: DIContainer
+    @StateObject var homeViewModel: HomeViewModel
+	@StateObject var searchViewModel: SearchViewModel
+
 	@State private var viewType: ViewType = .Star
 	@State private var textFieldString: String = ""
 	@State private var expressActiveState: Bool = false
 	@State private var isSearchViewHidden: Bool = true
+    
+    @State private var viewType2: FolderType = .Card
+    @State private var sortedType: FolderSortedType = .name
+    
+    init(container: DIContainer) {
+        self.container = container
+        _homeViewModel = StateObject(wrappedValue: container.makeHomeViewModel())
+        _searchViewModel = StateObject(wrappedValue: container.makeSearchViewModel())
+    }
 	
 	var body: some View {
 		NavigationStack {
@@ -27,16 +38,16 @@ struct HomeView: View {
 					Spacer()
 					
 					Button(action: {
-						changeViewType(.Star)
+                        homeViewModel.changeViewType(.Star)
 					}, label: {
-						viewType == .Star ? Image(.iconStarYellowBig) : Image(.iconStar)
+                        homeViewModel.selectedTab == .Star ? Image(.iconStarYellowBig) : Image(.iconStar)
 					})
                    .padding(.trailing, 10)
 					
 					Button(action: {
-						changeViewType(.Folder)
+                        homeViewModel.changeViewType(.Folder)
 					}, label: {
-                        viewType == .Folder ? Image("icon_greenFolder") : Image("icon_folder")
+                        homeViewModel.selectedTab == .Folder ? Image("icon_greenFolder") : Image("icon_folder")
 					})
                     .padding(.trailing, 10)
 					NavigationLink(destination: {
@@ -49,18 +60,12 @@ struct HomeView: View {
 				
 				// MARK: - 서치바
 				HStack {
-					Toggle(isOn: $expressActiveState, label: {
-						expressActiveState ? Image(.expressActive) : Image(.expressInactive)
-					})
-					.toggleStyle(.button)
-                    .padding(.leading, 16)
-                  
-					TextField(text: $textFieldString) {
+					TextField(text: $homeViewModel.searchText) {
 						Text("지하철 역명을 검색해 주세요")
 							.font(.pretendard(size: 14, family: .regular))
                             .foregroundStyle(Color._5_C_5_C_5_C)
 					}
-                    .padding(.leading, -6)
+                    .padding(.leading, 20)
                     .foregroundStyle(.black)
 
 					.submitLabel(.search)
@@ -80,7 +85,7 @@ struct HomeView: View {
 									
 									if textFieldString.isEmpty {
 										isSearchViewHidden = true
-										vm.stations = []
+										searchViewModel.stations = []
 									}
 								}) {
 									Image(systemName: "keyboard.chevron.compact.down")
@@ -101,20 +106,21 @@ struct HomeView: View {
 					})
                     .padding(.trailing, 16)
 				}
+                .frame(height: 56)
 				.background(Color("F5F5F5"))
 				.clipShape(RoundedRectangle(cornerRadius: 10))
 			
 				// MARK: - 컨텐츠
 				ZStack(alignment: .top) {
-					switch viewType {
+                    switch homeViewModel.selectedTab {
 					case .Folder:
 						FolderView()
 					case .Star:
 						StarView()
 					}
 					
-					if !isSearchViewHidden {
-						SearchView(vm: vm)
+                    if !homeViewModel.isSearchViewHidden {
+                        SearchView(container: container, vm: searchViewModel)
 					}
 				}
 				
@@ -122,33 +128,19 @@ struct HomeView: View {
 			}
 			.padding(20)
 		}
+        .environmentObject(homeViewModel)
 	}
 	
 	// MARK: - 폴더 or 즐겨찾기
-	private func changeViewType(_ type: ViewType) {
-		viewType = type
-		isSearchViewHidden = true
-		vm.stations = []
-		textFieldString = ""
-	}
-	
+
 	private func hideKeyboard() {
 		UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
 	}
 	
 	private func handleSearch() {
 		hideKeyboard()
-		
-		if !textFieldString.isEmpty {
-			isSearchViewHidden = false
-			vm.getSearchSubwayStations(for: textFieldString, service: "SearchInfoBySubwayNameService", startIndex: 1, endIndex: 5)
-		} else {
-			isSearchViewHidden = true
-			vm.stations = []
-		}
+        homeViewModel.handleSearch(searchViewModel: searchViewModel)
+        print("\(textFieldString)")
 	}
 }
 
-#Preview {
-	HomeView()
-}

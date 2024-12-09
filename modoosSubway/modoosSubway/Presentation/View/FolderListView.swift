@@ -12,7 +12,7 @@ struct FolderListView: View {
     let list = [1,2,3,4,5]
     var body: some View {
             List(folder,id: \.self) { folders in
-                FolderListCell(contents: folders)
+                FolderListCell(folders: folders)
                     .listRowInsets(EdgeInsets())
                     .frame(height: 110)
             }
@@ -22,24 +22,24 @@ struct FolderListView: View {
 
 struct FolderListCell: View {
     let line = ["7", "서해", "1","경의중앙"]
-    var contents:Folder
-    init(contents:Folder) {
-        self.contents = contents
+    var folders:Folder
+    init(folders:Folder) {
+        self.folders = folders
     }
     
     
     var body: some View {
-        NavigationLink(destination: FilteredStarView(folder: contents)) {
+        NavigationLink(destination: FilteredStarView(folder: folders)) {
         VStack(alignment: .leading) {
             HStack {
                 HStack{
-                    ForEach(line,id: \.self) { line in
+                    ForEach(folders.lineNumber,id: \.self) { line in
                         Text("\(line)")
                             .font(.pretendard(size: 14, family: .regular))
                             .tint(.white)
                             .padding(.horizontal, 14)
                             .padding(.vertical, 7.5)
-                            .background(Capsule().fill(.blue))
+                            .background(Capsule().fill(Util.getLineColor(line)))
                             .foregroundColor(.white)
                     }
                 }
@@ -63,7 +63,7 @@ struct FolderListCell: View {
             
             Spacer()
             
-            Text("\(contents.title)")
+            Text("\(folders.title)")
                 .font(.pretendard(size: 24, family: .regular))
                 .foregroundStyle(.black)
                 .padding(EdgeInsets(top: 0, leading: 10, bottom: 16, trailing: 0))

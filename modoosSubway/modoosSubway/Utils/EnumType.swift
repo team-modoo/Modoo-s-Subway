@@ -13,12 +13,12 @@ enum ViewType {
 	case Star
 }
 // MARK: - 홈화면의 폴더 타입
-enum FolderType {
+enum FolderType: String, Codable {
     case Card
     case List
 }
 
-enum FolderSortedType {
+enum FolderSortedType: String, Codable {
     case latest // 최신순
     case name // 이름순
     
@@ -47,3 +47,31 @@ enum ExecutionType<T> {
 	case success(_ data: T)
 	case error(_ error: NetworkError)
 }
+
+enum SubwayDirection {
+    case up     // 상행/외선
+    case down   // 하행/내선
+    case none   // 필터 미적용
+    
+    var displayText: String {
+        switch self {
+        case .up:
+            return "상행선"
+        case .down:
+            return "하행선"
+        case .none:
+            return ""
+        }
+    }
+    var directions: [String] {
+        switch self {
+        case .up:
+            return ["상행선", "외선"]
+        case .down:
+            return ["하행선", "내선"]
+        case .none:
+            return []
+        }
+    }
+}
+

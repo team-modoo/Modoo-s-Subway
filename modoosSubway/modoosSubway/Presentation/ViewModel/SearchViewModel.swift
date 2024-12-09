@@ -24,6 +24,8 @@ class SearchViewModel: ObservableObject {
 	func getSearchSubwayStations(for stationName: String, service: String, startIndex:Int, endIndex:Int) {
 		let request: SearchSubwayRequestDTO = SearchSubwayRequestDTO(key:self.key, service: service, startIndex: startIndex, endIndex: endIndex, stationName: stationName)
         
+        print("request\(request)")
+        
         subwayUseCase.executeSearchSubwayStation(request: request)
             .subscribe(on: DispatchQueue.global(qos: .background))
             .map( { [weak self] executionType -> [StationEntity] in

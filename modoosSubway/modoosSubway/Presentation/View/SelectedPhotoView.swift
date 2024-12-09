@@ -25,7 +25,7 @@ struct SelectedPhotoView: View {
                             .padding(.leading, -10)
                             .tint(._333333)
                     }
-                    .background(.red)
+//                    .background(.red)
                     
                     Spacer()
                     

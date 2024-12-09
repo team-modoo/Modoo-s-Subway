@@ -62,6 +62,8 @@ struct ArrivalEntity: Hashable, Identifiable {
 			return "우이신설선"
 		case "1093":
 			return "서해선"
+        case "1094":
+            return "신림선"
 		case "1081":
 			return "경강선"
 		case "1032":
