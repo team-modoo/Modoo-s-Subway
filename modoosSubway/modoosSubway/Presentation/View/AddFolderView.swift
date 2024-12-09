@@ -106,7 +106,7 @@ struct AddFolderView: View {
                     
                     
                 }
-                .background(.red)
+//                .background(.red)
                 .listRowSeparator(.hidden)
                 .listRowInsets(EdgeInsets())
             }

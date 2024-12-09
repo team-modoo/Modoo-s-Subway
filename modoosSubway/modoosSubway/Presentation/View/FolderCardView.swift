@@ -60,7 +60,7 @@ struct FolderCardView: View {
                         showModal.toggle()
                     } label: {
                         Image("icon_more")
-                            .background(.red)
+//                            .background(.red)
                             .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 10))
                     }
                 }

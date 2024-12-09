@@ -8,5 +8,6 @@ target 'modoosSubway' do
   # Pods for modoosSubway
 	pod 'SwiftyJSON'
 	pod 'Alamofire'
+        pod 'Instructions', '~> 2.3.0'
 
 end
