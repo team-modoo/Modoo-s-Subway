@@ -21,18 +21,18 @@ class HomeViewModel: ObservableObject {
         searchText = ""
     }
     
-    func handleSearch(searchViewModel: SearchViewModel) {
-           if !searchText.isEmpty {
-               isSearchViewHidden = false
-               searchViewModel.getSearchSubwayStations(
-                   for: searchText,
-                   service: "SearchInfoBySubwayNameService",
-                   startIndex: 1,
-                   endIndex: 5
-               )
-           } else {
-               isSearchViewHidden = true
-               searchViewModel.stations = []
-           }
-       }
+	func handleSearch(searchViewModel: SearchViewModel) {
+		if !searchText.isEmpty {
+			isSearchViewHidden = false
+			searchViewModel.getSearchSubwayStations(
+				for: searchText,
+				service: "SearchInfoBySubwayNameService",
+				startIndex: 1,
+				endIndex: 5
+			)
+		} else {
+			isSearchViewHidden = true
+			searchViewModel.stations = []
+		}
+	}
 }

@@ -10,10 +10,12 @@ import SwiftData
 
 @main
 struct modoosSubwayApp: App {
-    let container = DIContainer()
+    
+	let container = DIContainer()
     @State var isSplashView = true
     @State private var isFirstLaunch = true
     @AppStorage("hasLaunchedBefore") private var hasLaunchedBefore = false
+	
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
 			Folder.self,
