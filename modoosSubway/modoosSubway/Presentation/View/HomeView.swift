@@ -16,6 +16,9 @@ struct HomeView: View {
 	@State private var textFieldString: String = ""
 	@State private var expressActiveState: Bool = false
 	@State private var isSearchViewHidden: Bool = true
+    
+    @State private var viewType2: FolderType = .Card
+    @State private var sortedType: FolderSortedType = .name
 	
 	var body: some View {
 		NavigationStack {

@@ -98,19 +98,21 @@ struct CardView: View {
                                 .foregroundColor(._333333)
                                 .background(
                                     RoundedRectangle(cornerRadius: 6)
-                                        .fill(.F_4_F_6_EB)
+                                        .fill(Util.getLineColor(card.lineNumber))
+                                        .opacity(0.1)
                                 )
                             
                             Image(.group4)
                                 .frame(width: 8,height: 8)
                                 .foregroundStyle(Util.getLineColor(card.lineNumber))
                                 .offset(y:19)
+                                .opacity(0.7)
                         }
                         
                         
                     }
                 }
-                .background(.red)
+                
                 
                 HStack(alignment: .top, spacing: 0) {
                     getStationNamesView(card)
@@ -119,21 +121,42 @@ struct CardView: View {
                 
                 Spacer()
                 
-                Text("이 전철은 \(card.upDownLine) 방향 전철입니다.")
-                    .font(.pretendard(size: 12, family: .bold))
-                    .frame(width: 350, height: 24, alignment: .center)
-                    .foregroundStyle(.white)
-                    .background(
-                        Util.getLineColor(card.lineNumber)
-                            .clipShape(
-                                .rect(
-                                    topLeadingRadius: 0,
-                                    bottomLeadingRadius: 10,
-                                    bottomTrailingRadius: 10,
-                                    topTrailingRadius: 0
+                if let firstArrival = card.arrivals.first {
+                    let arrivals = Util.formatTrainLineName(firstArrival.trainLineName)
+                    Text("이 전철은 \(arrivals) 방향 전철입니다.")
+                        .font(.pretendard(size: 12, family: .bold))
+                        .frame(width: 350, height: 24, alignment: .center)
+                        .foregroundStyle(.white)
+                        .background(
+                            Util.getLineColor(card.lineNumber)
+                                .clipShape(
+                                    .rect(
+                                        topLeadingRadius: 0,
+                                        bottomLeadingRadius: 10,
+                                        bottomTrailingRadius: 10,
+                                        topTrailingRadius: 0
+                                    )
                                 )
-                            )
-                    )
+                        )
+                } else {
+                    Text("이 전철은 \(card.upDownLine) 방향 전철입니다.")
+                        .font(.pretendard(size: 12, family: .bold))
+                        .frame(width: 350, height: 24, alignment: .center)
+                        .foregroundStyle(.white)
+                        .background(
+                            Util.getLineColor(card.lineNumber)
+                                .clipShape(
+                                    .rect(
+                                        topLeadingRadius: 0,
+                                        bottomLeadingRadius: 10,
+                                        bottomTrailingRadius: 10,
+                                        topTrailingRadius: 0
+                                    )
+                                )
+                        )
+                }
+                
+
             }
             
             .buttonStyle(PlainButtonStyle())
@@ -186,6 +209,7 @@ struct CardView: View {
                 Circle()
                     .frame(width: 8, height: 8)
                     .foregroundColor(Util.getLineColor(card.lineNumber))
+                    .opacity(0.7)
                 Text(el)
                     .font(.pretendard(size: 12, family: .regular))
                     .frame(width: CGFloat(el.count * 12))
@@ -194,9 +218,9 @@ struct CardView: View {
             
             if el != card.stationNames.last {
                 Rectangle()
-                    .frame(width: 80, height: 2)
+                    .frame(width: 80, height: 8)
                     .padding(.horizontal, -12)
-                    .padding(.top, 2)
+                    .padding(.top, 0)
                     .foregroundStyle(
                         Util.getLineColor(card.lineNumber)
                     )
