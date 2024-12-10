@@ -182,7 +182,7 @@ struct SettingView: View {
                             }
                             .listRowInsets(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
                         } header: {
-                            ListHeaderView(iconImage: "icon-alarm", titleLabel: "정보 및 약관")
+                            ListHeaderView(iconImage: "icon-information", titleLabel: "정보 및 약관")
                                 .background(.white)
                                 .listRowInsets(EdgeInsets(top: 20, leading: 20, bottom: 30, trailing: 20))
                         }
@@ -244,7 +244,7 @@ struct ListHeaderView: View {
             
             Image(iconImage)
                 .resizable()
-                .aspectRatio(contentMode: .fill)
+                .aspectRatio(contentMode: .fit)
                 .frame(width: 18,height: 18)
             
             Text("\(titleLabel)")

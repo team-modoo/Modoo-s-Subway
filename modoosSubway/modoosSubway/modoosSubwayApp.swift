@@ -14,6 +14,7 @@ struct modoosSubwayApp: App {
     @State var isSplashView = true
     @State private var isFirstLaunch = true
     @AppStorage("hasLaunchedBefore") private var hasLaunchedBefore = false
+    @AppStorage("hasShownCoachMark") private var hasShownCoachMark: Bool = false
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
 			Folder.self,
@@ -44,6 +45,18 @@ struct modoosSubwayApp: App {
                     DemoStartView()
                 } else {
                     HomeView(container: container)
+//                    CoachMarkView(
+//                           page: "1/6",
+//                           attributedTitle: CoachMarkView.createAttributedTitle(
+//                               normalText1: "",
+//                               highlightedText: "즐겨찾기를 눌러",
+//                               normalText2: " 자주타는 지하철 노선을 추가해보세요"
+//                           ),
+//                           onNext: {
+//                               print("다음 버튼 탭됨")
+//                           }
+//                       )
+//                    .frame(width: 245,height: 154)
                 }
             }
             //SettingView()

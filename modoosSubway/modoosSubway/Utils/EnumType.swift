@@ -33,6 +33,25 @@ enum FolderSortedType: String, Codable {
     
 }
 
+enum StarSortedType: String, Codable {
+    case upLine // 상행선
+    case downLine // 하행선
+    case all
+    
+//    var sortDescriptor: SortDescriptor<Folder> {
+//        switch self {
+//        case .upLine:
+//            return SortDescriptor(\Folder.timestamp,order: .reverse)
+//        case .downLine:
+//            return SortDescriptor(\Folder.title,order: .forward)
+//        }
+//    }
+    
+}
+
+
+
+
 // MARK: - 지하철 upDownLine의 타입
 enum UpDownLineType: String {
 	case Up = "상행"

@@ -80,6 +80,8 @@ struct TextFieldView: View {
     var body: some View {
         HStack {
             TextField(placeholder, text: self.$text)
+                .padding(.leading, 16)
+                .foregroundStyle(.black)
                 .frame(height: 56)
                 .textFieldStyle(.plain)
                 .padding([.horizontal], 4)
@@ -171,8 +173,10 @@ struct FolderFormView: View {
                 }) {
                     Image(.back)
                     Text("\(formType.title)")
+                        .font(.pretendard(size: 18, family: .semiBold))
+                        .foregroundStyle(.black)
                         .padding(.leading, -10)
-                        .tint(._333333)
+                        .tint(.black)
                 }
                 
                 Spacer()
@@ -196,8 +200,9 @@ struct FolderFormView: View {
                 }) {
                    
                     Text("\(formType.buttonTitle)")
+                        .foregroundStyle(.black)
                         .padding(.leading, -10)
-                        .tint(._333333)
+                        .tint(.black)
                 }
                 
                 
@@ -213,6 +218,7 @@ struct FolderFormView: View {
             
             
         }
+        .tint(.black)
         .background(.white)
         .toolbar(.hidden, for: .navigationBar)
 
