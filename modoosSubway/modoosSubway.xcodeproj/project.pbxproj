@@ -15,6 +15,7 @@
 		46519ACF2D0681E4006B2880 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46519ACE2D0681E4006B2880 /* HomeViewModel.swift */; };
 		46519AD12D0687DF006B2880 /* DIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46519AD02D0687DF006B2880 /* DIContainer.swift */; };
 		46519AD32D06CD24006B2880 /* CoachMarkTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46519AD22D06CD24006B2880 /* CoachMarkTest.swift */; };
+		46519AD52D08496B006B2880 /* SubwayCardStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46519AD42D08496B006B2880 /* SubwayCardStore.swift */; };
 		4659A1DE2CE079DA00889FFC /* FolderCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659A1DD2CE079DA00889FFC /* FolderCardView.swift */; };
 		4659A1E02CE0959D00889FFC /* FolderListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659A1DF2CE0959D00889FFC /* FolderListView.swift */; };
 		4659A1E22CE0D11E00889FFC /* FolderHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659A1E12CE0D11E00889FFC /* FolderHeaderView.swift */; };
@@ -67,6 +68,7 @@
 		46519ACE2D0681E4006B2880 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		46519AD02D0687DF006B2880 /* DIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIContainer.swift; sourceTree = "<group>"; };
 		46519AD22D06CD24006B2880 /* CoachMarkTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachMarkTest.swift; sourceTree = "<group>"; };
+		46519AD42D08496B006B2880 /* SubwayCardStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubwayCardStore.swift; sourceTree = "<group>"; };
 		4659A1DD2CE079DA00889FFC /* FolderCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderCardView.swift; sourceTree = "<group>"; };
 		4659A1DF2CE0959D00889FFC /* FolderListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderListView.swift; sourceTree = "<group>"; };
 		4659A1E12CE0D11E00889FFC /* FolderHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderHeaderView.swift; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 				9AEA1E772C56516200A87BF9 /* Info.plist */,
 				9A3698352C4BC04A0019C12A /* Preview Content */,
 				46519AD02D0687DF006B2880 /* DIContainer.swift */,
+				46519AD42D08496B006B2880 /* SubwayCardStore.swift */,
 			);
 			path = modoosSubway;
 			sourceTree = "<group>";
@@ -516,6 +519,7 @@
 				9A3698322C4BC0480019C12A /* Item.swift in Sources */,
 				46519AD32D06CD24006B2880 /* CoachMarkTest.swift in Sources */,
 				46E23B2D2C6872190059BB62 /* NetworkError.swift in Sources */,
+				46519AD52D08496B006B2880 /* SubwayCardStore.swift in Sources */,
 				9AEA1E7A2C5651EA00A87BF9 /* UIExtension.swift in Sources */,
 				9A36982E2C4BC0480019C12A /* modoosSubwayApp.swift in Sources */,
 				9AEA1E902C5DD6AE00A87BF9 /* SubwayRepository.swift in Sources */,

@@ -16,6 +16,9 @@ struct StarView: View {
     @State private var sortedType: StarSortedType = .all
     
     @State private var filteredCards: [CardViewEntity] = []
+    @State private var showModal = false
+    @State private var isRefreshing = false
+    @ObservedObject var cardStore: SubwayCardStore
     
    
     
@@ -42,11 +45,13 @@ struct StarView: View {
                         HStack {
                             StarHeaderView(viewType: $viewType2, sortedType: $sortedType)
                         }
-                        //                           .frame(height: 32)
-                        //                           .padding(.top, 16)
                         
                         CardView(cards:$filteredCards, viewType: .Star)
                             .onChange(of: sortedType) { _, newValue in
+                                            updateFilteredCards()
+                                        }
+                        
+                            .onChange(of: cardStore.cards) { _, _ in
                                             updateFilteredCards()
                                         }
                             .onAppear {
@@ -79,6 +84,7 @@ struct StarView: View {
         .onAppear {
             DataManager.shared.setModelContext(modelContext)
             print("StarView appeared - 저장된 아이템 수: \(starItems.count)")
+            cardStore.loadSavedCards(from: starItems)
         }
         .padding(.top, 22)
         .padding(.horizontal, 1)
@@ -86,6 +92,7 @@ struct StarView: View {
         VStack(spacing: 16) {
             Button(action: {
                 print("1111111")
+                self.showModal.toggle()
             }) {
                 Image("Group 2634")
                     .font(.system(size: 50))
@@ -95,6 +102,11 @@ struct StarView: View {
             
             Button(action: {
                 print("222222")
+                isRefreshing = true
+                cardStore.refreshAllCards()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                   isRefreshing = false
+                               }
             }) {
                 Image("Group 2633")
                     .font(.system(size: 50))
@@ -106,16 +118,24 @@ struct StarView: View {
         .padding(.trailing, 20)
         
      }
+      .sheet(isPresented: $showModal) {
+          AlarmSettingView()
+              .presentationDetents([.fraction(0.8)])
+               .presentationDragIndicator(.visible)
+               .presentationCornerRadius(30)
+           }
    }
     
     private func updateFilteredCards() {
+        let allCards = Array(cardStore.cards.values)
+            .sorted { $0.stationName < $1.stationName }
             switch sortedType {
             case .all:
-                filteredCards = cards
+                filteredCards = allCards
             case .upLine:
-                filteredCards = cards.filter { $0.upDownLine == "상행선" }
+                filteredCards = allCards.filter { $0.upDownLine == "상행선" }
             case .downLine:
-                filteredCards = cards.filter { $0.upDownLine == "하행선" }
+                filteredCards = allCards.filter { $0.upDownLine == "하행선" }
             }
         }
 }

@@ -116,7 +116,7 @@ struct HomeView: View {
 					case .Folder:
 						FolderView()
 					case .Star:
-						StarView()
+                        StarView(cardStore: container.cardStore)
 					}
 					
                     if !homeViewModel.isSearchViewHidden {

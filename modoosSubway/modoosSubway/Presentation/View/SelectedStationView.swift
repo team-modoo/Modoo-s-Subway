@@ -17,6 +17,7 @@ struct SelectedStationView: View {
 	@Environment(\.dismiss) private var dismiss
 	@State var selectedStation: StationEntity?
     @State private var toast: FancyToast? = nil
+    @State private var apiCallCount = 0
     
     init(container: DIContainer, selectedStation: StationEntity?) {
         self.container = container
@@ -60,7 +61,12 @@ struct SelectedStationView: View {
 		.task {
 			if let selectedStation = selectedStation {
 				print("task 작업 확인")
+                print("Initial API call - task")
+                apiCallCount += 1
+                print("[\(Date())] 총 API 호출 횟수: \(apiCallCount)")
 				vm.getSearchSubwayLine(for: selectedStation.lineName(), service: "SearchSTNBySubwayLineInfo", startIndex: 1, endIndex: 100) {
+                    apiCallCount += 1
+                    print("[\(Date())] 총 API 호출 횟수: \(apiCallCount)")
 					vm.getRealtimeStationArrivals(for: selectedStation.stationName, startIndex: 1, endIndex: 100)
 				}
 			}
@@ -84,21 +90,29 @@ struct SelectedStationView: View {
 		}
 	}
     func startTimer() {
-           // 기존 타이머가 있다면 무효화
-           timer?.invalidate()
-           
-           // 5초마다 실행되는 타이머 생성
-           timer = Timer.scheduledTimer(withTimeInterval: 15.0, repeats: true) { _ in
-               if let selectedStation = selectedStation {
-                   vm.getSearchSubwayLine(for: selectedStation.lineName(),
-                                        service: "SearchSTNBySubwayLineInfo",
-                                        startIndex: 1,
-                                        endIndex: 100) {
-                       vm.getRealtimeStationArrivals(for: selectedStation.stationName,
-                                                   startIndex: 1,
-                                                   endIndex: 100)
-                   }
-               }
-           }
-       }
+        timer?.invalidate()
+        
+        timer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { _ in  // 15.0 -> 5.0으로 수정
+            if let selectedStation = selectedStation {
+                print("[\(Date())] Timer triggered")
+                
+                // 첫 번째 API 호출
+                apiCallCount += 1
+                print("[\(Date())] SearchSubwayLine API 호출 - 총 횟수: \(apiCallCount)")
+                
+                vm.getSearchSubwayLine(for: selectedStation.lineName(),
+                                     service: "SearchSTNBySubwayLineInfo",
+                                     startIndex: 1,
+                                     endIndex: 100) {
+                    // 두 번째 API 호출
+                    apiCallCount += 1
+                    print("[\(Date())] RealtimeStationArrivals API 호출 - 총 횟수: \(apiCallCount)")
+                    
+                    vm.getRealtimeStationArrivals(for: selectedStation.stationName,
+                                                startIndex: 1,
+                                                endIndex: 100)
+                }
+            }
+        }
+    }
 }

@@ -75,7 +75,7 @@ struct CardView: View {
                 }
                 .padding(.top, 24)
                 
-                HStack(alignment: .firstTextBaseline) {
+                HStack(alignment: .center) {
                     Text(Util.formatArrivalMessage(card.arrivalMessage))
                         .font(.pretendard(size: 28, family: .semiBold))
                     
@@ -83,6 +83,15 @@ struct CardView: View {
                         Text("후 도착 예정")
                             .font(.pretendard(size: 16, family: .regular))
                     }
+                    
+                    Rectangle()
+                        .frame(width: 1,height: 12)
+                        .foregroundStyle(.EDEDED)
+                    
+                    Text("당고개행 6분 59초 남음")
+                        .font(.pretendard(size: 14, family: .regular))
+                    
+                    
                 }
                 .frame(width: 300, alignment: .leading)
                 .offset(x: -8)
