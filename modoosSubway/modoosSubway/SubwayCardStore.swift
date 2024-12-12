@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Combine
+import SwiftData
 
 class SubwayCardStore: ObservableObject {
     @Published var cards: [UUID:CardViewEntity] = [:]
@@ -93,12 +94,22 @@ class SubwayCardStore: ObservableObject {
                        arrivalCode: $0.arrivalCode,
                        station: $0.stationName,
                        trainLineName: $0.trainLineName,
-                       barvlDt: $0.barvlDt
+                       barvlDt: $0.barvlDt,
+                       message2: $0.message2,
+                       message3: $0.message3,
+                       isExpress: $0.isExpress == "급행"
                    )
                }
                
                // 동일한 ID로 카드 업데이트
                cards[card.id] = updatedCard
+               let descriptor = FetchDescriptor<Star>()
+                   if let modelContext = DataManager.shared.modelContext,
+                      let stars = try? modelContext.fetch(descriptor),
+                      let starToUpdate = stars.first(where: { $0.subwayCard.id == card.id }) {
+                          starToUpdate.subwayCard = updatedCard
+                      try? modelContext.save()
+                    }
                print("새로운 메시지: \(updatedCard.arrivalMessage)")
            } else {
                print("⚠️ 매칭되는 도착 정보가 없습니다")

@@ -10,7 +10,7 @@ import SwiftUI
 
 class DataManager {
 	static let shared = DataManager()
-	private var modelContext: ModelContext?
+	 var modelContext: ModelContext?
 	
 	func setModelContext(_ context: ModelContext) {
 		self.modelContext = context
