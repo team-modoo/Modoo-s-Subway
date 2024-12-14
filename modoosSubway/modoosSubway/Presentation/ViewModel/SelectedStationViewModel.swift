@@ -95,16 +95,16 @@ class SelectedStationViewModel: ObservableObject {
 						switch upDownLine {
 						case .Up:
 							upArrivalEntities.append(el)
-                            upArrivals.append(Arrival(arrivalCode: el.arrivalCode, station: el.stationName, trainLineName: el.trainLineName, barvlDt: el.barvlDt))
+                            upArrivals.append(Arrival(arrivalCode: el.arrivalCode, station: el.stationName, trainLineName: el.trainLineName, barvlDt: el.barvlDt,message2: el.message2,message3: el.message3,isExpress: el.isExpress == "급행"))
 						case .Down:
 							downArrivalEntities.append(el)
-                            downArrivals.append(Arrival(arrivalCode: el.arrivalCode, station: el.stationName, trainLineName: el.trainLineName, barvlDt: el.barvlDt))
+                            downArrivals.append(Arrival(arrivalCode: el.arrivalCode, station: el.stationName, trainLineName: el.trainLineName, barvlDt: el.barvlDt,message2: el.message2,message3: el.message3,isExpress: el.isExpress == "급행"))
 						case .Out:
 							outArrivalEntities.append(el)
-                            outArrivals.append(Arrival(arrivalCode: el.arrivalCode, station: el.stationName, trainLineName: el.trainLineName, barvlDt: el.barvlDt))
+                            outArrivals.append(Arrival(arrivalCode: el.arrivalCode, station: el.stationName, trainLineName: el.trainLineName, barvlDt: el.barvlDt,message2: el.message2,message3: el.message3,isExpress: el.isExpress == "급행"))
 						case .In:
 							inArrivalEntities.append(el)
-                            inArrivals.append(Arrival(arrivalCode: el.arrivalCode, station: el.stationName, trainLineName: el.trainLineName, barvlDt: el.barvlDt))
+                            inArrivals.append(Arrival(arrivalCode: el.arrivalCode, station: el.stationName, trainLineName: el.trainLineName, barvlDt: el.barvlDt,message2: el.message2,message3: el.message3,isExpress: el.isExpress == "급행"))
 						default:
 							break
 						}

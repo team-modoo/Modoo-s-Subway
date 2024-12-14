@@ -10,10 +10,13 @@ import SwiftUI
 class DIContainer {
     let subWayRepository: SubwayRepository
     let subwayUseCase: SubwayUseCaseProtocol
+    let cardStore: SubwayCardStore
+
     
     init(subWayRepository: SubwayRepository = SubwayRepository()) {
         self.subWayRepository = subWayRepository
         self.subwayUseCase = SubwayUseCase(repository: subWayRepository)
+        self.cardStore = SubwayCardStore(subwayUseCase: self.subwayUseCase)
     }
     
     func makeHomeViewModel() -> HomeViewModel {

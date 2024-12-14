@@ -45,7 +45,10 @@ class Util {
 	static func formatTrainLineName(_ trainLineName: String) -> String {
 		let names = trainLineName.split(separator: " - ")
         if let firstPart = names.first {
-               return String(firstPart.split(separator: "행").first ?? firstPart)
+            if firstPart.hasSuffix("행") {
+                return String(firstPart)
+            }
+                return String(firstPart) + "행"
            }
            return ""
 	}

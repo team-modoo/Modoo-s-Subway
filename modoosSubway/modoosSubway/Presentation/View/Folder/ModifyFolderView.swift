@@ -69,24 +69,35 @@ struct TextFieldView: View {
         self._text = text
         self.placeholder = placeholder
     }
-	
-	var body: some View {
-		HStack {
-			TextField(placeholder, text: self.$text)
-				.frame(height: 50)
-				.textFieldStyle(.plain)
-				.font(.pretendard(size: 14, family: .regular))
-				.padding([.horizontal], 16)
-				.cornerRadius(8)
-				.overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.EDEDED))
-				.onAppear {
-					UITextField.appearance().clearButtonMode = .whileEditing
-				}
-				.autocorrectionDisabled()
-				.textInputAutocapitalization(.never)
-		}
-		.background(.clear)
-	}
+
+    
+    var body: some View {
+        HStack {
+            TextField(placeholder, text: self.$text)
+                .padding(.leading, 16)
+                .foregroundStyle(.black)
+                .frame(height: 56)
+                .textFieldStyle(.plain)
+                .padding([.horizontal], 4)
+                .cornerRadius(16)
+                .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.D_9_D_9_D_9))
+                .padding([.horizontal], 4)
+                .submitLabel(.search)
+                .onSubmit {
+                    //   handleSearch()
+                }
+                .onAppear {
+                    UITextField.appearance().clearButtonMode = .whileEditing
+                }
+                .autocorrectionDisabled()
+                .textInputAutocapitalization(.never)
+            }
+            .background(.clear)
+            .padding(.trailing, 16)
+            .padding(.leading, 20)
+            .padding(.vertical, 4)
+
+    }
 }
 
 enum FolderFormType {
@@ -155,10 +166,13 @@ struct FolderFormView: View {
                     dismiss()
                 }) {
                     Image(.back)
-                    Text(formType.title)
+
+                    Text("\(formType.title)")
+                        .font(.pretendard(size: 18, family: .semiBold))
+                        .foregroundStyle(.black)
                         .padding(.leading, -10)
-                        .tint(._333333)
-						.font(.pretendard(size: 18, family: .semiBold))
+                        .tint(.black)
+
                 }
                 
                 Spacer()
@@ -181,9 +195,11 @@ struct FolderFormView: View {
                     showPreview = true
                 }) {
                     Text(formType.buttonTitle)
+                        .foregroundStyle(.black)
                         .padding(.leading, -10)
                         .tint(.theme)
 						.font(.pretendard(size: 18, family: .semiBold))
+
                 }
                 
                 
@@ -197,6 +213,7 @@ struct FolderFormView: View {
                
             Spacer()
         }
+        .tint(.black)
         .background(.white)
         .toolbar(.hidden, for: .navigationBar)
 

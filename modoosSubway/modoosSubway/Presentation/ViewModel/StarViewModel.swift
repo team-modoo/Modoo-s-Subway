@@ -25,7 +25,7 @@ class StarViewModel: ObservableObject {
     func startRealTimeUpdates() {
         updateAllCards()
         
-        timer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true, block: { [weak self] _ in
+        timer = Timer.scheduledTimer(withTimeInterval: 300.0, repeats: true, block: { [weak self] _ in
             self?.updateAllCards()
         })
     }
@@ -85,7 +85,10 @@ class StarViewModel: ObservableObject {
                            arrivalCode: $0.arrivalCode,
                            station: $0.stationName,
                            trainLineName: $0.trainLineName,
-                           barvlDt: $0.barvlDt
+                           barvlDt: $0.barvlDt,
+                           message2: $0.message2,
+                           message3: $0.message3,
+                           isExpress: $0.isExpress == "급행"
                        )
                    }
                }

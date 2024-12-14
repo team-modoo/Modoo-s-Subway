@@ -11,17 +11,18 @@ struct FolderListView: View {
     let folder: [Folder]
     let list = [1,2,3,4,5]
     var body: some View {
-            List(folder,id: \.self) { folders in
-                FolderListCell(folders: folders)
-                    .listRowInsets(EdgeInsets())
-                    .frame(height: 110)
-            }
-            .listStyle(.plain)
+        List(folder,id: \.self) { folders in
+            FolderListCell(folders: folders)
+                .listRowInsets(EdgeInsets())
+                .frame(height: 110)
+        }
+        .listStyle(.plain)
     }
 }
 
 struct FolderListCell: View {
     let line = ["7", "서해", "1","경의중앙"]
+    @State private var showModal = false
     var folders:Folder
     init(folders:Folder) {
         self.folders = folders
@@ -29,7 +30,7 @@ struct FolderListCell: View {
     
     
     var body: some View {
-        NavigationLink(destination: FilteredStarView(folder: folders)) {
+        //   NavigationLink(destination: FilteredStarView(folder: folders)) {
         VStack(alignment: .leading) {
             HStack {
                 HStack{
@@ -51,6 +52,7 @@ struct FolderListCell: View {
                 
                 Button {
                     print("icon_More")
+                    showModal.toggle()
                 } label: {
                     Image("icon_more")
                         .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
@@ -63,11 +65,23 @@ struct FolderListCell: View {
             Spacer()
             
             Text("\(folders.title)")
-                .font(.pretendard(size: 24, family: .regular))
+                .font(.pretendard(size: 20, family: .regular))
                 .foregroundStyle(.black)
                 .padding(EdgeInsets(top: 0, leading: 10, bottom: 16, trailing: 0))
-            }
         }
+        .sheet(isPresented: $showModal) {
+            EditFolderView(folder: folders)
+                .presentationDetents([.fraction(1/4)])
+                .presentationDragIndicator(.visible)
+                .presentationCornerRadius(30)
+        }
+
+        .background(
+            NavigationLink("", destination: FilteredStarView(folder: folders))
+                .opacity(0)
+            
+        )
+        
     }
 }
 

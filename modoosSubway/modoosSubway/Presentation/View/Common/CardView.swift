@@ -17,11 +17,14 @@ struct CardView: View {
     @State private var showAlert = false
     @State private var alertMessage = ""
     @State private var selectedCard: CardViewEntity?
+    @State private var countdowns: [UUID: Int] = [:]
+    @State private var lastBarvlDts: [UUID: String] = [:]
     var onStarSaved: ((Bool) -> Void)? = nil
     let folder: Folder?
 
     var isEditingMode: Bool
     var onOrderChanged: (([CardViewEntity]) -> Void)?
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     init(cards: Binding<[CardViewEntity]>, 
          viewType: ViewType? = nil,
@@ -75,14 +78,23 @@ struct CardView: View {
                 }
                 .padding(.top, 20)
                 
-                HStack(alignment: .firstTextBaseline) {
-                    Text(Util.formatArrivalMessage(card.arrivalMessage))
-                        .font(.pretendard(size: 28, family: .semiBold))
-                    
-                    if Util.isArrivalTimeFormat(card.arrivalMessage) {
-                        Text("후 도착 예정")
-                            .font(.pretendard(size: 16, family: .regular))
-                    }
+                HStack(alignment: .center) {
+                    if let firstArrival = card.arrivals.first {
+                            let remainingTime = getFormattedTime(for: firstArrival)
+                            Text("\(remainingTime.0)분 \(remainingTime.1)초")
+                                .font(.pretendard(size: 28, family: .semiBold))
+                            
+                            Rectangle()
+                                .frame(width: 1, height: 12)
+                                .foregroundStyle(.EDEDED)
+                            
+                            if let secondArrival = card.arrivals.dropFirst().first {
+                                let secondRemainingTime = getFormattedTime(for: secondArrival)
+                                let destination = Util.formatTrainLineName(secondArrival.trainLineName)
+                                Text("\(destination) \(secondRemainingTime.0)분 \(secondRemainingTime.1)초 남음")
+                                    .font(.pretendard(size: 14, family: .regular))
+                            }
+                        }
                 }
                 .frame(width: 300, alignment: .leading)
                 .offset(x: -8)
@@ -178,6 +190,25 @@ struct CardView: View {
         .listStyle(.plain)
         .scrollIndicators(.hidden)
         .environment(\.editMode, .constant(isEditingMode ? .active : .inactive))
+        .onAppear {
+               for card in cards {
+                   initializeCountdowns(for: card)
+               }
+           }
+           .onChange(of: cards) { _, newCards in
+               for card in newCards {
+                   updateCountdownsIfNeeded(card: card, arrivals: card.arrivals)
+               }
+           }
+           .onReceive(timer) { _ in
+               for card in cards {
+                   for arrival in card.arrivals {
+                       if let currentCount = countdowns[arrival.id], currentCount > 0 {
+                           countdowns[arrival.id] = currentCount - 1
+                       }
+                   }
+               }
+           }
         .sheet(item: $selectedCard) { card in
             if let folder = folder {
                 MoreMenuListView(card: card,folder: folder)
@@ -228,6 +259,33 @@ struct CardView: View {
             }
         }
     }
+    
+    private func getFormattedTime(for arrival: Arrival) -> (Int, Int) {
+        let totalSeconds = countdowns[arrival.id] ?? Int(arrival.barvlDt) ?? 0
+        let minutes = totalSeconds / 60
+        let seconds = totalSeconds % 60
+        return (minutes, seconds)
+    }
+    
+    private func initializeCountdowns(for card: CardViewEntity) {
+            // 최초 진입시에만 초기화
+            for arrival in card.arrivals {
+                if countdowns[arrival.id] == nil {
+                    countdowns[arrival.id] = Int(arrival.barvlDt) ?? 0
+                    lastBarvlDts[arrival.id] = arrival.barvlDt
+                }
+            }
+        }
+        
+        private func updateCountdownsIfNeeded(card: CardViewEntity, arrivals: [Arrival]) {
+            for arrival in arrivals {
+                // 이전 barvlDt와 현재 값이 다르면 (API에서 새로운 값을 받았으면) 카운트다운 업데이트
+                if lastBarvlDts[arrival.id] != arrival.barvlDt {
+                    countdowns[arrival.id] = Int(arrival.barvlDt) ?? 0
+                    lastBarvlDts[arrival.id] = arrival.barvlDt
+                }
+            }
+        }
     
     // MARK: - 즐겨찾기 토글
     func toggleStar(for item: CardViewEntity) {
