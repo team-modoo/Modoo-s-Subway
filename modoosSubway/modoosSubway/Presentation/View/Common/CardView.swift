@@ -177,11 +177,7 @@ struct CardView: View {
 						.stroke(.EDEDED)
 				)
 			}
-			.onMove(perform: isEditingMode ? { from, to in  // 편집 모드일 때만 이동 가능
-				cards.move(fromOffsets: from, toOffset: to)
-				onOrderChanged?(cards)
-			} : nil)
-			
+			.onMove(perform: isEditingMode ? moveCards : nil)
 		}
 		
 		.listStyle(.plain)
@@ -207,26 +203,36 @@ struct CardView: View {
 			}
 		}
 		.sheet(item: $selectedCard) { card in
-			if let folder = folder {
-				MoreMenuListView(card: card,folder: folder)
-					.presentationDetents([.fraction(1/3)])
-					.presentationDragIndicator(.visible)
-					.presentationCornerRadius(26)
-				
-				
-			} else {
-					// StarView에서 열었을 때
-				AddFolderView(card: card)  // folder 없이 호출
-					.presentationDetents([.fraction(1/3)])
-					.presentationDragIndicator(.visible)
-					.presentationCornerRadius(26)
-			}
-			
+			getMoreMenu(for: card)
 		}
 		.alert("알림", isPresented: $showAlert) {
 			Button("확인", role: .cancel) {}
 		} message: {
 			Text(alertMessage)
+		}
+	}
+	
+	// Add this method to the struct
+	private func moveCards(from offsets: IndexSet, to destination: Int) {
+		cards.move(fromOffsets: offsets, toOffset: destination)
+		onOrderChanged?(cards)
+	}
+	
+	private func getMoreMenu(for card: CardViewEntity) -> some View {
+		if let folder = folder {
+			return AnyView(
+				MoreMenuListView(card: card, folder: folder)
+					.presentationDetents([.fraction(CGFloat(1/3))])
+					.presentationDragIndicator(.visible)
+					.presentationCornerRadius(26)
+			)
+		} else {
+			return AnyView(
+				AddFolderView(card: card)
+					.presentationDetents([.fraction(CGFloat(1/3))])
+					.presentationDragIndicator(.visible)
+					.presentationCornerRadius(26)
+			)
 		}
 	}
     
@@ -263,71 +269,70 @@ struct CardView: View {
         let seconds = totalSeconds % 60
         return (minutes, seconds)
     }
-    
-    private func initializeCountdowns(for card: CardViewEntity) {
-            // 최초 진입시에만 초기화
-            for arrival in card.arrivals {
-                if countdowns[arrival.id] == nil {
-                    countdowns[arrival.id] = Int(arrival.barvlDt) ?? 0
-                    lastBarvlDts[arrival.id] = arrival.barvlDt
-                }
-            }
-        }
-        
-        private func updateCountdownsIfNeeded(card: CardViewEntity, arrivals: [Arrival]) {
-            for arrival in arrivals {
-                // 이전 barvlDt와 현재 값이 다르면 (API에서 새로운 값을 받았으면) 카운트다운 업데이트
-                if lastBarvlDts[arrival.id] != arrival.barvlDt {
-                    countdowns[arrival.id] = Int(arrival.barvlDt) ?? 0
-                    lastBarvlDts[arrival.id] = arrival.barvlDt
-                }
-            }
-        }
-    
-    // MARK: - 즐겨찾기 토글
-    func toggleStar(for item: CardViewEntity) {
-        if let index = cards.firstIndex(where: { $0 == item }) {
-            if !cards[index].isStar {
-                let descriptor = FetchDescriptor<Star>()
-                if let stars = try? modelContext.fetch(descriptor) {
-                    let isDuplicate = stars.contains { star in
-                        let card = star.subwayCard
-                        return card.stationNames == item.stationNames &&
-                        card.lineNumber == item.lineNumber &&
-                        card.upDownLine == item.upDownLine &&
-                        card.isExpress == item.isExpress
-                    }
-                    
-                    if isDuplicate {
-                        alertMessage = "\(item.stationName) \(item.upDownLine)은(는)\n이미 즐겨찾기에 저장되어 있습니다"
-                        showAlert = true
-                        return
-                    }
-                }
-			
-                let star = Star(subwayCard: cards[index])
-                DataManager.shared.addStar(item: star)
-                
-				// Directly mutate the binding
+	
+	private func initializeCountdowns(for card: CardViewEntity) {
+		// 최초 진입시에만 초기화
+		for arrival in card.arrivals {
+			if countdowns[arrival.id] == nil {
+				countdowns[arrival.id] = Int(arrival.barvlDt) ?? 0
+				lastBarvlDts[arrival.id] = arrival.barvlDt
+			}
+		}
+	}
+	
+	private func updateCountdownsIfNeeded(card: CardViewEntity, arrivals: [Arrival]) {
+		for arrival in arrivals {
+				// 이전 barvlDt와 현재 값이 다르면 (API에서 새로운 값을 받았으면) 카운트다운 업데이트
+			if lastBarvlDts[arrival.id] != arrival.barvlDt {
+				countdowns[arrival.id] = Int(arrival.barvlDt) ?? 0
+				lastBarvlDts[arrival.id] = arrival.barvlDt
+			}
+		}
+	}
+	
+	private func isDuplicateStar(_ item: CardViewEntity) -> Bool {
+		let descriptor = FetchDescriptor<Star>()
+		guard let stars = try? modelContext.fetch(descriptor) else { return false }
+		
+		return stars.contains { star in
+			let card = star.subwayCard
+			return card.stationNames == item.stationNames &&
+			card.lineNumber == item.lineNumber &&
+			card.upDownLine == item.upDownLine &&
+			card.isExpress == item.isExpress
+		}
+	}
+	
+	func toggleStar(for item: CardViewEntity) {
+		if let index = cards.firstIndex(where: { $0 == item }) {
+			if !cards[index].isStar {
+				if isDuplicateStar(item) {
+					alertMessage = "\(item.stationName) \(item.upDownLine)은(는)\n이미 즐겨찾기에 저장되어 있습니다"
+					showAlert = true
+					return
+				}
+				
+				let star = Star(subwayCard: cards[index])
+				DataManager.shared.addStar(item: star)
+				
 				cards[index].isStar = true
 				onStarSaved?(true)
-                
-            } else {
-                let descriptor = FetchDescriptor<Star>()
-                if let stars = try? modelContext.fetch(descriptor),
-                   let starToDelete = stars.first(where: { $0.subwayCard == item }) {
+			} else {
+				let descriptor = FetchDescriptor<Star>()
+				if let stars = try? modelContext.fetch(descriptor),
+				   let starToDelete = stars.first(where: { $0.subwayCard == item }) {
 					if let folder = folder {
 						DataManager.shared.deleteStar(item: starToDelete)
 						DataManager.shared.updateFolderLineNumbers(folder, context: modelContext)
 					} else {
-						// 폴더가 없는 경우(StarView 등)는 기존처럼 처리
+							// 폴더가 없는 경우(StarView 등)는 기존처럼 처리
 						DataManager.shared.deleteStar(item: starToDelete)
 					}
 				}
 				
-				// Directly mutate the binding
+					// Directly mutate the binding
 				cards[index].isStar = false
-            }
-        }
-    }
+			}
+		}
+	}
 }
