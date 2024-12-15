@@ -44,17 +44,17 @@ struct CardViewEntity: Codable, Identifiable, Equatable {
 		self.isFolder = isFolder
 	}
     
-    var expressTrains: [Arrival] {
-            arrivals.filter { $0.isExpress }
-        }
-        
-        var normalTrains: [Arrival] {
-            arrivals.filter { !$0.isExpress }
-        }
-        
-        func getTrainsByType(isExpress: Bool) -> [Arrival] {
-            arrivals.filter { $0.isExpress == isExpress }
-        }
+	var expressTrains: [Arrival] {
+		arrivals.filter { $0.isExpress }
+	}
+	
+	var normalTrains: [Arrival] {
+		arrivals.filter { !$0.isExpress }
+	}
+	
+	func getTrainsByType(isExpress: Bool) -> [Arrival] {
+		arrivals.filter { $0.isExpress == isExpress }
+	}
 }
 
 struct Arrival: Codable, Identifiable, Hashable, Equatable {

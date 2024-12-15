@@ -90,7 +90,6 @@ struct StarView: View {
                    }
                 print("현재 표시되는 카드 수: \(cardStore.cards.count)")
             }
-            .padding(.top, 22)
             .padding(.horizontal, 1)
             
             VStack(spacing: 16) {
