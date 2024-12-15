@@ -95,6 +95,7 @@ struct FilteredStarView: View {
 	@State private var cards: [CardViewEntity] = []
 	@State private var isLoading = true
 	@Environment(\.dismiss) var dismiss
+	@State private var showAlert = false
 	
 	let folder: Folder
 	let isEditingMode: Bool
@@ -174,7 +175,7 @@ struct FilteredStarView: View {
 			if !cards.isEmpty && !isLoading {
 				VStack(spacing: 16) {
 					Button(action: {
-						print("333333")
+						showAlert = true
 					}) {
 						Image(.btnAlarm)
 							.foregroundColor(.blue)
@@ -192,6 +193,11 @@ struct FilteredStarView: View {
 				}
 				.padding(.bottom, 30)
 			}
+		}
+		.alert("", isPresented: $showAlert) {
+			Button("확인", role: .cancel) {}
+		} message: {
+			Text("준비중인 기능입니다.")
 		}
 	}
 	

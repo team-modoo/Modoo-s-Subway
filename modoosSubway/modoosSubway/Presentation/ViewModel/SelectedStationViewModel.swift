@@ -51,8 +51,8 @@ class SelectedStationViewModel: ObservableObject {
 						self?.errorMessage = "데이터를 받을 수 없습니다."
 					case .decodingError:
 						self?.errorMessage = "데이터 디코딩에 실패했습니다."
-					case .serverError(let statusCode):
-						self?.errorMessage = "서버 오류: \(statusCode)"
+					case .serverError(_):
+						self?.errorMessage = "현재 해당하는 데이터가 없습니다."
 					case .customError(_, let message):
 						self?.errorMessage = message
 					case .unknownError:
@@ -209,8 +209,8 @@ class SelectedStationViewModel: ObservableObject {
 						self?.errorMessage = "데이터를 받을 수 없습니다."
 					case .decodingError:
 						self?.errorMessage = "데이터 디코딩에 실패했습니다."
-					case .serverError(let statusCode):
-						self?.errorMessage = "서버 오류: \(statusCode)"
+					case .serverError(_):
+						self?.errorMessage = "현재 해당하는 데이터가 없습니다."
 					case .customError(_, let message):
 						self?.errorMessage = message
 					case .unknownError:
