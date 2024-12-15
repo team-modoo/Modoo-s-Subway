@@ -1,5 +1,5 @@
 //
-//  CoachMarkImageView.swift
+//  OnBoardingView.swift
 //  modoosSubway
 //
 //  Created by 김지현 on 12/15/24.
@@ -7,41 +7,7 @@
 
 import SwiftUI
 
-//struct CoachMarkImageView: View {
-//	var pageNumber: Int = 1
-//	var lastPageNumber: Int = 6
-//	
-//	var body: some View {
-//		VStack {
-//			Image("coach\(pageNumber)")
-//			
-//			ZStack(alignment: .top) {
-//				if pageNumber == lastPageNumber {
-//					Button(action: {
-//						// 코치마크뷰가 없어지고, HomeView로 화면 전환
-//					}, label: {
-//						Image(.xMark)
-//					})
-//				} else {
-//					Button(action: {
-//						// pageNumber가 1 증가하고, 새로운 Image로 리로드
-//					}, label: {
-//						Text("다음")
-//							.font(.pretendard(size: 20, family: .regular))
-//							.foregroundColor(.white)
-//							.padding(.horizontal, 24)
-//							.padding(.vertical, 12)
-//							.background(Color.clear)
-//							.border(.white, width: 1)
-//							.cornerRadius(20)
-//					})
-//				}
-//			}
-//		}
-//	}
-//}
-
-struct CoachMarkImageView: View {
+struct OnBoardingView: View {
 	@State private var pageNumber: Int = 1
 	let lastPageNumber: Int = 6
 	@AppStorage("hasLaunchedBefore") private var hasLaunchedBefore = false
@@ -105,18 +71,15 @@ struct CoachMarkImageView: View {
 							)
 					}
 				}
-				
-				Spacer()
 			}
-			.padding(.bottom, 80)
 		}
 		.background(Color.black)
 		.edgesIgnoringSafeArea(.all)
 	}
 }
 
-struct CoachMarkImageView_Previews: PreviewProvider {
+struct OnBoardingView_Previews: PreviewProvider {
 	static var previews: some View {
-		CoachMarkImageView()
+		OnBoardingView()
 	}
 }

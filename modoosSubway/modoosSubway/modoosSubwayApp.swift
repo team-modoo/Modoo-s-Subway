@@ -44,7 +44,7 @@ struct modoosSubwayApp: App {
                    
             } else {
                 if !hasLaunchedBefore  {
-					CoachMarkImageView()
+					OnBoardingView()
                 } else {
                     HomeView(container: container)
                 }

@@ -327,7 +327,6 @@ struct CardView: View {
 				
 				// Directly mutate the binding
 				cards[index].isStar = false
-				onStarSaved?(false)
             }
         }
     }
