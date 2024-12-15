@@ -50,7 +50,7 @@ struct StarView: View {
                                                expressActiveState: $expressActiveState)
                             }
                             
-                            CardView(cards:$filteredCards, viewType: .Star)
+							CardListView(cards:$filteredCards, viewType: .Star)
                                 .onChange(of: sortedType) { _, newValue in
                                     updateFilteredCards()
                                 }
@@ -118,8 +118,6 @@ struct StarView: View {
                 }
             }
             .padding(.bottom, 30)
-            .padding(.trailing, 20)
-            
         }
         .sheet(isPresented: $showModal) {
             AlarmSettingView()

@@ -1,4 +1,4 @@
-**Terms & Conditions**  
+## Terms & Conditions
 
 These terms and conditions applies to the 모두의 지하철 app (hereby referred to as "Application") for mobile devices that was created by jihyun kim (hereby referred to as "Service Provider") as a Free service.
 

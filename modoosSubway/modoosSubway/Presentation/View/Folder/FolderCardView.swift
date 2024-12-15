@@ -153,8 +153,8 @@ struct FilteredStarView: View {
 							if !isEditingMode {
 								Spacer()
 							}
-							CardView(cards: $cards, viewType: .Star,isEditingMode: isEditingMode,folder: folder) { updatedCards in
-									// 순서가 변경될 때마다 호출됨
+							CardListView(cards: $cards, viewType: .Star,isEditingMode: isEditingMode,folder: folder) { updatedCards in
+								// 순서가 변경될 때마다 호출됨
 								let newOrder = updatedCards.map { $0.id }
 								DataManager.shared.updateFolderCardOrder(folder, newOrder: newOrder, context: modelContext)
 							}
@@ -191,12 +191,8 @@ struct FilteredStarView: View {
 					}
 				}
 				.padding(.bottom, 30)
-				.padding(.trailing, 20)
-				
 			}
-			
 		}
-		
 	}
 	
 	private func loadCards() {
@@ -280,7 +276,7 @@ struct FilteredStarView2: View {
 							if !isEditingMode {
 								Spacer()
 							}
-							CardView(cards: $cards, viewType: .Star, isEditingMode: isEditingMode, folder: folder) { updatedCards in
+							CardListView(cards: $cards, viewType: .Star, isEditingMode: isEditingMode, folder: folder) { updatedCards in
 								// 순서가 변경될 때마다 호출됨
 								let newOrder = updatedCards.map { $0.id }
 								DataManager.shared.updateFolderCardOrder(folder, newOrder: newOrder, context: modelContext)
