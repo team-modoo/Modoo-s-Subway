@@ -176,7 +176,7 @@ struct FilteredStarView: View {
 					Button(action: {
 						print("333333")
 					}) {
-						Image("Group 2634")
+						Image(.btnAlarm)
 							.foregroundColor(.blue)
 							.background(Circle().fill(Color.white))
 					}
@@ -184,7 +184,7 @@ struct FilteredStarView: View {
 					Button(action: {
 						print("44444")
 					}) {
-						Image("Group 2633")
+						Image(.btnRefresh)
 							.foregroundColor(.blue)
 							.background(Circle().fill(Color.white))
 						

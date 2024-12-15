@@ -14,7 +14,6 @@ class StarViewModel: ObservableObject {
     private let subwayUseCase: SubwayUseCaseProtocol
 	@Published var errorMessage: String?
 	@Published var isError: Bool = false
-//    private let modelContext: ModelContext
 	@Published var cards: [CardViewEntity] = []
     private var cancellables = Set<AnyCancellable>()
 	

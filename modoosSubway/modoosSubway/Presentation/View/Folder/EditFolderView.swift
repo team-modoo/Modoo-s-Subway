@@ -165,7 +165,7 @@ enum EditFolderType: String {
     case delete = "폴더 삭제하기"
   
     
-    func destinationView(folder:Folder? = nil) -> AnyView {
+    func destinationView(folder: Folder? = nil) -> AnyView {
         switch self {
         case .modify:
             if let folder = folder {

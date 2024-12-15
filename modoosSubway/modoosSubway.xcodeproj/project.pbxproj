@@ -46,6 +46,7 @@
 		9AC56CEE2CE9BE090067AF3B /* AddFolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC56CED2CE9BE090067AF3B /* AddFolderView.swift */; };
 		9AC56CF02CEA16F40067AF3B /* CollectionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC56CEF2CEA16F40067AF3B /* CollectionExtension.swift */; };
 		9AC56CFB2D06D9D40067AF3B /* ImageCropper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC56CFA2D06D9D40067AF3B /* ImageCropper.swift */; };
+		9AC56CFF2D0EEC700067AF3B /* OnBoardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC56CFE2D0EEC700067AF3B /* OnBoardingView.swift */; };
 		9AEA1E712C56024D00A87BF9 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9AEA1E702C56024D00A87BF9 /* Launch Screen.storyboard */; };
 		9AEA1E7A2C5651EA00A87BF9 /* UIExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEA1E792C5651EA00A87BF9 /* UIExtension.swift */; };
 		9AEA1E7C2C5DD41E00A87BF9 /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9AEA1E7B2C5DD41E00A87BF9 /* Secrets.plist */; };
@@ -58,6 +59,9 @@
 		9AEA1E952C5DD72500A87BF9 /* SubwayAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEA1E942C5DD72500A87BF9 /* SubwayAPI.swift */; };
 		9AEA1E982C5DD74A00A87BF9 /* RequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEA1E972C5DD74A00A87BF9 /* RequestDTO.swift */; };
 		9AEA1E9A2C68AD6200A87BF9 /* ResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEA1E992C68AD6200A87BF9 /* ResponseDTO.swift */; };
+		9AF883862D0F0EC400DD6832 /* TimeSelectedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF883852D0F0EC400DD6832 /* TimeSelectedView.swift */; };
+		9AF883882D0F0EE300DD6832 /* SettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF883872D0F0EE300DD6832 /* SettingCell.swift */; };
+		9AF8838A2D0F0EFF00DD6832 /* ListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF883892D0F0EFF00DD6832 /* ListHeaderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -99,6 +103,7 @@
 		9AC56CED2CE9BE090067AF3B /* AddFolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFolderView.swift; sourceTree = "<group>"; };
 		9AC56CEF2CEA16F40067AF3B /* CollectionExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionExtension.swift; sourceTree = "<group>"; };
 		9AC56CFA2D06D9D40067AF3B /* ImageCropper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCropper.swift; sourceTree = "<group>"; };
+		9AC56CFE2D0EEC700067AF3B /* OnBoardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingView.swift; sourceTree = "<group>"; };
 		9AEA1E702C56024D00A87BF9 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		9AEA1E732C56500900A87BF9 /* Pretendard-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Bold.otf"; sourceTree = "<group>"; };
 		9AEA1E742C56501300A87BF9 /* Pretendard-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.otf"; sourceTree = "<group>"; };
@@ -116,6 +121,9 @@
 		9AEA1E942C5DD72500A87BF9 /* SubwayAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubwayAPI.swift; sourceTree = "<group>"; };
 		9AEA1E972C5DD74A00A87BF9 /* RequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestDTO.swift; sourceTree = "<group>"; };
 		9AEA1E992C68AD6200A87BF9 /* ResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseDTO.swift; sourceTree = "<group>"; };
+		9AF883852D0F0EC400DD6832 /* TimeSelectedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeSelectedView.swift; sourceTree = "<group>"; };
+		9AF883872D0F0EE300DD6832 /* SettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCell.swift; sourceTree = "<group>"; };
+		9AF883892D0F0EFF00DD6832 /* ListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListHeaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,20 +176,16 @@
 		9A36982C2C4BC0480019C12A /* modoosSubway */ = {
 			isa = PBXGroup;
 			children = (
+				9AC56CFD2D0EE7BD0067AF3B /* DIContainer */,
 				9AEA1E7D2C5DD47200A87BF9 /* Presentation */,
 				9AEA1E7E2C5DD48100A87BF9 /* Domain */,
 				9AEA1E7F2C5DD48A00A87BF9 /* Data */,
 				9AEA1E782C5651C700A87BF9 /* Extension */,
 				9A36985B2C4D01D30019C12A /* Utils */,
 				9A3698562C4CF9610019C12A /* Resource */,
-				9AC56CF92D06D89F0067AF3B /* Dependency */,
 				9A36982D2C4BC0480019C12A /* modoosSubwayApp.swift */,
 				9AEA1E772C56516200A87BF9 /* Info.plist */,
 				9A3698352C4BC04A0019C12A /* Preview Content */,
-
-				46519AD02D0687DF006B2880 /* DIContainer.swift */,
-				46519AD42D08496B006B2880 /* SubwayCardStore.swift */,
-
 			);
 			path = modoosSubway;
 			sourceTree = "<group>";
@@ -290,6 +294,9 @@
 			children = (
 				9A36984C2C4CA6740019C12A /* SettingView.swift */,
 				46630D5A2CE73A3E00A8DEF9 /* AlarmSettingView.swift */,
+				9AF883852D0F0EC400DD6832 /* TimeSelectedView.swift */,
+				9AF883872D0F0EE300DD6832 /* SettingCell.swift */,
+				9AF883892D0F0EFF00DD6832 /* ListHeaderView.swift */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -302,16 +309,25 @@
 				46519A8F2CF974E5006B2880 /* ToastTest.swift */,
 				46519AD22D06CD24006B2880 /* CoachMarkTest.swift */,
 				9AC56CFA2D06D9D40067AF3B /* ImageCropper.swift */,
+				9AC56CFE2D0EEC700067AF3B /* OnBoardingView.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
 		};
-		9AC56CF92D06D89F0067AF3B /* Dependency */ = {
+		9AC56CFC2D0EE7B20067AF3B /* Store */ = {
+			isa = PBXGroup;
+			children = (
+				46519AD42D08496B006B2880 /* SubwayCardStore.swift */,
+			);
+			path = Store;
+			sourceTree = "<group>";
+		};
+		9AC56CFD2D0EE7BD0067AF3B /* DIContainer */ = {
 			isa = PBXGroup;
 			children = (
 				46519AD02D0687DF006B2880 /* DIContainer.swift */,
 			);
-			path = Dependency;
+			path = DIContainer;
 			sourceTree = "<group>";
 		};
 		9AEA1E722C564FF300A87BF9 /* Font */ = {
@@ -346,6 +362,7 @@
 		9AEA1E7E2C5DD48100A87BF9 /* Domain */ = {
 			isa = PBXGroup;
 			children = (
+				9AC56CFC2D0EE7B20067AF3B /* Store */,
 				9AEA1E842C5DD53600A87BF9 /* UseCase */,
 				9AEA1E832C5DD52D00A87BF9 /* Entity */,
 				9A36983F2C4CA5960019C12A /* SwiftData */,
@@ -554,11 +571,14 @@
 				9AC56CFB2D06D9D40067AF3B /* ImageCropper.swift in Sources */,
 				9AC56CF02CEA16F40067AF3B /* CollectionExtension.swift in Sources */,
 				46519A922CFEC256006B2880 /* LocalNotification.swift in Sources */,
+				9AF883882D0F0EE300DD6832 /* SettingCell.swift in Sources */,
 				9A3698452C4CA6490019C12A /* SearchView.swift in Sources */,
 				9AEA1E932C5DD71A00A87BF9 /* Router.swift in Sources */,
 				9AEA1E9A2C68AD6200A87BF9 /* ResponseDTO.swift in Sources */,
 				9AEA1E822C5DD4BC00A87BF9 /* StarViewModel.swift in Sources */,
+				9AF883862D0F0EC400DD6832 /* TimeSelectedView.swift in Sources */,
 				9AEA1E862C5DD57100A87BF9 /* SubwayEntity.swift in Sources */,
+				9AF8838A2D0F0EFF00DD6832 /* ListHeaderView.swift in Sources */,
 				46519AD12D0687DF006B2880 /* DIContainer.swift in Sources */,
 				46630D5B2CE73A3E00A8DEF9 /* AlarmSettingView.swift in Sources */,
 				46E8D9D32CE2CBDC00ABF38C /* ModifyFolderView.swift in Sources */,
@@ -587,6 +607,7 @@
 				9A3698492C4CA6590019C12A /* StarView.swift in Sources */,
 				9AC56CEC2CE9970B0067AF3B /* CardView.swift in Sources */,
 				4659A1DE2CE079DA00889FFC /* FolderCardView.swift in Sources */,
+				9AC56CFF2D0EEC700067AF3B /* OnBoardingView.swift in Sources */,
 				46519A902CF974E5006B2880 /* ToastTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -720,7 +741,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 24120901;
+				CURRENT_PROJECT_VERSION = 24121501;
 				DEVELOPMENT_ASSET_PATHS = "\"modoosSubway/Preview Content\"";
 				DEVELOPMENT_TEAM = 6RZ3FF956G;
 				ENABLE_PREVIEWS = YES;
@@ -756,7 +777,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 24120901;
+				CURRENT_PROJECT_VERSION = 24121501;
 				DEVELOPMENT_ASSET_PATHS = "\"modoosSubway/Preview Content\"";
 				DEVELOPMENT_TEAM = 6RZ3FF956G;
 				ENABLE_PREVIEWS = YES;
