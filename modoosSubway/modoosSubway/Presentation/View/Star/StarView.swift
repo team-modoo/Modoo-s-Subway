@@ -12,13 +12,12 @@ struct StarView: View {
 
     @Environment(\.modelContext) private var modelContext
     @Query private var starItems: [Star]
-//    @State private var cards: [CardViewEntity] = []
     @State  var viewType2: FolderType = .Card
     @State  var sortedType: StarSortedType = .all
     @State private var expressActiveState = false
-    
     @State private var filteredCards: [CardViewEntity] = []
     @State private var showModal = false
+    @State private var showAlert = false
     @State private var isRefreshing = false
     @ObservedObject var cardStore: SubwayCardStore
     
@@ -95,7 +94,8 @@ struct StarView: View {
             VStack(spacing: 16) {
                 Button(action: {
                     print("1111111")
-                    self.showModal.toggle()
+//                    self.showModal.toggle()
+					showAlert = true
                 }) {
 					Image(.btnAlarm)
                         .font(.system(size: 50))
@@ -125,6 +125,11 @@ struct StarView: View {
                 .presentationDragIndicator(.visible)
                 .presentationCornerRadius(30)
         }
+		.alert("", isPresented: $showAlert) {
+			Button("확인", role: .cancel) {}
+		} message: {
+			Text("준비중인 기능입니다.")
+		}
     }
     
     private func updateFilteredCards() {

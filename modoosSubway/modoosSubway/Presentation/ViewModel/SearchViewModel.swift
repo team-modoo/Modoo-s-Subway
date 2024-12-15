@@ -47,14 +47,16 @@ class SearchViewModel: ObservableObject {
                         self?.errorMessage = "데이터를 받을 수 없습니다."
                     case .decodingError:
                         self?.errorMessage = "데이터 디코딩에 실패했습니다."
-                    case .serverError(let statusCode):
-                        self?.errorMessage = "서버 오류: \(statusCode)"
+                    case .serverError(_):
+                        self?.errorMessage = "현재 해당하는 데이터가 없습니다."
                     case .customError(_, let message):
                         self?.errorMessage = message
                     case .unknownError:
                         self?.errorMessage = "알 수 없는 오류가 발생했습니다."
                     }
+					
 					self?.isError = true
+					self?.stations = []
                 default:
                     break
                 }
@@ -66,8 +68,9 @@ class SearchViewModel: ObservableObject {
 				if !values.isEmpty {
 					self?.stations = values
 				} else {
-					self?.isError = true
 					self?.errorMessage = "데이터가 없습니다."
+					self?.isError = true
+					self?.stations = []
 				}
             }
             .store(in: &cancellables)

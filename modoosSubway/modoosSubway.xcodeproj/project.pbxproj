@@ -99,6 +99,7 @@
 		9A3698512C4CA72D0019C12A /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		9A36985C2C4D01E90019C12A /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		9AB4E7732D0F283C00ACBB8A /* CardListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardListView.swift; sourceTree = "<group>"; };
+		9AB4E7752D0F3AB900ACBB8A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		9AC56CD12CDF7AAB0067AF3B /* SelectedStationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedStationViewModel.swift; sourceTree = "<group>"; };
 		9AC56CE92CE90CBB0067AF3B /* CardViewEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewEntity.swift; sourceTree = "<group>"; };
 		9AC56CEB2CE9970B0067AF3B /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
@@ -187,6 +188,7 @@
 				9A3698562C4CF9610019C12A /* Resource */,
 				9A36982D2C4BC0480019C12A /* modoosSubwayApp.swift */,
 				9AEA1E772C56516200A87BF9 /* Info.plist */,
+				9AB4E7752D0F3AB900ACBB8A /* PrivacyInfo.xcprivacy */,
 				9A3698352C4BC04A0019C12A /* Preview Content */,
 			);
 			path = modoosSubway;
@@ -753,7 +755,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 24121501;
+				CURRENT_PROJECT_VERSION = 24121601;
 				DEVELOPMENT_ASSET_PATHS = "\"modoosSubway/Preview Content\"";
 				DEVELOPMENT_TEAM = 6RZ3FF956G;
 				ENABLE_PREVIEWS = YES;
@@ -789,7 +791,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 24121501;
+				CURRENT_PROJECT_VERSION = 24121601;
 				DEVELOPMENT_ASSET_PATHS = "\"modoosSubway/Preview Content\"";
 				DEVELOPMENT_TEAM = 6RZ3FF956G;
 				ENABLE_PREVIEWS = YES;

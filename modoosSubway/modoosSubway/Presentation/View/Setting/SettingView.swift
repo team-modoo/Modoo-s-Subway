@@ -98,7 +98,8 @@ struct SettingView: View {
 								
 								HStack {
 									Button {
-										self.showStartTimePicker = true
+//										self.showStartTimePicker = true
+										showAlert = true
 									} label: {
 										ZStack {
 											RoundedRectangle(cornerRadius: 10)
@@ -129,7 +130,8 @@ struct SettingView: View {
 										.font(.pretendard(size: 17, family: .bold))
 									
 									Button {
-										self.showEndTimePicker = true
+//										self.showEndTimePicker = true
+										showAlert = true
 									} label: {
 										ZStack {
 											RoundedRectangle(cornerRadius: 10)

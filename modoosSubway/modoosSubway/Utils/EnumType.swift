@@ -112,9 +112,9 @@ enum InformationType: String {
 		case .version:
 			return ""
 		case .privacy:
-			return "https://github.com/team-modoo/Modoo-s-Subway/blob/develop/policy/privacy-policy.md"
+			return "https://github.com/team-modoo/Modoo-s-Subway/blob/develop/policy/privacy-policy.md#privacy-policy"
 		case .terms:
-			return "https://github.com/team-modoo/Modoo-s-Subway/blob/develop/policy/terms-and-condition.md"
+			return "https://github.com/team-modoo/Modoo-s-Subway/blob/develop/policy/terms-and-condition.md#terms--conditions"
 		}
 	}
 }

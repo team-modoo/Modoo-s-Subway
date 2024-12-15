@@ -77,14 +77,20 @@ struct SelectedStationView: View {
 			vm.selectedStation = selectedStation
             print("SELECTED VIEW INIT()")
 		}
-        .onDisappear {
-                   // 뷰가 사라질 때 타이머 정리
-                   timer?.invalidate()
-                   timer = nil
-               }
+		.onDisappear {
+			// 뷰가 사라질 때 타이머 정리
+			timer?.invalidate()
+			timer = nil
+		}
 		.toolbar(.hidden, for: .navigationBar)
 		.alert("Error", isPresented: $vm.isError) {
-			Button("확인", role: .cancel) {}
+			Button {
+				// 타이머 정리
+				timer?.invalidate()
+				timer = nil
+			} label: {
+				Text("확인")
+			}
 		} message: {
 			Text(vm.errorMessage ?? "")
 		}
