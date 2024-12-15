@@ -42,196 +42,193 @@ struct CardView: View {
      }
     
     var body: some View {
-        List {
-            ForEach(cards) { card in
-            VStack {
-                HStack {
-                    Text(card.lineName)
-                        .font(.pretendard(size: 12, family: .regular))
-                        .foregroundStyle(.white)
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 5)
-                        .background(Util.getLineColor(card.lineNumber))
-                        .cornerRadius(14)
-                    
-                    Text(card.stationName)
-                        .font(.pretendard(size: 16, family: .medium))
-                    
-                    Spacer()
-                    
-                    // MARK: - 즐겨찾기 버튼
-                    Button(action: {
-                        toggleStar(for: card)
-                    }, label: {
-                        card.isStar ? Image(.iconStarYellow) : Image(.iconStar)
-                    })
-                    .buttonStyle(BorderlessButtonStyle())
-                    
-                    if let _ = viewType {
-                        // MARK: - 더보기 버튼
-                        Button(action: {
-                            selectedCard = card
-                        }, label: {
-                            Image(.iconMoreGray)
-                        })
-                    }
-                }
-                .padding(.top, 20)
-                
-                HStack(alignment: .center) {
-                    if let firstArrival = card.arrivals.first {
-                            let remainingTime = getFormattedTime(for: firstArrival)
-                            Text("\(remainingTime.0)분 \(remainingTime.1)초")
-                                .font(.pretendard(size: 28, family: .semiBold))
-                            
-                            Rectangle()
-                                .frame(width: 1, height: 12)
-                                .foregroundStyle(.EDEDED)
-                            
-                            if let secondArrival = card.arrivals.dropFirst().first {
-                                let secondRemainingTime = getFormattedTime(for: secondArrival)
-                                let destination = Util.formatTrainLineName(secondArrival.trainLineName)
-                                Text("\(destination) \(secondRemainingTime.0)분 \(secondRemainingTime.1)초 남음")
-                                    .font(.pretendard(size: 14, family: .regular))
-                            }
-                        }
-                }
-                .frame(width: 300, alignment: .leading)
-                .offset(x: -8)
-                
-                HStack {
-                    ForEach(card.arrivals, id: \.self) { el in
-                        
-                        VStack(spacing: -4) {
-                            Text(Util.formatTrainLineName(el.trainLineName))
-                                .font(.pretendard(size: 12, family: .medium))
-                                .padding(.horizontal, 8)
-                                .padding(.vertical, 5)
-                                .foregroundColor(._333333)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 6)
-                                        .fill(Util.getLineColor(card.lineNumber))
-                                        .opacity(0.1)
-                                )
-                            
-                            Image(.group4)
-                                .frame(width: 8,height: 8)
-                                .foregroundStyle(Util.getLineColor(card.lineNumber))
-                                .offset(y:19)
-                                .opacity(0.7)
-                        }
-                        
-                        
-                    }
-                }
-                
-                
-                HStack(alignment: .top, spacing: 0) {
-                    getStationNamesView(card)
-                }
-                .padding(.top, 4)
-                
-                Spacer()
-                
-                if let firstArrival = card.arrivals.first {
-                    let arrivals = Util.formatTrainLineName(firstArrival.trainLineName)
-                    Text("이 전철은 \(arrivals) 방향 전철입니다.")
-                        .font(.pretendard(size: 12, family: .bold))
-                        .frame(width: 350, height: 24, alignment: .center)
-                        .foregroundStyle(.white)
-                        .background(
-                            Util.getLineColor(card.lineNumber)
-                                .clipShape(
-                                    .rect(
-                                        topLeadingRadius: 0,
-                                        bottomLeadingRadius: 10,
-                                        bottomTrailingRadius: 10,
-                                        topTrailingRadius: 0
-                                    )
-                                )
-                        )
-                } else {
-                    Text("이 전철은 \(card.upDownLine) 방향 전철입니다.")
-                        .font(.pretendard(size: 12, family: .bold))
-                        .frame(width: 350, height: 24, alignment: .center)
-                        .foregroundStyle(.white)
-                        .background(
-                            Util.getLineColor(card.lineNumber)
-                                .clipShape(
-                                    .rect(
-                                        topLeadingRadius: 0,
-                                        bottomLeadingRadius: 10,
-                                        bottomTrailingRadius: 10,
-                                        topTrailingRadius: 0
-                                    )
-                                )
-                        )
-                }
-                
-
-            }
-            
-            .buttonStyle(PlainButtonStyle())
-            .listRowSeparator(.hidden)
-            .padding(.horizontal,20)
-            .frame(width: 350, height: 213)
-            .background(
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(.EDEDED)
-            )
-        }
-            .onMove(perform: isEditingMode ? { from, to in  // 편집 모드일 때만 이동 가능
-                           cards.move(fromOffsets: from, toOffset: to)
-                           onOrderChanged?(cards)
-                       } : nil)
-
-        }
-        
-        .listStyle(.plain)
-        .scrollIndicators(.hidden)
-        .environment(\.editMode, .constant(isEditingMode ? .active : .inactive))
-        .onAppear {
-               for card in cards {
-                   initializeCountdowns(for: card)
-               }
-           }
-           .onChange(of: cards) { _, newCards in
-               for card in newCards {
-                   updateCountdownsIfNeeded(card: card, arrivals: card.arrivals)
-               }
-           }
-           .onReceive(timer) { _ in
-               for card in cards {
-                   for arrival in card.arrivals {
-                       if let currentCount = countdowns[arrival.id], currentCount > 0 {
-                           countdowns[arrival.id] = currentCount - 1
-                       }
-                   }
-               }
-           }
-        .sheet(item: $selectedCard) { card in
-            if let folder = folder {
-                MoreMenuListView(card: card,folder: folder)
-                        .presentationDetents([.fraction(1/3)])
-                        .presentationDragIndicator(.visible)
-                        .presentationCornerRadius(26)
-             
-               
-            } else {
-                // StarView에서 열었을 때
-                AddFolderView(card: card)  // folder 없이 호출
-                    .presentationDetents([.fraction(1/3)])
-                    .presentationDragIndicator(.visible)
-                    .presentationCornerRadius(26)
-            }
-           
-        }
-        .alert("알림", isPresented: $showAlert) {
-            Button("확인", role: .cancel) {}
-        } message: {
-            Text(alertMessage)
-        }
-    }
+		List {
+			ForEach(cards) { card in
+				VStack {
+					HStack {
+						Text(card.lineName)
+							.font(.pretendard(size: 12, family: .regular))
+							.foregroundStyle(.white)
+							.padding(.horizontal, 8)
+							.padding(.vertical, 5)
+							.background(Util.getLineColor(card.lineNumber))
+							.cornerRadius(14)
+						
+						Text(card.stationName)
+							.font(.pretendard(size: 16, family: .medium))
+						
+						Spacer()
+						
+						// MARK: - 즐겨찾기 버튼
+						Button(action: {
+							toggleStar(for: card)
+						}, label: {
+							card.isStar ? Image(.iconStarYellow) : Image(.iconStar)
+						})
+						.buttonStyle(BorderlessButtonStyle())
+						
+						if let _ = viewType {
+							// MARK: - 더보기 버튼
+							Button(action: {
+								selectedCard = card
+							}, label: {
+								Image(.iconMoreGray)
+							})
+						}
+					}
+					.padding(.top, 20)
+					
+					HStack(alignment: .center) {
+						if let firstArrival = card.arrivals.first {
+							Text(Util.formatArrivalMessage(firstArrival.message2))
+								.font(.pretendard(size: 28, family: .semiBold))
+							
+							Rectangle()
+								.frame(width: 1, height: 12)
+								.foregroundStyle(.EDEDED)
+							
+							if let secondArrival = card.arrivals.dropFirst().first {
+								Text("다음열차 \(Util.formatArrivalMessage(secondArrival.message2))")
+									.font(.pretendard(size: 14, family: .regular))
+							}
+						}
+					}
+					.frame(width: 300, alignment: .leading)
+					.offset(x: -8)
+					
+					HStack {
+						ForEach(card.arrivals, id: \.self) { el in
+							
+							VStack(spacing: -4) {
+								Text(Util.formatTrainLineName(el.trainLineName))
+									.font(.pretendard(size: 12, family: .medium))
+									.padding(.horizontal, 8)
+									.padding(.vertical, 5)
+									.foregroundColor(._333333)
+									.background(
+										RoundedRectangle(cornerRadius: 6)
+											.fill(Util.getLineColor(card.lineNumber))
+											.opacity(0.1)
+									)
+								
+								Image(.group4)
+									.frame(width: 8,height: 8)
+									.foregroundStyle(Util.getLineColor(card.lineNumber))
+									.offset(y:19)
+									.opacity(0.7)
+							}
+							
+							
+						}
+					}
+					
+					
+					HStack(alignment: .top, spacing: 0) {
+						getStationNamesView(card)
+					}
+					.padding(.top, 4)
+					
+					Spacer()
+					
+					if let firstArrival = card.arrivals.first {
+						let arrivals = Util.formatTrainLineName(firstArrival.trainLineName)
+						Text("이 전철은 \(arrivals) 방향 전철입니다.")
+							.font(.pretendard(size: 12, family: .bold))
+							.frame(width: 350, height: 24, alignment: .center)
+							.foregroundStyle(.white)
+							.background(
+								Util.getLineColor(card.lineNumber)
+									.clipShape(
+										.rect(
+											topLeadingRadius: 0,
+											bottomLeadingRadius: 10,
+											bottomTrailingRadius: 10,
+											topTrailingRadius: 0
+										)
+									)
+							)
+					} else {
+						Text("이 전철은 \(card.upDownLine) 방향 전철입니다.")
+							.font(.pretendard(size: 12, family: .bold))
+							.frame(width: 350, height: 24, alignment: .center)
+							.foregroundStyle(.white)
+							.background(
+								Util.getLineColor(card.lineNumber)
+									.clipShape(
+										.rect(
+											topLeadingRadius: 0,
+											bottomLeadingRadius: 10,
+											bottomTrailingRadius: 10,
+											topTrailingRadius: 0
+										)
+									)
+							)
+					}
+					
+					
+				}
+				
+				.buttonStyle(PlainButtonStyle())
+				.listRowSeparator(.hidden)
+				.padding(.horizontal,20)
+				.frame(width: 350, height: 213)
+				.background(
+					RoundedRectangle(cornerRadius: 10)
+						.stroke(.EDEDED)
+				)
+			}
+			.onMove(perform: isEditingMode ? { from, to in  // 편집 모드일 때만 이동 가능
+				cards.move(fromOffsets: from, toOffset: to)
+				onOrderChanged?(cards)
+			} : nil)
+			
+		}
+		
+		.listStyle(.plain)
+		.scrollIndicators(.hidden)
+		.environment(\.editMode, .constant(isEditingMode ? .active : .inactive))
+		.onAppear {
+			for card in cards {
+				initializeCountdowns(for: card)
+			}
+		}
+		.onChange(of: cards) { _, newCards in
+			for card in newCards {
+				updateCountdownsIfNeeded(card: card, arrivals: card.arrivals)
+			}
+		}
+		.onReceive(timer) { _ in
+			for card in cards {
+				for arrival in card.arrivals {
+					if let currentCount = countdowns[arrival.id], currentCount > 0 {
+						countdowns[arrival.id] = currentCount - 1
+					}
+				}
+			}
+		}
+		.sheet(item: $selectedCard) { card in
+			if let folder = folder {
+				MoreMenuListView(card: card,folder: folder)
+					.presentationDetents([.fraction(1/3)])
+					.presentationDragIndicator(.visible)
+					.presentationCornerRadius(26)
+				
+				
+			} else {
+					// StarView에서 열었을 때
+				AddFolderView(card: card)  // folder 없이 호출
+					.presentationDetents([.fraction(1/3)])
+					.presentationDragIndicator(.visible)
+					.presentationCornerRadius(26)
+			}
+			
+		}
+		.alert("알림", isPresented: $showAlert) {
+			Button("확인", role: .cancel) {}
+		} message: {
+			Text(alertMessage)
+		}
+	}
     
     // MARK: - 지하철 5개의 정거장 라인 뷰
     private func getStationNamesView(_ card: CardViewEntity) -> some View {
@@ -307,27 +304,30 @@ struct CardView: View {
                         return
                     }
                 }
-                
-                cards[index].isStar.toggle()
+			
                 let star = Star(subwayCard: cards[index])
                 DataManager.shared.addStar(item: star)
-                onStarSaved?(true)
                 
+				// Directly mutate the binding
+				cards[index].isStar = true
+				onStarSaved?(true)
                 
             } else {
-                cards[index].isStar.toggle()
                 let descriptor = FetchDescriptor<Star>()
                 if let stars = try? modelContext.fetch(descriptor),
                    let starToDelete = stars.first(where: { $0.subwayCard == item }) {
-//                    DataManager.shared.deleteStar(item: starToDelete)
-                    if let folder = folder {
-                                DataManager.shared.deleteStar(item: starToDelete)
-                                DataManager.shared.updateFolderLineNumbers(folder, context: modelContext)
-                            } else {
-                                // 폴더가 없는 경우(StarView 등)는 기존처럼 처리
-                                DataManager.shared.deleteStar(item: starToDelete)
-                            }
-                }
+					if let folder = folder {
+						DataManager.shared.deleteStar(item: starToDelete)
+						DataManager.shared.updateFolderLineNumbers(folder, context: modelContext)
+					} else {
+						// 폴더가 없는 경우(StarView 등)는 기존처럼 처리
+						DataManager.shared.deleteStar(item: starToDelete)
+					}
+				}
+				
+				// Directly mutate the binding
+				cards[index].isStar = false
+				onStarSaved?(false)
             }
         }
     }

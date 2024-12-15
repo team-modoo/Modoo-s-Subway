@@ -240,7 +240,7 @@ class SelectedStationViewModel: ObservableObject {
 					self?.downStationNames = Array(stations[safe: downStartIndex...downLastIndex] ?? [])
 					
 					let upStartIndex = stations.firstIndex(of: self?.selectedStation?.stationName ?? "" ) ?? 0
-                    var upLastIndex = min(upStartIndex + count, stations.count - 1 )
+                    let upLastIndex = min(upStartIndex + count, stations.count - 1 )
 					self?.upStationNames = Array(stations[safe: upStartIndex...upLastIndex] ?? [])
 					
 					completionHandler()
@@ -251,18 +251,5 @@ class SelectedStationViewModel: ObservableObject {
 				}
 			}
 			.store(in: &cancellables)
-	}
-	
-	// MARK: - 즐겨찾기 토글
-	func toggleStar(for item: CardViewEntity) {
-		if let index = cards.firstIndex(where: { $0 == item }) {
-			cards[index].isStar.toggle()
-			
-			if cards[index].isStar {
-				DataManager.shared.addStar(item: Star(subwayCard: cards[index]))
-			} else {
-				DataManager.shared.deleteStar(item: Star(subwayCard: cards[index]))
-			}
-		}
 	}
 }
