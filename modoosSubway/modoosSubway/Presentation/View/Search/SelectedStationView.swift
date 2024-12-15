@@ -44,7 +44,7 @@ struct SelectedStationView: View {
 				.padding(.horizontal, 20)
 				.padding(.top, 22)
 				
-                CardView(cards: $vm.cards, onStarSaved:  { saved in
+				CardListView(cards: $vm.cards, onStarSaved:  { saved in
                     if saved {
                         toast = FancyToast(type: .success, title: "즐겨찾기가 완료되었어요! ")
                     }
