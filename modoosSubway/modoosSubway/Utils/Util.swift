@@ -41,7 +41,7 @@ class Util {
 		return message.range(of: #"^\d+분"#, options: .regularExpression) != nil
 	}
 	
-	// MARK: - modify trainLineName
+	// MARK: - modify trainLineName ~행
 	static func formatTrainLineName(_ trainLineName: String) -> String {
 		let names = trainLineName.split(separator: " - ")
         if let firstPart = names.first {
@@ -51,6 +51,18 @@ class Util {
                 return String(firstPart) + "행"
            }
            return ""
+	}
+	
+	// MARK: - modify trainLineName ~방변
+	static func getTrainDirection(_ trainLineName: String) -> String {
+		let names = trainLineName.split(separator: " - ")
+		if let lastPart = names.last {
+			if lastPart.hasSuffix("방면") {
+				return String(lastPart).replacingOccurrences(of: "방면", with: " 방향")
+			}
+			return String(lastPart) + " 방향"
+		}
+		return ""
 	}
 	
 	// MARK: - 노선별 컬러

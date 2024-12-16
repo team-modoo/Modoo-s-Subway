@@ -97,14 +97,14 @@ struct CardListView: View {
 		if let folder = folder {
 			return AnyView(
 				MoreMenuListView(card: card, folder: folder)
-					.presentationDetents([.fraction(CGFloat(1/3))])
+					.presentationDetents([.fraction(0.3)])
 					.presentationDragIndicator(.visible)
 					.presentationCornerRadius(26)
 			)
 		} else {
 			return AnyView(
 				AddFolderView(card: card)
-					.presentationDetents([.fraction(CGFloat(1/3))])
+					.presentationDetents([.fraction(0.3)])
 					.presentationDragIndicator(.visible)
 					.presentationCornerRadius(26)
 			)

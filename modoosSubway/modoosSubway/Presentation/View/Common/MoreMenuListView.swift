@@ -11,12 +11,13 @@ struct MoreMenuListView: View {
     var moreMenuType: [MoreMenuType]
     let card: CardViewEntity
     let folder: Folder?
-    
-    init(card: CardViewEntity,folder:Folder? = nil) {
-        self.card = card
-        self.folder = folder
-        self.moreMenuType = folder != nil ? [.moveFolder, .changeOrder,.removeFolder] : [.moveFolder]
-      }
+	
+	init(card: CardViewEntity,folder:Folder? = nil) {
+		self.card = card
+		self.folder = folder
+		self.moreMenuType = folder != nil ? [.moveFolder, .changeOrder,.removeFolder] : [.moveFolder]
+	}
+	
     var body: some View {
         NavigationStack {
             VStack {
@@ -61,6 +62,7 @@ struct MoreMenuCell: View {
     @State private var showFullScreen = false
     @State private var showAlert = false
     @State private var showCompletionAlert = false
+    @State private var showPrepareAlert = false
     @Environment(\.dismiss) private var dismiss
  
     
@@ -102,7 +104,8 @@ struct MoreMenuCell: View {
             case .moveFolder:
                 showSheet = true
             case .changeOrder:
-                showFullScreen = true
+//                showFullScreen = true
+				showPrepareAlert = true
             case .removeFolder:
                 showAlert = true
             }
@@ -140,6 +143,13 @@ struct MoreMenuCell: View {
 		} message: {
 			Text("폴더에서 카드가 제거되었습니다.")
 		}
+		.alert("", isPresented: $showPrepareAlert) {
+			Button("확인") {
+				dismiss()
+			}
+		} message: {
+			Text("준비중인 기능입니다.")
+		}
 	}
 }
 
@@ -153,9 +163,9 @@ enum MoreMenuType: String {
         case .moveFolder:
             return AnyView(AddFolderView(card: card,currentFolder: folder))
         case .changeOrder:
-            if let folder = folder {
-                return AnyView(FilteredStarView(folder: folder, isEditingMode: true))
-            }
+//            if let folder = folder {
+//                return AnyView(FolderDetailView(folder: folder, isEditingMode: true))
+//            }
             return AnyView(EmptyView())
         case .removeFolder:
             return AnyView(EmptyView())

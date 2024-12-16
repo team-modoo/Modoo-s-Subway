@@ -77,7 +77,7 @@ struct FolderListCell: View {
         }
 
         .background(
-            NavigationLink("", destination: FilteredStarView(folder: folders))
+            NavigationLink("", destination: FolderDetailView(folder: folders))
                 .opacity(0)
             
         )
