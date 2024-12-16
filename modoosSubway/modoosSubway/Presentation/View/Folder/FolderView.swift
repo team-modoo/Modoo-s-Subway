@@ -84,7 +84,7 @@ struct FolderView: View {
 			print("폴더 데이터 변경됨")
 			print("현재 폴더 개수: \(new.count)")
 			for folder in new {
-				print("폴더 ID: \(folder.id), 제목: \(folder.content)")
+				print("폴더 ID: \(folder.id), 제목: \(folder.content ?? "")")
 			}
 		}
 		.task {

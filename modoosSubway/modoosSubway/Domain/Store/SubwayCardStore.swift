@@ -46,7 +46,6 @@ class SubwayCardStore: ObservableObject {
                 }
                 .store(in: &cancellables)
         }
-        
     }
 
     private func updateCards(for stationName: String, with arrivals: [ArrivalEntity], existingCards: [UUID: CardViewEntity]) {
@@ -116,13 +115,14 @@ class SubwayCardStore: ObservableObject {
            }
        }
     }
-    func loadSavedCards(from stars: [Star]) {
-          cards.removeAll()
-          stars.forEach { star in
-              cards[star.subwayCard.id] = star.subwayCard
-          }
-          print("Store에 로드된 카드 수: \(cards.count)")
-      }
-    
-    
+	
+	func loadSavedCards(from stars: [Star]) {
+		cards.removeAll()
+		stars.forEach { star in
+			if star.subwayCard.isStar {
+				cards[star.subwayCard.id] = star.subwayCard
+			}
+		}
+		print("Store에 로드된 카드 수: \(cards.count)")
+	}
 }

@@ -128,7 +128,7 @@ class SelectedStationViewModel: ObservableObject {
 															  isExpress: upArrivalEntities.first?.isExpress ?? "",
 															  arrivals: upArrivals,
 															  stationName: self?.selectedStation?.stationName ?? "",
-															  stationNames: self?.upStationNames ?? [],
+															  stationNames: self?.upStationNames.reversed() ?? [],
 															  upDownLine: "상행선",
 															  isStar: false,
 															  isFolder: false)
@@ -150,7 +150,7 @@ class SelectedStationViewModel: ObservableObject {
 															   isExpress: outArrivalEntities.first?.isExpress ?? "",
 															   arrivals: outArrivals,
 															   stationName: self?.selectedStation?.stationName ?? "",
-															   stationNames: self?.upStationNames ?? [],
+															   stationNames: self?.downStationNames.reversed() ?? [],
 															   upDownLine: "외선",
 															   isStar: false,
 															   isFolder: false)
@@ -161,7 +161,7 @@ class SelectedStationViewModel: ObservableObject {
 															  isExpress: inArrivalEntities.first?.isExpress ?? "",
 															  arrivals: inArrivals,
 															  stationName: self?.selectedStation?.stationName ?? "",
-															  stationNames: self?.downStationNames ?? [],
+															  stationNames: self?.upStationNames.reversed() ?? [],
 															  upDownLine: "내선",
 															  isStar: false,
 															  isFolder: false)
@@ -183,7 +183,7 @@ class SelectedStationViewModel: ObservableObject {
 			.store(in: &cancellables)
 	}
 	
-	// MAKR: - 노선으로 검색하여 역명 가져오기
+	// MARK: - 노선으로 검색하여 역명 가져오기
 	func getSearchSubwayLine(for stationLine: String, service: String, startIndex: Int, endIndex: Int, completionHandler: @escaping () -> Void) {
 		let request: SearchSubwayRequestDTO = SearchSubwayRequestDTO(key:self.key, service: service, startIndex: startIndex, endIndex: endIndex, stationLine: stationLine)
 		

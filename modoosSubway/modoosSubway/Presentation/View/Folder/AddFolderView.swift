@@ -46,7 +46,7 @@ struct AddFolderView: View {
 						Button {
 							if item.cardIDs.contains(card.id) {
 								// 이미 있는 경우 알림만 표시
-								alertMessage = "\(item.title) 폴더에\n이미 저장된 카드입니다"
+								alertMessage = "\(item.title) 폴더에 이미 저장된 카드입니다"
 								showAlert = true
 							} else {
 								// 없는 경우 저장
@@ -157,7 +157,7 @@ struct AddFolderView: View {
 	private func saveCardToFolder(_ folder: Folder) {
 		
 		if folder.cardIDs.contains(card.id) {
-			alertMessage = "\(folder.title) 폴더에\n이미 저장된 카드입니다"
+			alertMessage = "\(folder.title) 폴더에 이미 저장된 카드입니다"
 			showAlert = true
 			return
 		}
@@ -169,13 +169,13 @@ struct AddFolderView: View {
 		
 		try? modelContext.save()
 		
-		alertMessage = "\(folder.title) 폴더에\n저장되었습니다"
+		alertMessage = "\(folder.title) 폴더에 저장되었습니다"
 		showAlert = true
 	}
 	
 	private func moveCardToFolder(_ targetFolder: Folder) {
 		if targetFolder.cardIDs.contains(card.id) {
-			alertMessage = "\(targetFolder.title) 폴더에\n이미 저장된 카드입니다"
+			alertMessage = "\(targetFolder.title) 폴더에 이미 저장된 카드입니다"
 			showAlert = true
 			return
 		}
@@ -195,7 +195,7 @@ struct AddFolderView: View {
 		try? modelContext.save()
 		DataManager.shared.updateFolderLineNumbers(targetFolder, context: modelContext)
 		
-		alertMessage = "\(targetFolder.title) 폴더에\n이동되었습니다"
+		alertMessage = "\(targetFolder.title) 폴더에 이동되었습니다"
 		showAlert = true
 	}
 }

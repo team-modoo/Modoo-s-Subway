@@ -8,7 +8,6 @@
 import SwiftUI
 import PhotosUI
 
-
 struct ModifyView: View {
     @Binding var title: String
     @Binding var description: String
@@ -20,6 +19,7 @@ struct ModifyView: View {
                 Text("폴더명")
                     .font(.pretendard(size: 14, family: .medium))
                     .foregroundStyle(.black)
+					.padding(.horizontal, 20)
                 TextFieldView(text: $title, placeholder: "폴더명을 입력해 주세요")
             }
             
@@ -27,8 +27,8 @@ struct ModifyView: View {
                 Text("설명")
                     .font(.pretendard(size: 14, family: .medium))
                     .foregroundStyle(.black)
+					.padding(.horizontal, 20)
                 TextFieldView(text: $description, placeholder: "설명을 입력해 주세요")
-                
             }
             
             VStack(alignment: .leading) {
@@ -38,23 +38,23 @@ struct ModifyView: View {
                 ImageSelectedView(selectedImage: $selectedImage)
 					.padding(.top, 16)
             }
+			.padding(.horizontal, 20)
         }
-		.padding(.horizontal, 20)
-        .toolbar {
-            ToolbarItem(placement: .keyboard) {
-                HStack {
-                    Spacer()
-                
-                    Button(action: {
-                              hideKeyboard()
-                    }) {
-                        Image(systemName: "keyboard.chevron.compact.down")
-                            .foregroundColor(.blue)
-                    }
-                }
-            }
-        }
-    }
+		.toolbar {
+			ToolbarItem(placement: .keyboard) {
+				HStack {
+					Spacer()
+					
+					Button(action: {
+						hideKeyboard()
+					}) {
+						Image(systemName: "keyboard.chevron.compact.down")
+							.foregroundColor(.blue)
+					}
+				}
+			}
+		}
+	}
     
     private func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
@@ -70,22 +70,17 @@ struct TextFieldView: View {
         self.placeholder = placeholder
     }
 
-    
     var body: some View {
         HStack {
             TextField(placeholder, text: self.$text)
                 .padding(.leading, 16)
-                .foregroundStyle(.black)
+				.foregroundStyle(._5_C_5_C_5_C)
                 .frame(height: 56)
                 .textFieldStyle(.plain)
                 .padding([.horizontal], 4)
                 .cornerRadius(16)
                 .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.D_9_D_9_D_9))
                 .padding([.horizontal], 4)
-                .submitLabel(.search)
-                .onSubmit {
-                    //   handleSearch()
-                }
                 .onAppear {
                     UITextField.appearance().clearButtonMode = .whileEditing
                 }
@@ -96,7 +91,6 @@ struct TextFieldView: View {
             .padding(.trailing, 16)
             .padding(.leading, 20)
             .padding(.vertical, 4)
-
     }
 }
 
@@ -155,7 +149,6 @@ struct FolderFormView: View {
             _title = State(initialValue: "")
             _description = State(initialValue: "")
             _selectedImage = State(initialValue: nil)
-
         }
     }
 
@@ -169,48 +162,38 @@ struct FolderFormView: View {
 
                     Text("\(formType.title)")
                         .font(.pretendard(size: 18, family: .semiBold))
-                        .foregroundStyle(.black)
+						.foregroundStyle(._333333)
                         .padding(.leading, -10)
                         .tint(.black)
-
                 }
                 
                 Spacer()
                 
                 Button(action: {
-                    
-                    if formType == .create {
-                        DataManager.shared.createFolder(title:title, content: description, image: selectedImage, context: modelContext)
-                    } else if formType == .modify, let folder = self.folder {
-                        print("수정하기 버튼 클릭")
-                        print("수정 전 폴더 상태:")
-                        print("ID: \(folder.id)")
-                        print("제목: \(folder.title)")
-                        print("설명: \(folder.content ?? "설명 없음")")
-
-                       DataManager.shared.updateFolder(folder,title: title,content: description,image: selectedImage, context: modelContext)
-                    }
-
+					switch formType {
+					case .create:
+						DataManager.shared.createFolder(title:title, content: description, image: selectedImage, context: modelContext)
+					case .modify:
+						if let folder = self.folder {
+							DataManager.shared.updateFolder(folder,title: title,content: description,image: selectedImage, context: modelContext)
+						}
+					}
                     dismiss()
                     showPreview = true
                 }) {
                     Text(formType.buttonTitle)
-                        .foregroundStyle(.black)
                         .padding(.leading, -10)
                         .tint(.theme)
 						.font(.pretendard(size: 18, family: .semiBold))
-
                 }
-                
-                
             }
             .background(.white)
             .padding(.horizontal, 20)
             .padding(.top, 22)
             
-            ModifyView(title: $title, description: $description, selectedImage: $selectedImage)
-                .padding(.top, 24)
-               
+			ModifyView(title: $title, description: $description, selectedImage: $selectedImage)
+				.padding(.top, 24)
+			
             Spacer()
         }
         .tint(.black)

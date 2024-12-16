@@ -103,8 +103,8 @@ struct CardView: View {
 			Spacer()
 			
 			if let firstArrival = card.arrivals.first {
-				let arrivals = Util.formatTrainLineName(firstArrival.trainLineName)
-				Text("이 전철은 \(arrivals) 방향 전철입니다.")
+				let direction = Util.getTrainDirection(firstArrival.trainLineName)
+				Text("이 전철은 \(direction) 전철입니다.")
 					.font(.pretendard(size: 12, family: .bold))
 					.frame(width: 350, height: 24, alignment: .center)
 					.foregroundStyle(.white)
@@ -120,7 +120,7 @@ struct CardView: View {
 							)
 					)
 			} else {
-				Text("이 전철은 \(card.upDownLine) 방향 전철입니다.")
+				Text("이 전철은 \(card.upDownLine) 열차입니다.")
 					.font(.pretendard(size: 12, family: .bold))
 					.frame(width: 350, height: 24, alignment: .center)
 					.foregroundStyle(.white)
@@ -148,7 +148,7 @@ struct CardView: View {
 	// MARK: - 열차 뷰
 	private func getArrivalsView(_ card: CardViewEntity) -> some View {
 		ForEach(card.arrivals) { el in
-			VStack(spacing: -4) {
+			VStack(spacing: -8) {
 				Text(Util.formatTrainLineName(el.trainLineName))
 					.font(.pretendard(size: 12, family: .medium))
 					.padding(.horizontal, 8)
@@ -165,12 +165,12 @@ struct CardView: View {
 						.frame(width: 16, height: 16)
 						.foregroundColor(Util.getLineColor(card.lineNumber))
 						.opacity(0.7)
-						.offset(y: 19)
+						.offset(y: 24)
 					
 					Circle()
 						.frame(width: 8, height: 8)
 						.foregroundColor(.white)
-						.offset(y: 19)
+						.offset(y: 24)
 				}
 			}
 		}
@@ -180,10 +180,21 @@ struct CardView: View {
 	private func getStationNamesView(_ card: CardViewEntity) -> some View {
 		ForEach(card.stationNames, id: \.self) { el in
 			VStack {
-				Circle()
-					.frame(width: 8, height: 8)
-					.foregroundColor(Util.getLineColor(card.lineNumber))
-					.opacity(0.7)
+				if el != card.stationNames.last {
+					Circle()
+						.frame(width: 8, height: 8)
+						.foregroundColor(Util.getLineColor(card.lineNumber))
+						.opacity(0.7)
+				} else {
+					Circle()
+						.frame(width: 8, height: 8)
+						.foregroundColor(.white)
+						.overlay(
+							Circle()
+								.stroke(Util.getLineColor(card.lineNumber), lineWidth: 1)
+						)
+				}
+				
 				Text(el)
 					.font(.pretendard(size: 12, family: .regular))
 					.frame(width: CGFloat(el.count * 12))
@@ -245,6 +256,7 @@ struct CardView: View {
 				
 				// Directly mutate the binding
 				cards[index].isStar = false
+				onStarSaved?(false)
 			}
 		}
 	}

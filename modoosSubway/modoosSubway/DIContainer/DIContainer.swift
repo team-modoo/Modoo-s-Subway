@@ -12,7 +12,6 @@ class DIContainer {
     let subwayUseCase: SubwayUseCaseProtocol
     let cardStore: SubwayCardStore
 
-    
     init(subWayRepository: SubwayRepository = SubwayRepository()) {
         self.subWayRepository = subWayRepository
         self.subwayUseCase = SubwayUseCase(repository: subWayRepository)
