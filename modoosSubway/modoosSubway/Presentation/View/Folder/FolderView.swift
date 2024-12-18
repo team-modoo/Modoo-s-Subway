@@ -15,14 +15,13 @@ struct FolderView: View {
 	@State private var sortedType: FolderSortedType
 	var item: [Int] = [1,2,3]
 	
-	var folders: [Folder] {
-		let descriptor = FetchDescriptor<Folder>(
-			sortBy: sortedType == .latest ?
-			[SortDescriptor(\Folder.timestamp, order: .reverse)] :
-				[SortDescriptor(\Folder.title, order: .forward)]
-		)
-		return (try? modelContext.fetch(descriptor)) ?? []
-	}
+
+    @Query(sort: \Folder.timestamp, order: .reverse) private var latestFolders: [Folder]
+    @Query(sort: \Folder.title) private var nameOrderedFolders: [Folder]
+    
+    var folders: [Folder] {
+           sortedType == .latest ? latestFolders : nameOrderedFolders
+       }
 	
 	init() {
 		let savedViewType = UserDefaults.standard.string(forKey: "folder_view_type")
