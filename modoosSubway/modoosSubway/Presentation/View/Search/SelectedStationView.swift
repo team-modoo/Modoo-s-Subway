@@ -17,7 +17,7 @@ struct SelectedStationView: View {
 	@State var selectedStation: StationEntity?
     @State private var toast: FancyToast? = nil
     
-    init(container: DIContainer, selectedStation: StationEntity?) {
+	init(container: DIContainer, selectedStation: StationEntity?) {
         self.container = container
         self.selectedStation = selectedStation
         
@@ -57,18 +57,18 @@ struct SelectedStationView: View {
         })
 		.task {
 			if let selectedStation = selectedStation {
-				vm.getSearchSubwayLine(for: selectedStation.lineName(), service: "SearchSTNBySubwayLineInfo", startIndex: 1, endIndex: 100) {
+				vm.getFiveStations {
 					if selectedStation.stationName == "총신대입구" || selectedStation.stationName == "이수" {
-						vm.getRealtimeStationArrivals(for: "총신대입구(이수)", startIndex: 1, endIndex: 100)
+						vm.getRealtimeStationArrivals(for: "총신대입구(이수)", startIndex: 1, endIndex: 5)
 					} else {
-						vm.getRealtimeStationArrivals(for: selectedStation.stationName, startIndex: 1, endIndex: 100)
+						vm.getRealtimeStationArrivals(for: selectedStation.stationName, startIndex: 1, endIndex: 5)
 					}
 				}
 			}
 		}
 		.onAppear {
 			vm.selectedStation = selectedStation
-            print("SELECTED VIEW INIT()")
+			vm.allStations = homeViewModel.allStations
 		}
 		.toolbar(.hidden, for: .navigationBar)
 		.alert("Error", isPresented: $vm.isError) {

@@ -59,6 +59,6 @@ struct LaunchScreenView: UIViewControllerRepresentable {
         let controller = UIStoryboard(name: "Launch Screen", bundle: nil).instantiateInitialViewController()!
         return controller
     }
-    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
-    }
+	
+    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) { }
 }

@@ -19,11 +19,7 @@ class DIContainer {
     }
     
     func makeHomeViewModel() -> HomeViewModel {
-        return HomeViewModel()
-    }
-    
-    func makeSearchViewModel() -> SearchViewModel {
-        return SearchViewModel(subwayUseCase: subwayUseCase)
+        return HomeViewModel(subwayUseCase: subwayUseCase)
     }
     
     func makeSelectedStationViewModel() -> SelectedStationViewModel {
