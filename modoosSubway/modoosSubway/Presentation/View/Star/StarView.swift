@@ -12,18 +12,14 @@ struct StarView: View {
 
     @Environment(\.modelContext) private var modelContext
     @Query private var starItems: [Star]
-//    @State private var cards: [CardViewEntity] = []
     @State  var viewType2: FolderType = .Card
     @State  var sortedType: StarSortedType = .all
     @State private var expressActiveState = false
-    
     @State private var filteredCards: [CardViewEntity] = []
     @State private var showModal = false
+    @State private var showAlert = false
     @State private var isRefreshing = false
     @ObservedObject var cardStore: SubwayCardStore
-    
-    
-    
     
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
@@ -50,20 +46,23 @@ struct StarView: View {
                                                expressActiveState: $expressActiveState)
                             }
                             
-                            CardView(cards:$filteredCards, viewType: .Star)
-                                .onChange(of: sortedType) { _, newValue in
-                                    updateFilteredCards()
-                                }
-                            
-                                .onChange(of: cardStore.cards) { _, _ in
-                                    updateFilteredCards()
-                                }
-                                .onChange(of: expressActiveState) { _, _ in
-                                    updateFilteredCards()
-                                }
-
-                        }
-                    }
+							CardListView(cards:$filteredCards, viewType: .Star, onStarSaved: { saved in
+								if !saved {
+									cardStore.loadSavedCards(from: starItems)
+								}
+							})
+							.onChange(of: sortedType) { _, newValue in
+								updateFilteredCards()
+							}
+							
+							.onChange(of: cardStore.cards) { _, _ in
+								updateFilteredCards()
+							}
+							.onChange(of: expressActiveState) { _, _ in
+								updateFilteredCards()
+							}
+						}
+					}
                 })
             }
             .onAppear {
@@ -90,15 +89,16 @@ struct StarView: View {
                    }
                 print("현재 표시되는 카드 수: \(cardStore.cards.count)")
             }
-            .padding(.top, 22)
             .padding(.horizontal, 1)
             
             VStack(spacing: 16) {
                 Button(action: {
                     print("1111111")
-                    self.showModal.toggle()
+//                    self.showModal.toggle()
+					showAlert = true
                 }) {
-                    Image("btn_alarm")
+
+					Image(.btnAlarm)
                         .font(.system(size: 50))
                         .foregroundColor(.blue)
                         .background(Circle().fill(Color.white))
@@ -112,15 +112,14 @@ struct StarView: View {
                         isRefreshing = false
                     }
                 }) {
-                    Image("btn_refresh")
+
+					Image(.btnRefresh)
                         .font(.system(size: 50))
                         .foregroundColor(.blue)
                         .background(Circle().fill(Color.white))
                 }
             }
             .padding(.bottom, 30)
-            .padding(.trailing, 20)
-            
         }
         .sheet(isPresented: $showModal) {
             AlarmSettingView()
@@ -128,6 +127,11 @@ struct StarView: View {
                 .presentationDragIndicator(.visible)
                 .presentationCornerRadius(30)
         }
+		.alert("", isPresented: $showAlert) {
+			Button("확인", role: .cancel) {}
+		} message: {
+			Text("준비중인 기능입니다.")
+		}
     }
     
     private func updateFilteredCards() {
@@ -159,94 +163,4 @@ struct StarView: View {
         
         filteredCards = filtered
     }
-
 }
-
-struct StarHeaderView: View {
-    @Binding var viewType: FolderType
-    @Binding var sortedType: StarSortedType
-    @Binding  var expressActiveState: Bool
-    @State private var selectedDirection: Direction? = nil
-    
-    enum Direction {
-        case upward // 상행/외선
-        case downward // 하행/내선
-    }
-
-    var body: some View {
-        HStack {
-            
-            Button {
-                  sortedType = .all
-                  print("전체")
-            } label: {
-                if sortedType == .all {
-                    Text("전체")
-                        .font(.pretendard(size: 16, family: .regular))
-                        .foregroundStyle(.black)
-                } else {
-                    Text("전체")
-                        .font(.pretendard(size: 16, family: .regular))
-                        .foregroundStyle(.gray)
-                }
-            }
-            
-            Rectangle()
-                .frame(width: 1,height: 12)
-                .foregroundStyle(.gray)
-            
-            Button {
-                  sortedType = .upLine
-                print("상행선")
-            } label: {
-                if sortedType == .upLine {
-                    Text("상행선")
-                        .font(.pretendard(size: 16, family: .regular))
-                        .foregroundStyle(.black)
-                } else {
-                    Text("상행선")
-                        .font(.pretendard(size: 16, family: .regular))
-                        .foregroundStyle(.gray)
-                }
-            }
-            
-            Rectangle()
-                .frame(width: 1,height: 12)
-                .foregroundStyle(.gray)
-            
-            Button {
-                sortedType = .downLine
-                print("하행선")
-            } label: {
-                if sortedType == .downLine {
-                    Text("하행선")
-                        .font(.pretendard(size: 16, family: .regular))
-                        .foregroundStyle(.black)
-                } else {
-                    Text("하행선")
-                        .font(.pretendard(size: 16, family: .regular))
-                        .foregroundStyle(.gray)
-                }
-            }
-            
-            Spacer()
-            
-            Toggle(isOn: $expressActiveState, label: {
-                expressActiveState ? Image(.expressActive) : Image(.expressInactive)
-            })
-            .toggleStyle(.button)
-            .buttonStyle(.plain)
-            .padding(.leading, 16)
-            
-       }
-    }
-    
-    private func changeViewType(_ type: FolderType) {
-        viewType = type
-    }
-    
-    private func changeSortedType(_ type: StarSortedType) {
-        sortedType = type
-    }
-}
-

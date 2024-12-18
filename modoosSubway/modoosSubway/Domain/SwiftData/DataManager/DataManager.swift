@@ -18,12 +18,14 @@ class DataManager {
 	
 	// MARK: - 즐겨찾기 추가
 	func addStar(item: Star) {
+		item.subwayCard.isStar = true
 		modelContext?.insert(item)
 		print("add star complete \(item)")
 	}
 	
 	// MARK: - 즐겨찾기 제거
 	func deleteStar(item: Star) {
+		item.subwayCard.isStar = false
 		modelContext?.delete(item)
 		print("delete star complete \(item)")
 	}
@@ -188,9 +190,6 @@ class DataManager {
         
     }
     
-    
-    
-    
     private func optimizeImage(_ image: UIImage) -> UIImage {
         let maxSize: CGFloat = 1024
         
@@ -230,6 +229,4 @@ class DataManager {
         folder.lineNumber = Array(uniqueLineNumbers)
         try? context.save()
     }
-    
-    
 }

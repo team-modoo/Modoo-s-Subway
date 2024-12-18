@@ -116,7 +116,7 @@ struct HomeView: View {
 							.padding(.top, 20)
 							.padding(.horizontal, 20)
 					case .Star:
-                        StarView(cardStore: container.cardStore)
+						StarView(cardStore: container.cardStore)
 							.padding(.top, 20)
 							.padding(.horizontal, 20)
 					}

@@ -94,3 +94,39 @@ enum SubwayDirection {
     }
 }
 
+// MARK: - 설정
+enum SettingToggleType: String {
+	case sound = "효과음"
+	case vibration = "진동"
+	case notification = "푸시 알림"
+	case manner = "에티켓 시간 설정"
+}
+
+enum InformationType: String {
+	case version = "버전 정보"
+	case privacy = "개인정보처리방침"
+	case terms = "이용 약관"
+	
+	func destination() -> String {
+		switch self {
+		case .version:
+			return ""
+		case .privacy:
+			return "https://github.com/team-modoo/Modoo-s-Subway/blob/develop/policy/privacy-policy.md#privacy-policy"
+		case .terms:
+			return "https://github.com/team-modoo/Modoo-s-Subway/blob/develop/policy/terms-and-condition.md#terms--conditions"
+		}
+	}
+}
+
+enum TimeSelectionType {
+	case start
+	case end
+	
+	var title: String {
+		switch self {
+		case .start: return "시작 시간"
+		case .end: return "종료 시간"
+		}
+	}
+}

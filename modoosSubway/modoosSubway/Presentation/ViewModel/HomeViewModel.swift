@@ -13,7 +13,6 @@ class HomeViewModel: ObservableObject {
     @Published var searchStations: [StationEntity] = []
     @Published var searchText: String = ""
     
-    
     func changeViewType(_ type: ViewType) {
         selectedTab = type
         isSearchViewHidden = true

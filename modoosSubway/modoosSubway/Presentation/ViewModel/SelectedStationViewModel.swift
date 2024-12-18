@@ -51,8 +51,8 @@ class SelectedStationViewModel: ObservableObject {
 						self?.errorMessage = "데이터를 받을 수 없습니다."
 					case .decodingError:
 						self?.errorMessage = "데이터 디코딩에 실패했습니다."
-					case .serverError(let statusCode):
-						self?.errorMessage = "서버 오류: \(statusCode)"
+					case .serverError(_):
+						self?.errorMessage = "현재 해당하는 데이터가 없습니다."
 					case .customError(_, let message):
 						self?.errorMessage = message
 					case .unknownError:
@@ -128,7 +128,7 @@ class SelectedStationViewModel: ObservableObject {
 															  isExpress: upArrivalEntities.first?.isExpress ?? "",
 															  arrivals: upArrivals,
 															  stationName: self?.selectedStation?.stationName ?? "",
-															  stationNames: self?.upStationNames ?? [],
+															  stationNames: self?.upStationNames.reversed() ?? [],
 															  upDownLine: "상행선",
 															  isStar: false,
 															  isFolder: false)
@@ -150,7 +150,7 @@ class SelectedStationViewModel: ObservableObject {
 															   isExpress: outArrivalEntities.first?.isExpress ?? "",
 															   arrivals: outArrivals,
 															   stationName: self?.selectedStation?.stationName ?? "",
-															   stationNames: self?.upStationNames ?? [],
+															   stationNames: self?.downStationNames.reversed() ?? [],
 															   upDownLine: "외선",
 															   isStar: false,
 															   isFolder: false)
@@ -161,7 +161,7 @@ class SelectedStationViewModel: ObservableObject {
 															  isExpress: inArrivalEntities.first?.isExpress ?? "",
 															  arrivals: inArrivals,
 															  stationName: self?.selectedStation?.stationName ?? "",
-															  stationNames: self?.downStationNames ?? [],
+															  stationNames: self?.upStationNames.reversed() ?? [],
 															  upDownLine: "내선",
 															  isStar: false,
 															  isFolder: false)
@@ -183,7 +183,7 @@ class SelectedStationViewModel: ObservableObject {
 			.store(in: &cancellables)
 	}
 	
-	// MAKR: - 노선으로 검색하여 역명 가져오기
+	// MARK: - 노선으로 검색하여 역명 가져오기
 	func getSearchSubwayLine(for stationLine: String, service: String, startIndex: Int, endIndex: Int, completionHandler: @escaping () -> Void) {
 		let request: SearchSubwayRequestDTO = SearchSubwayRequestDTO(key:self.key, service: service, startIndex: startIndex, endIndex: endIndex, stationLine: stationLine)
 		
@@ -209,8 +209,8 @@ class SelectedStationViewModel: ObservableObject {
 						self?.errorMessage = "데이터를 받을 수 없습니다."
 					case .decodingError:
 						self?.errorMessage = "데이터 디코딩에 실패했습니다."
-					case .serverError(let statusCode):
-						self?.errorMessage = "서버 오류: \(statusCode)"
+					case .serverError(_):
+						self?.errorMessage = "현재 해당하는 데이터가 없습니다."
 					case .customError(_, let message):
 						self?.errorMessage = message
 					case .unknownError:
@@ -240,7 +240,7 @@ class SelectedStationViewModel: ObservableObject {
 					self?.downStationNames = Array(stations[safe: downStartIndex...downLastIndex] ?? [])
 					
 					let upStartIndex = stations.firstIndex(of: self?.selectedStation?.stationName ?? "" ) ?? 0
-                    var upLastIndex = min(upStartIndex + count, stations.count - 1 )
+                    let upLastIndex = min(upStartIndex + count, stations.count - 1 )
 					self?.upStationNames = Array(stations[safe: upStartIndex...upLastIndex] ?? [])
 					
 					completionHandler()
@@ -251,18 +251,5 @@ class SelectedStationViewModel: ObservableObject {
 				}
 			}
 			.store(in: &cancellables)
-	}
-	
-	// MARK: - 즐겨찾기 토글
-	func toggleStar(for item: CardViewEntity) {
-		if let index = cards.firstIndex(where: { $0 == item }) {
-			cards[index].isStar.toggle()
-			
-			if cards[index].isStar {
-				DataManager.shared.addStar(item: Star(subwayCard: cards[index]))
-			} else {
-				DataManager.shared.deleteStar(item: Star(subwayCard: cards[index]))
-			}
-		}
 	}
 }
