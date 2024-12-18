@@ -13,13 +13,13 @@
 		46519A902CF974E5006B2880 /* ToastTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46519A8F2CF974E5006B2880 /* ToastTest.swift */; };
 		46519A922CFEC256006B2880 /* LocalNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46519A912CFEC256006B2880 /* LocalNotification.swift */; };
 		46519ACF2D0681E4006B2880 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46519ACE2D0681E4006B2880 /* HomeViewModel.swift */; };
-		46519AD12D0687DF006B2880 /* DIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46519AD02D0687DF006B2880 /* DIContainer.swift */; };
 		46519AD32D06CD24006B2880 /* CoachMarkTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46519AD22D06CD24006B2880 /* CoachMarkTest.swift */; };
 		46519AD52D08496B006B2880 /* SubwayCardStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46519AD42D08496B006B2880 /* SubwayCardStore.swift */; };
 		4659A1DE2CE079DA00889FFC /* FolderCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659A1DD2CE079DA00889FFC /* FolderCardView.swift */; };
 		4659A1E02CE0959D00889FFC /* FolderListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659A1DF2CE0959D00889FFC /* FolderListView.swift */; };
 		4659A1E22CE0D11E00889FFC /* FolderHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4659A1E12CE0D11E00889FFC /* FolderHeaderView.swift */; };
 		46630D5B2CE73A3E00A8DEF9 /* AlarmSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46630D5A2CE73A3E00A8DEF9 /* AlarmSettingView.swift */; };
+		46DC0BA82D0A8C16002F5AE0 /* DIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46DC0BA72D0A8C16002F5AE0 /* DIContainer.swift */; };
 		46E23B2D2C6872190059BB62 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E23B2C2C6872190059BB62 /* NetworkError.swift */; };
 		46E8D9D12CE17D6500ABF38C /* EditFolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E8D9D02CE17D6500ABF38C /* EditFolderView.swift */; };
 		46E8D9D32CE2CBDC00ABF38C /* ModifyFolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E8D9D22CE2CBDC00ABF38C /* ModifyFolderView.swift */; };
@@ -66,13 +66,13 @@
 		46519A8F2CF974E5006B2880 /* ToastTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastTest.swift; sourceTree = "<group>"; };
 		46519A912CFEC256006B2880 /* LocalNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotification.swift; sourceTree = "<group>"; };
 		46519ACE2D0681E4006B2880 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
-		46519AD02D0687DF006B2880 /* DIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIContainer.swift; sourceTree = "<group>"; };
 		46519AD22D06CD24006B2880 /* CoachMarkTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachMarkTest.swift; sourceTree = "<group>"; };
 		46519AD42D08496B006B2880 /* SubwayCardStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubwayCardStore.swift; sourceTree = "<group>"; };
 		4659A1DD2CE079DA00889FFC /* FolderCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderCardView.swift; sourceTree = "<group>"; };
 		4659A1DF2CE0959D00889FFC /* FolderListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderListView.swift; sourceTree = "<group>"; };
 		4659A1E12CE0D11E00889FFC /* FolderHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderHeaderView.swift; sourceTree = "<group>"; };
 		46630D5A2CE73A3E00A8DEF9 /* AlarmSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmSettingView.swift; sourceTree = "<group>"; };
+		46DC0BA72D0A8C16002F5AE0 /* DIContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DIContainer.swift; sourceTree = "<group>"; };
 		46E23B2C2C6872190059BB62 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		46E8D9D02CE17D6500ABF38C /* EditFolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditFolderView.swift; sourceTree = "<group>"; };
 		46E8D9D22CE2CBDC00ABF38C /* ModifyFolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyFolderView.swift; sourceTree = "<group>"; };
@@ -178,10 +178,7 @@
 				9A36982D2C4BC0480019C12A /* modoosSubwayApp.swift */,
 				9AEA1E772C56516200A87BF9 /* Info.plist */,
 				9A3698352C4BC04A0019C12A /* Preview Content */,
-
-				46519AD02D0687DF006B2880 /* DIContainer.swift */,
 				46519AD42D08496B006B2880 /* SubwayCardStore.swift */,
-
 			);
 			path = modoosSubway;
 			sourceTree = "<group>";
@@ -309,7 +306,7 @@
 		9AC56CF92D06D89F0067AF3B /* Dependency */ = {
 			isa = PBXGroup;
 			children = (
-				46519AD02D0687DF006B2880 /* DIContainer.swift */,
+				46DC0BA72D0A8C16002F5AE0 /* DIContainer.swift */,
 			);
 			path = Dependency;
 			sourceTree = "<group>";
@@ -559,7 +556,6 @@
 				9AEA1E9A2C68AD6200A87BF9 /* ResponseDTO.swift in Sources */,
 				9AEA1E822C5DD4BC00A87BF9 /* StarViewModel.swift in Sources */,
 				9AEA1E862C5DD57100A87BF9 /* SubwayEntity.swift in Sources */,
-				46519AD12D0687DF006B2880 /* DIContainer.swift in Sources */,
 				46630D5B2CE73A3E00A8DEF9 /* AlarmSettingView.swift in Sources */,
 				46E8D9D32CE2CBDC00ABF38C /* ModifyFolderView.swift in Sources */,
 				9AC56CEE2CE9BE090067AF3B /* AddFolderView.swift in Sources */,
@@ -575,6 +571,7 @@
 				9AEA1E952C5DD72500A87BF9 /* SubwayAPI.swift in Sources */,
 				9AEA1E982C5DD74A00A87BF9 /* RequestDTO.swift in Sources */,
 				9A36984D2C4CA6740019C12A /* SettingView.swift in Sources */,
+				46DC0BA82D0A8C16002F5AE0 /* DIContainer.swift in Sources */,
 				9A3698322C4BC0480019C12A /* Item.swift in Sources */,
 				46519AD32D06CD24006B2880 /* CoachMarkTest.swift in Sources */,
 				46E23B2D2C6872190059BB62 /* NetworkError.swift in Sources */,

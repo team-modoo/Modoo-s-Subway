@@ -179,6 +179,19 @@ struct CardView: View {
                 RoundedRectangle(cornerRadius: 10)
                     .stroke(.EDEDED)
             )
+//            .onAppear {
+//                            initializeCountdowns(for: card)
+//                        }
+//            .onReceive(timer) { _ in
+//                         for arrival in card.arrivals {
+//                             if arrival.barvlDt != "0" {
+//                                 if let currentCount = countdowns[arrival.id], currentCount > 0 {
+//                                     countdowns[arrival.id] = currentCount - 1
+//                                 }
+//                             }
+//                         }
+//                     }
+                
         }
             .onMove(perform: isEditingMode ? { from, to in  // 편집 모드일 때만 이동 가능
                            cards.move(fromOffsets: from, toOffset: to)
@@ -190,25 +203,60 @@ struct CardView: View {
         .listStyle(.plain)
         .scrollIndicators(.hidden)
         .environment(\.editMode, .constant(isEditingMode ? .active : .inactive))
+//        .onChange(of: cards) { _, newCards in
+//               for card in newCards {
+//                   updateCountdownsIfNeeded(card: card, arrivals: card.arrivals)
+//               }
+//           }
+//       
+//
+//           .onReceive(timer) { _ in
+//               print("===타이머 업데이트===")
+//               for card in cards {
+//                   for arrival in card.arrivals {
+//                       if let currentCount = countdowns[arrival.id], currentCount > 0 {
+//                           countdowns[arrival.id] = currentCount - 1
+//                           let minutes = currentCount / 60
+//                           let seconds = currentCount % 60
+//                           print("- \(Util.formatTrainLineName(arrival.trainLineName)): \(minutes)분 \(seconds)초")
+//                       }
+//                   }
+//               }
+//               print("==================")
+//           }
+//        
         .onAppear {
-               for card in cards {
-                   initializeCountdowns(for: card)
-               }
-           }
-           .onChange(of: cards) { _, newCards in
-               for card in newCards {
-                   updateCountdownsIfNeeded(card: card, arrivals: card.arrivals)
-               }
-           }
-           .onReceive(timer) { _ in
-               for card in cards {
-                   for arrival in card.arrivals {
-                       if let currentCount = countdowns[arrival.id], currentCount > 0 {
-                           countdowns[arrival.id] = currentCount - 1
-                       }
-                   }
-               }
-           }
+            // 모든 arrival의 초기 카운트다운 설정
+            print("⭐️ onAppear")
+            for arrival in cards.flatMap({ $0.arrivals }) {
+                print("ID: \(arrival.id), barvlDt: \(arrival.barvlDt)")
+                if countdowns[arrival.id] == nil {
+                    countdowns[arrival.id] = Int(arrival.barvlDt) ?? 0
+                    lastBarvlDts[arrival.id] = arrival.barvlDt
+                    print("카운트다운 설정: \(countdowns[arrival.id] ?? 0)")
+                }
+            }
+        }
+        .onReceive(timer) { _ in
+//            print("⏰ Timer Tick")
+            // 모든 arrival의 카운트다운 업데이트
+            for arrival in cards.flatMap({ $0.arrivals }) {
+                if arrival.barvlDt != "0" {
+                    if let currentCount = countdowns[arrival.id], currentCount > 0 {
+                        countdowns[arrival.id] = currentCount - 1
+//                        print("ID: \(arrival.id), Count: \(currentCount)")
+                    }
+                }
+            }
+        }
+        .onChange(of: cards) { _, newCards in
+            print("🔄 Cards Changed")
+            for arrival in newCards.flatMap({ $0.arrivals }) {
+                print("New Data - ID: \(arrival.id), barvlDt: \(arrival.barvlDt)")
+                countdowns[arrival.id] = Int(arrival.barvlDt) ?? 0
+                lastBarvlDts[arrival.id] = arrival.barvlDt
+            }
+        }
         .sheet(item: $selectedCard) { card in
             if let folder = folder {
                 MoreMenuListView(card: card,folder: folder)

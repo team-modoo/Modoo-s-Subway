@@ -98,7 +98,7 @@ struct StarView: View {
                     print("1111111")
                     self.showModal.toggle()
                 }) {
-                    Image("Group 2634")
+                    Image("btn_alarm")
                         .font(.system(size: 50))
                         .foregroundColor(.blue)
                         .background(Circle().fill(Color.white))
@@ -112,7 +112,7 @@ struct StarView: View {
                         isRefreshing = false
                     }
                 }) {
-                    Image("Group 2633")
+                    Image("btn_refresh")
                         .font(.system(size: 50))
                         .foregroundColor(.blue)
                         .background(Circle().fill(Color.white))
