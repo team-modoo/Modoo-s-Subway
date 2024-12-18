@@ -91,14 +91,18 @@ struct CardView: View {
 			.frame(width: 300, alignment: .leading)
 			.offset(x: -8)
 			
-			HStack {
-				getArrivalsView(card)
+			ZStack {
+				HStack(alignment: .top, spacing: 0) {
+					getStationNamesView(card)
+				}
+				.offset(y: 28)
+				
+				HStack {
+					getArrivalsView(card)
+				}
+				.offset(y: -7.1)
 			}
-			
-			HStack(alignment: .top, spacing: 0) {
-				getStationNamesView(card)
-			}
-			.padding(.top, 4)
+			.offset(y: 12)
 			
 			Spacer()
 			
@@ -138,42 +142,11 @@ struct CardView: View {
 			}
 		}
 		.padding(.horizontal,20)
-		.frame(width: 350, height: 213)
+		.frame(width: 350, height: 223)
 		.background(
 			RoundedRectangle(cornerRadius: 10)
 				.stroke(.EDEDED)
 		)
-	}
-	
-	// MARK: - 열차 뷰
-	private func getArrivalsView(_ card: CardViewEntity) -> some View {
-		ForEach(card.arrivals) { el in
-			VStack(spacing: -8) {
-				Text(Util.formatTrainLineName(el.trainLineName))
-					.font(.pretendard(size: 12, family: .medium))
-					.padding(.horizontal, 8)
-					.padding(.vertical, 5)
-					.foregroundColor(._333333)
-					.background(
-						RoundedRectangle(cornerRadius: 6)
-							.fill(Util.getLineColor(card.lineNumber))
-							.opacity(0.1)
-					)
-				
-				ZStack(alignment: .center) {
-					Circle()
-						.frame(width: 16, height: 16)
-						.foregroundColor(Util.getLineColor(card.lineNumber))
-						.opacity(0.7)
-						.offset(y: 24)
-					
-					Circle()
-						.frame(width: 8, height: 8)
-						.foregroundColor(.white)
-						.offset(y: 24)
-				}
-			}
-		}
 	}
 	
 	// MARK: - 지하철 5개의 정거장 라인 뷰
@@ -210,6 +183,38 @@ struct CardView: View {
 						Util.getLineColor(card.lineNumber)
 					)
 					.opacity(0.3)
+			}
+		}
+	}
+	
+	// MARK: - 열차 뷰
+	private func getArrivalsView(_ card: CardViewEntity) -> some View {
+		ForEach(card.arrivals) { el in
+			VStack(spacing: -14) {
+				Text(Util.formatTrainLineName(el.trainLineName))
+					.font(.pretendard(size: 12, family: .medium))
+					.padding(.horizontal, 8)
+					.padding(.vertical, 5)
+					.foregroundColor(._333333)
+					.background(
+						RoundedRectangle(cornerRadius: 6)
+							.fill(Util.getLineColor(card.lineNumber))
+							.opacity(0.1)
+					)
+					.offset(y: -2)
+				
+				ZStack(alignment: .center) {
+					Circle()
+						.frame(width: 16, height: 16)
+						.foregroundColor(Util.getLineColor(card.lineNumber))
+						.opacity(0.7)
+						.offset(y: 20)
+					
+					Circle()
+						.frame(width: 8, height: 8)
+						.foregroundColor(.white)
+						.offset(y: 20)
+				}
 			}
 		}
 	}
