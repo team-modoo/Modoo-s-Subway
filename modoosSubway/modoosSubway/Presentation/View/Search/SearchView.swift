@@ -11,15 +11,14 @@ import SwiftData
 struct SearchView: View {
 	
     let container: DIContainer
-    @ObservedObject var vm: SearchViewModel
+    @StateObject var vm: HomeViewModel
 	
 	var body: some View {
 		Group {
-			List(vm.stations) { station in
+			List(vm.searchStations) { station in
 				HStack {
-					Text(station.stationName)
-						.font(.pretendard(size: 16, family: .regular))
-						.tint(._5_C_5_C_5_C)
+					formatSearchText(station.stationName)
+						.fixedSize(horizontal: false, vertical: true)
 					
 					Spacer()
 					
@@ -56,5 +55,35 @@ struct SearchView: View {
 		} message: {
 			Text(vm.errorMessage ?? "")
 		}
+	}
+	
+	// MARK: - 검색어 볼드 처리
+	private func formatSearchText(_ stationName: String) -> Text {
+		let words = stationName.components(separatedBy: " ")
+		var formattedText = Text("")
+		
+		for (index, word) in words.enumerated() {
+			// 검색된 단어는 Bold 처리
+			if word.contains(vm.searchText) && !vm.searchText.isEmpty {
+				let highlightedPart = Text(vm.searchText)
+					.font(.pretendard(size: 16, family: .medium))
+					.foregroundColor(._5_C_5_C_5_C)
+				let remainingPart = Text(word.replacingOccurrences(of: vm.searchText, with: ""))
+					.font(.pretendard(size: 16, family: .regular))
+					.foregroundColor(._5_C_5_C_5_C)
+				formattedText = formattedText + highlightedPart + remainingPart
+			} else {
+				formattedText = formattedText + Text(word)
+					.font(.pretendard(size: 16, family: .regular))
+					.foregroundColor(._5_C_5_C_5_C)
+			}
+			
+			// 마지막 단어가 아니면 공백 추가
+			if index < words.count - 1 {
+				formattedText = formattedText + Text(" ")
+			}
+		}
+		
+		return formattedText
 	}
 }

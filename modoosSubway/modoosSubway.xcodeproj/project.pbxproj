@@ -24,7 +24,6 @@
 		46E8D9D12CE17D6500ABF38C /* EditFolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E8D9D02CE17D6500ABF38C /* EditFolderView.swift */; };
 		46E8D9D32CE2CBDC00ABF38C /* ModifyFolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E8D9D22CE2CBDC00ABF38C /* ModifyFolderView.swift */; };
 		46E8D9D52CE2DF0100ABF38C /* SelectedPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E8D9D42CE2DF0100ABF38C /* SelectedPhotoView.swift */; };
-		46F0F7E32C6879E100444C98 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F0F7E22C6879E100444C98 /* SearchViewModel.swift */; };
 		9A36982E2C4BC0480019C12A /* modoosSubwayApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A36982D2C4BC0480019C12A /* modoosSubwayApp.swift */; };
 		9A3698302C4BC0480019C12A /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A36982F2C4BC0480019C12A /* HomeView.swift */; };
 		9A3698322C4BC0480019C12A /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3698312C4BC0480019C12A /* Item.swift */; };
@@ -84,7 +83,6 @@
 		46E8D9D02CE17D6500ABF38C /* EditFolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditFolderView.swift; sourceTree = "<group>"; };
 		46E8D9D22CE2CBDC00ABF38C /* ModifyFolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyFolderView.swift; sourceTree = "<group>"; };
 		46E8D9D42CE2DF0100ABF38C /* SelectedPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedPhotoView.swift; sourceTree = "<group>"; };
-		46F0F7E22C6879E100444C98 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		48F29646FFD93B7C2D9B3CB7 /* Pods-modoosSubway.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-modoosSubway.debug.xcconfig"; path = "Target Support Files/Pods-modoosSubway/Pods-modoosSubway.debug.xcconfig"; sourceTree = "<group>"; };
 		51F25182ABE227FC4381A366 /* Pods_modoosSubway.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_modoosSubway.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		943788402A3EC689AD2166D4 /* Pods-modoosSubway.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-modoosSubway.release.xcconfig"; path = "Target Support Files/Pods-modoosSubway/Pods-modoosSubway.release.xcconfig"; sourceTree = "<group>"; };
@@ -402,7 +400,6 @@
 		9AEA1E802C5DD4A900A87BF9 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				46F0F7E22C6879E100444C98 /* SearchViewModel.swift */,
 				9AC56CD12CDF7AAB0067AF3B /* SelectedStationViewModel.swift */,
 				9AEA1E812C5DD4BC00A87BF9 /* StarViewModel.swift */,
 				46519ACE2D0681E4006B2880 /* HomeViewModel.swift */,
@@ -609,7 +606,6 @@
 				46E8D9D52CE2DF0100ABF38C /* SelectedPhotoView.swift in Sources */,
 				9A3698522C4CA72D0019C12A /* DataManager.swift in Sources */,
 				461D2BA42CF04E7A009BAF92 /* MoreMenuListView.swift in Sources */,
-				46F0F7E32C6879E100444C98 /* SearchViewModel.swift in Sources */,
 				9A3698302C4BC0480019C12A /* HomeView.swift in Sources */,
 				4659A1E22CE0D11E00889FFC /* FolderHeaderView.swift in Sources */,
 				9AB4E7792D0FC2B300ACBB8A /* StarHeaderView.swift in Sources */,
