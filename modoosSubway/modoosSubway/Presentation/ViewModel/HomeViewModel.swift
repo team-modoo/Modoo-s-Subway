@@ -38,13 +38,12 @@ class HomeViewModel: ObservableObject {
 	// MARK: - 검색 기능
 	func handleSearch() {
 		if !searchText.isEmpty {
-			isSearchViewHidden = false
-			
+			self.isSearchViewHidden = false
 			self.searchStations = self.allStations.filter({ stationEntity in
 				stationEntity.stationName.hasPrefix(self.searchText)
 			})
 		} else {
-			isSearchViewHidden = true
+			self.isSearchViewHidden = true
 			self.searchStations = []
 		}
 	}

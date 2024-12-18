@@ -38,6 +38,7 @@
 		9AB4E7742D0F283C00ACBB8A /* CardListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB4E7732D0F283C00ACBB8A /* CardListView.swift */; };
 		9AB4E7792D0FC2B300ACBB8A /* StarHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB4E7782D0FC2B300ACBB8A /* StarHeaderView.swift */; };
 		9AB4E77B2D0FC3DC00ACBB8A /* FolderDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB4E77A2D0FC3DC00ACBB8A /* FolderDetailView.swift */; };
+		9AB4E77D2D12C97200ACBB8A /* ClearButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB4E77C2D12C97200ACBB8A /* ClearButton.swift */; };
 		9AC56CCD2CDF6D160067AF3B /* Pretendard-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9AEA1E732C56500900A87BF9 /* Pretendard-Bold.otf */; };
 		9AC56CCE2CDF6D1A0067AF3B /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9AEA1E752C56501900A87BF9 /* Pretendard-SemiBold.otf */; };
 		9AC56CCF2CDF6D1E0067AF3B /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9AEA1E742C56501300A87BF9 /* Pretendard-Medium.otf */; };
@@ -102,6 +103,7 @@
 		9AB4E7752D0F3AB900ACBB8A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		9AB4E7782D0FC2B300ACBB8A /* StarHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarHeaderView.swift; sourceTree = "<group>"; };
 		9AB4E77A2D0FC3DC00ACBB8A /* FolderDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderDetailView.swift; sourceTree = "<group>"; };
+		9AB4E77C2D12C97200ACBB8A /* ClearButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearButton.swift; sourceTree = "<group>"; };
 		9AC56CD12CDF7AAB0067AF3B /* SelectedStationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedStationViewModel.swift; sourceTree = "<group>"; };
 		9AC56CE92CE90CBB0067AF3B /* CardViewEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewEntity.swift; sourceTree = "<group>"; };
 		9AC56CEB2CE9970B0067AF3B /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
@@ -327,6 +329,7 @@
 				9AC56CFA2D06D9D40067AF3B /* ImageCropper.swift */,
 				9AC56CFE2D0EEC700067AF3B /* OnBoardingView.swift */,
 				9AB4E7782D0FC2B300ACBB8A /* StarHeaderView.swift */,
+				9AB4E77C2D12C97200ACBB8A /* ClearButton.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -599,6 +602,7 @@
 				46519AD12D0687DF006B2880 /* DIContainer.swift in Sources */,
 				46630D5B2CE73A3E00A8DEF9 /* AlarmSettingView.swift in Sources */,
 				46E8D9D32CE2CBDC00ABF38C /* ModifyFolderView.swift in Sources */,
+				9AB4E77D2D12C97200ACBB8A /* ClearButton.swift in Sources */,
 				9AC56CEE2CE9BE090067AF3B /* AddFolderView.swift in Sources */,
 				46E8D9D12CE17D6500ABF38C /* EditFolderView.swift in Sources */,
 				9AC56CD22CDF7AAB0067AF3B /* SelectedStationViewModel.swift in Sources */,

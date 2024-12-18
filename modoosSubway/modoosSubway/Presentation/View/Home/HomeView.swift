@@ -32,6 +32,7 @@ struct HomeView: View {
 						
 						Button(action: {
 							vm.changeViewType(.Star)
+							hideKeyboard()
 						}, label: {
 							vm.selectedTab == .Star ? Image(.gnbStarYellow) : Image(.gnbStar)
 						})
@@ -39,6 +40,7 @@ struct HomeView: View {
 						
 						Button(action: {
 							vm.changeViewType(.Folder)
+							hideKeyboard()
 						}, label: {
 							vm.selectedTab == .Folder ? Image(.gnbFolderGreen) : Image(.gnbFolder)
 						})
@@ -51,6 +53,9 @@ struct HomeView: View {
 						})
 					}
 					.padding(.bottom, 20)
+					.onTapGesture {
+						hideKeyboard()
+					}
 					
 					// MARK: - 서치바
 					HStack {
@@ -62,38 +67,20 @@ struct HomeView: View {
 						.padding(.leading, 20)
 						.foregroundStyle(.black)
 						.submitLabel(.search)
+						.clearButton(text: $vm.searchText)
 						.onSubmit {
-							handleSubmit()
-						}
-						.onAppear {
-							UITextField.appearance().clearButtonMode = .whileEditing
+							hideKeyboard()
 						}
 						.onChange(of: vm.searchText) {
 							vm.handleSearch()
 						}
-						.toolbar {
-							ToolbarItem(placement: .keyboard) {
-								HStack {
-									Spacer()
-									
-									Button(action: {
-										handleSubmit()
-									}) {
-										Image(systemName: "keyboard.chevron.compact.down")
-											.foregroundColor(.blue)
-									}
-								}
-							}
-						}
-						.autocorrectionDisabled()
-						.textInputAutocapitalization(.never)
 						
 						Button(action: {
-							handleSubmit()
+							hideKeyboard()
 						}, label: {
 							Image(.iconSearch)
 								.resizable()
-								.frame(width: 24,height: 24)
+								.frame(width: 24, height: 24)
 						})
 						.padding(.trailing, 16)
 					}
@@ -111,10 +98,17 @@ struct HomeView: View {
 						FolderView()
 							.padding(.top, 20)
 							.padding(.horizontal, 20)
+							.onTapGesture {
+								hideKeyboard()
+							}
+						
 					case .Star:
 						StarView(cardStore: container.cardStore)
 							.padding(.top, 20)
 							.padding(.horizontal, 20)
+							.onTapGesture {
+								hideKeyboard()
+							}
 					}
 					
 					if !vm.isSearchViewHidden {
@@ -130,15 +124,6 @@ struct HomeView: View {
 
 	private func hideKeyboard() {
 		UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-	}
-	
-	private func handleSubmit() {
-		hideKeyboard()
-		
-		if textFieldString.isEmpty {
-			vm.isSearchViewHidden = true
-			vm.searchStations = []
-		}
 	}
 }
 
