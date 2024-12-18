@@ -78,7 +78,7 @@ struct ArrivalEntity: Hashable, Identifiable {
 struct StationEntity: Hashable, Identifiable {
 	let id = UUID()
     let stationId: String
-    let stationName: String
+    var stationName: String
     let lineNumber: String
     let foreignerCode: String
 	

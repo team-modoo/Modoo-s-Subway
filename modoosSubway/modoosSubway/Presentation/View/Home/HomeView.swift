@@ -11,15 +11,13 @@ import SwiftData
 struct HomeView: View {
 	
     private let container: DIContainer
-    @StateObject var homeViewModel: HomeViewModel
-	@StateObject var searchViewModel: SearchViewModel
+    @StateObject var vm: HomeViewModel
 	@State private var textFieldString: String = ""
 	@State private var expressActiveState: Bool = false
     
     init(container: DIContainer) {
         self.container = container
-        _homeViewModel = StateObject(wrappedValue: container.makeHomeViewModel())
-        _searchViewModel = StateObject(wrappedValue: container.makeSearchViewModel())
+        _vm = StateObject(wrappedValue: container.makeHomeViewModel())
     }
 	
 	var body: some View {
@@ -33,16 +31,16 @@ struct HomeView: View {
 						Spacer()
 						
 						Button(action: {
-							homeViewModel.changeViewType(.Star)
+							vm.changeViewType(.Star)
 						}, label: {
-							homeViewModel.selectedTab == .Star ? Image(.gnbStarYellow) : Image(.gnbStar)
+							vm.selectedTab == .Star ? Image(.gnbStarYellow) : Image(.gnbStar)
 						})
 						.padding(.trailing, 8)
 						
 						Button(action: {
-							homeViewModel.changeViewType(.Folder)
+							vm.changeViewType(.Folder)
 						}, label: {
-							homeViewModel.selectedTab == .Folder ? Image(.gnbFolderGreen) : Image(.gnbFolder)
+							vm.selectedTab == .Folder ? Image(.gnbFolderGreen) : Image(.gnbFolder)
 						})
 						.padding(.trailing, 8)
 						
@@ -56,7 +54,7 @@ struct HomeView: View {
 					
 					// MARK: - 서치바
 					HStack {
-						TextField(text: $homeViewModel.searchText) {
+						TextField(text: $vm.searchText) {
 							Text("지하철 역명을 검색해 주세요")
 								.font(.pretendard(size: 14, family: .regular))
 								.foregroundStyle(Color._5_C_5_C_5_C)
@@ -65,10 +63,13 @@ struct HomeView: View {
 						.foregroundStyle(.black)
 						.submitLabel(.search)
 						.onSubmit {
-							handleSearch()
+							handleSubmit()
 						}
 						.onAppear {
 							UITextField.appearance().clearButtonMode = .whileEditing
+						}
+						.onChange(of: vm.searchText) {
+							vm.handleSearch()
 						}
 						.toolbar {
 							ToolbarItem(placement: .keyboard) {
@@ -76,12 +77,7 @@ struct HomeView: View {
 									Spacer()
 									
 									Button(action: {
-										hideKeyboard()
-										
-										if textFieldString.isEmpty {
-											homeViewModel.isSearchViewHidden = true
-											searchViewModel.stations = []
-										}
+										handleSubmit()
 									}) {
 										Image(systemName: "keyboard.chevron.compact.down")
 											.foregroundColor(.blue)
@@ -93,7 +89,7 @@ struct HomeView: View {
 						.textInputAutocapitalization(.never)
 						
 						Button(action: {
-							handleSearch()
+							handleSubmit()
 						}, label: {
 							Image(.iconSearch)
 								.resizable()
@@ -110,7 +106,7 @@ struct HomeView: View {
 				
 				// MARK: - 컨텐츠
 				ZStack(alignment: .top) {
-					switch homeViewModel.selectedTab {
+					switch vm.selectedTab {
 					case .Folder:
 						FolderView()
 							.padding(.top, 20)
@@ -121,25 +117,28 @@ struct HomeView: View {
 							.padding(.horizontal, 20)
 					}
 					
-					if !homeViewModel.isSearchViewHidden {
-						SearchView(container: container, vm: searchViewModel)
+					if !vm.isSearchViewHidden {
+						SearchView(container: container, vm: vm)
 					}
 				}
 				
 				Spacer()
 			}
 		}
-        .environmentObject(homeViewModel)
+        .environmentObject(vm)
 	}
 
 	private func hideKeyboard() {
 		UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
 	}
 	
-	private func handleSearch() {
+	private func handleSubmit() {
 		hideKeyboard()
-        homeViewModel.handleSearch(searchViewModel: searchViewModel)
-        print("\(textFieldString)")
+		
+		if textFieldString.isEmpty {
+			vm.isSearchViewHidden = true
+			vm.searchStations = []
+		}
 	}
 }
 

@@ -14,7 +14,7 @@ class SelectedStationViewModel: ObservableObject {
 	private var cancellables = Set<AnyCancellable>()
 	private var key: String = Util.getApiKey()
 	var selectedStation: StationEntity? = nil
-	
+	var allStations: [StationEntity] = []
 	@Published var errorMessage: String?
 	@Published var isError: Bool = false
 	@Published var upStationNames: [String] = []
@@ -183,73 +183,30 @@ class SelectedStationViewModel: ObservableObject {
 			.store(in: &cancellables)
 	}
 	
-	// MARK: - 노선으로 검색하여 역명 가져오기
-	func getSearchSubwayLine(for stationLine: String, service: String, startIndex: Int, endIndex: Int, completionHandler: @escaping () -> Void) {
-		let request: SearchSubwayRequestDTO = SearchSubwayRequestDTO(key:self.key, service: service, startIndex: startIndex, endIndex: endIndex, stationLine: stationLine)
-		
-		subwayUseCase.executeSearchSubwayLine(request: request)
-			.subscribe(on: DispatchQueue.global(qos: .background))
-			.map( { [weak self] executionType -> [StationEntity] in
-				
-				switch executionType {
-				case .success(let data):
-					let stations = data.SearchSTNBySubwayLineInfo.row.map { el in
-						return StationEntity(stationId: el.STATION_CD,
-											 stationName: el.STATION_NM,
-											 lineNumber: el.LINE_NUM,
-											 foreignerCode: el.FR_CODE)
-					}
-					
-					return stations
-				case .error(let error):
-					switch error {
-					case .invalidURL:
-						self?.errorMessage = "잘못된 URL입니다."
-					case .noData:
-						self?.errorMessage = "데이터를 받을 수 없습니다."
-					case .decodingError:
-						self?.errorMessage = "데이터 디코딩에 실패했습니다."
-					case .serverError(_):
-						self?.errorMessage = "현재 해당하는 데이터가 없습니다."
-					case .customError(_, let message):
-						self?.errorMessage = message
-					case .unknownError:
-						self?.errorMessage = "알 수 없는 오류가 발생했습니다."
-					}
-					self?.isError = true
-				default:
-					break
-				}
-				return []
-				
-			})
-			.receive(on: DispatchQueue.main)
-			.sink { [weak self] values in
-				
-				if !values.isEmpty {
-					let orderedValues: [StationEntity] = values.sorted {
-						let num1 = Int($0.foreignerCode.dropFirst()) ?? 0
-						let num2 = Int($1.foreignerCode.dropFirst()) ?? 0
-						return num1 < num2
-					}
-					let stations: [String] = orderedValues.map { $0.stationName }
-					let count: Int = 4
-					
-					let downLastIndex = stations.firstIndex(of: self?.selectedStation?.stationName ?? "" ) ?? 4
-					let downStartIndex = max(downLastIndex - count, 0)
-					self?.downStationNames = Array(stations[safe: downStartIndex...downLastIndex] ?? [])
-					
-					let upStartIndex = stations.firstIndex(of: self?.selectedStation?.stationName ?? "" ) ?? 0
-                    let upLastIndex = min(upStartIndex + count, stations.count - 1 )
-					self?.upStationNames = Array(stations[safe: upStartIndex...upLastIndex] ?? [])
-					
-					completionHandler()
-					
-				} else {
-					self?.isError = true
-					self?.errorMessage = "데이터가 없습니다."
-				}
+	// MARK: - 역명 5개 가져오기
+	func getFiveStations(completionHandler: @escaping () -> Void) {
+		if !allStations.isEmpty {
+			let orderedValues: [StationEntity] = allStations.sorted {
+				let num1 = Int($0.foreignerCode.dropFirst()) ?? 0
+				let num2 = Int($1.foreignerCode.dropFirst()) ?? 0
+				return num1 < num2
 			}
-			.store(in: &cancellables)
+			let stations: [String] = orderedValues.map { $0.stationName }
+			let count: Int = 4
+			
+			let downLastIndex = stations.firstIndex(of: self.selectedStation?.stationName ?? "" ) ?? 4
+			let downStartIndex = max(downLastIndex - count, 0)
+			self.downStationNames = Array(stations[safe: downStartIndex...downLastIndex] ?? [])
+			
+			let upStartIndex = stations.firstIndex(of: self.selectedStation?.stationName ?? "" ) ?? 0
+			let upLastIndex = min(upStartIndex + count, stations.count - 1 )
+			self.upStationNames = Array(stations[safe: upStartIndex...upLastIndex] ?? [])
+			
+			completionHandler()
+			
+		} else {
+			self.isError = true
+			self.errorMessage = "데이터가 없습니다."
+		}
 	}
 }
