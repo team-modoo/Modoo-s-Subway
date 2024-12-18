@@ -146,35 +146,58 @@ struct CardView: View {
 	}
 	
 	// MARK: - 열차 뷰
-	private func getArrivalsView(_ card: CardViewEntity) -> some View {
-		ForEach(card.arrivals) { el in
-			VStack(spacing: -8) {
-				Text(Util.formatTrainLineName(el.trainLineName))
-					.font(.pretendard(size: 12, family: .medium))
-					.padding(.horizontal, 8)
-					.padding(.vertical, 5)
-					.foregroundColor(._333333)
-					.background(
-						RoundedRectangle(cornerRadius: 6)
-							.fill(Util.getLineColor(card.lineNumber))
-							.opacity(0.1)
-					)
-				
-				ZStack(alignment: .center) {
-					Circle()
-						.frame(width: 16, height: 16)
-						.foregroundColor(Util.getLineColor(card.lineNumber))
-						.opacity(0.7)
-						.offset(y: 24)
-					
-					Circle()
-						.frame(width: 8, height: 8)
-						.foregroundColor(.white)
-						.offset(y: 24)
-				}
-			}
-		}
-	}
+    private func getArrivalsView(_ card: CardViewEntity) -> some View {
+        ForEach(card.arrivals) { el in
+            VStack(spacing: -8) {
+                HStack(alignment: .center, spacing: 4) {
+                    Group {
+                        if el.isExpress {
+                            Text("(급)")
+                                .foregroundColor(.red)
+                                .font(.pretendard(size: 12, family: .bold)) +
+                            Text(Util.formatTrainLineName(el.trainLineName))
+                                .foregroundColor(._333333)
+                                .font(.pretendard(size: 12, family: .medium))
+                        } else {
+                            Text(Util.formatTrainLineName(el.trainLineName))
+                                .foregroundColor(._333333)
+                                .font(.pretendard(size: 12, family: .medium))
+                        }
+                    }
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 5)
+                    .background(
+                        ZStack(alignment: .topTrailing) {
+                            RoundedRectangle(cornerRadius: 6)
+                                .fill(Util.getLineColor(card.lineNumber))
+                                .opacity(0.1)
+                            
+                            if el.isExpress {
+                                Image("icon_express")
+                                    .font(.system(size: 16))
+                                    .foregroundColor(Util.getLineColor(card.lineNumber))
+                                    .padding([.top, .trailing], -6)
+                            }
+                        }
+                    )
+                    .offset(y: 8)
+                }
+
+                ZStack(alignment: .center) {
+                    Circle()
+                        .frame(width: 16, height: 16)
+                        .foregroundColor(Util.getLineColor(card.lineNumber))
+                        .opacity(0.7)
+                        .offset(y: 24)
+
+                    Circle()
+                        .frame(width: 8, height: 8)
+                        .foregroundColor(.white)
+                        .offset(y: 24)
+                }
+            }
+        }
+    }
 	
 	// MARK: - 지하철 5개의 정거장 라인 뷰
 	private func getStationNamesView(_ card: CardViewEntity) -> some View {
