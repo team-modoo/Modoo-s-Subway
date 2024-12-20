@@ -97,7 +97,7 @@ struct CardView: View {
 				}
 				.offset(y: 28)
 				
-				HStack {
+				ZStack {
 					getArrivalsView(card)
 				}
 				.offset(y: -7.1)
@@ -189,8 +189,8 @@ struct CardView: View {
 	
 	// MARK: - 열차 뷰
 	private func getArrivalsView(_ card: CardViewEntity) -> some View {
-		ForEach(card.arrivals) { el in
-			VStack(spacing: -14) {
+		ForEach(card.arrivals.removeDuplicates { $0.message2 }) { el in
+			VStack(spacing: -16) {
 				Text(Util.formatTrainLineName(el.trainLineName))
 					.font(.pretendard(size: 12, family: .medium))
 					.padding(.horizontal, 8)
@@ -202,18 +202,28 @@ struct CardView: View {
 							.opacity(0.1)
 					)
 					.offset(y: -2)
+					.offset(x: 310 / 4 * CGFloat(Util.formatArrivalLocation(el.message2)))
 				
-				ZStack(alignment: .center) {
-					Circle()
-						.frame(width: 16, height: 16)
-						.foregroundColor(Util.getLineColor(card.lineNumber))
-						.opacity(0.7)
-						.offset(y: 20)
+				HStack {
+					Spacer()
+						.frame(width: 310 / 4 * (5 - CGFloat(Util.formatArrivalLocation(el.message2))))
 					
-					Circle()
-						.frame(width: 8, height: 8)
-						.foregroundColor(.white)
-						.offset(y: 20)
+					Group {
+						ZStack(alignment: .center) {
+							Circle()
+								.frame(width: 16, height: 16)
+								.foregroundColor(Util.getLineColor(card.lineNumber))
+								.opacity(0.7)
+								.offset(y: 20)
+							
+							Circle()
+								.frame(width: 8, height: 8)
+								.foregroundColor(.white)
+								.offset(y: 20)
+						}
+					}
+					
+					Spacer()
 				}
 			}
 		}

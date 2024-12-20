@@ -43,6 +43,7 @@ struct FolderDetailView: View {
 							Image(.back)
 							Text(folder.title)
 								.padding(.leading, -10)
+								.font(.pretendard(size: 18, family: .semiBold))
 								.tint(._333333)
 						}
 						

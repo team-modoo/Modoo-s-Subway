@@ -32,7 +32,9 @@ struct SelectedStationView: View {
 						dismiss()
 					}) {
 						Image(.back)
+						
 						Text(selectedStation?.stationName ?? "")
+							.font(.pretendard(size: 18, family: .semiBold))
 							.padding(.leading, -10)
 							.tint(._333333)
 					}
