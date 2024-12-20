@@ -41,7 +41,7 @@ struct MoreMenuListView: View {
                     }
                     .listRowSeparator(.hidden)
                 }
-                .padding(.top, 16)
+                .padding(.top, 8)
                 .listStyle(.plain)
 				.scrollContentBackground(.hidden)
 				.scrollDisabled(true)

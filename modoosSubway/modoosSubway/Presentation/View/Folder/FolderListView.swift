@@ -35,7 +35,9 @@ struct FolderListCell: View {
             HStack {
                 HStack{
                     ForEach(folders.lineNumber,id: \.self) { line in
-                        Text("\(line)")
+                        Text(line.replacingOccurrences(of: "0", with: "")
+                            .replacingOccurrences(of: "호선", with: "")
+                            .replacingOccurrences(of: "선", with: ""))
                             .font(.pretendard(size: 14, family: .regular))
                             .tint(.white)
                             .padding(.horizontal, 14)

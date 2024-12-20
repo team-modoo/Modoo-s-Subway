@@ -27,12 +27,12 @@ struct StarHeaderView: View {
 			} label: {
 				if sortedType == .all {
 					Text("전체")
-						.font(.pretendard(size: 16, family: .regular))
-						.foregroundStyle(.black)
+						.font(.pretendard(size: 16, family: .semiBold))
+                        .foregroundStyle(._333333)
 				} else {
 					Text("전체")
 						.font(.pretendard(size: 16, family: .regular))
-						.foregroundStyle(.gray)
+                        .foregroundStyle(.BFBFBF)
 				}
 			}
 			
@@ -46,12 +46,12 @@ struct StarHeaderView: View {
 			} label: {
 				if sortedType == .upLine {
 					Text("상행선")
-						.font(.pretendard(size: 16, family: .regular))
-						.foregroundStyle(.black)
+						.font(.pretendard(size: 16, family: .semiBold))
+                        .foregroundStyle(._333333)
 				} else {
 					Text("상행선")
 						.font(.pretendard(size: 16, family: .regular))
-						.foregroundStyle(.gray)
+                        .foregroundStyle(.BFBFBF)
 				}
 			}
 			
@@ -65,12 +65,12 @@ struct StarHeaderView: View {
 			} label: {
 				if sortedType == .downLine {
 					Text("하행선")
-						.font(.pretendard(size: 16, family: .regular))
-						.foregroundStyle(.black)
+						.font(.pretendard(size: 16, family: .semiBold))
+						.foregroundStyle(._333333)
 				} else {
 					Text("하행선")
 						.font(.pretendard(size: 16, family: .regular))
-						.foregroundStyle(.gray)
+						.foregroundStyle(.BFBFBF)
 				}
 			}
 			

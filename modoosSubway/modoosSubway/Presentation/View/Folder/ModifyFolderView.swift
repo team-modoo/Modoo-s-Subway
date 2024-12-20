@@ -191,13 +191,15 @@ struct FolderFormView: View {
             .padding(.horizontal, 20)
             .padding(.top, 22)
             
-			ModifyView(title: $title, description: $description, selectedImage: $selectedImage)
-				.padding(.top, 24)
+            ScrollView {
+                ModifyView(title: $title, description: $description, selectedImage: $selectedImage)
+                    .padding(.top, 24)
+            }
 			
             Spacer()
         }
         .tint(.black)
-        .background(.white)
+        .background(.red)
         .toolbar(.hidden, for: .navigationBar)
 
     }

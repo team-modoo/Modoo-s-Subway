@@ -53,16 +53,19 @@ struct FolderCardView: View {
 						}
 						
 						Spacer()
-						
-						Text("\(folder.title)")
-							.font(.pretendard(size: 20, family: .medium))
-							.foregroundStyle(.white)
-							.padding(EdgeInsets(top: 0, leading: 20, bottom: 2, trailing: 0))
-						
-						Text("\(folder.content ?? "")")
-							.font(.pretendard(size: 14, family: .regular))
-							.foregroundStyle(.white)
-							.padding(EdgeInsets(top: 0, leading: 20, bottom: 20, trailing: 0))
+                        
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(folder.title)
+                                .font(.pretendard(size: 20, family: .medium))
+                                .foregroundStyle(.white)
+                            
+                            if let content = folder.content, !content.isEmpty {
+                                Text(content)
+                                    .font(.pretendard(size: 14, family: .regular))
+                                    .foregroundStyle(.white)
+                            }
+                        }
+                        .padding(EdgeInsets(top: 0, leading: 16, bottom: 20, trailing: 0))
 					}
 					.frame(width: .infinity, height: cardHeight)
 					
