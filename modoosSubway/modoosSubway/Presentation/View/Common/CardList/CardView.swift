@@ -83,7 +83,7 @@ struct CardView: View {
 						.foregroundStyle(.EDEDED)
 					
 					if let secondArrival = card.arrivals.dropFirst().first {
-						Text("다음열차 \(Util.formatArrivalMessage(secondArrival.message2))")
+						Text("다음 열차 \(Util.formatArrivalMessage(secondArrival.message2))")
 							.font(.pretendard(size: 14, family: .regular))
 					}
 				}
