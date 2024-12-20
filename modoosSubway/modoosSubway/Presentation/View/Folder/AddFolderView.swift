@@ -28,7 +28,7 @@ struct AddFolderView: View {
 	var body: some View {
 		VStack {
 			HStack {
-				Text("폴더 이동하기")
+                Text(folders.isEmpty ? "더보기" : "폴더 이동하기")
 					.font(.pretendard(size: 20, family: .bold))
 					.foregroundStyle(._333333)
 				Spacer()
@@ -72,6 +72,14 @@ struct AddFolderView: View {
 					.listRowInsets(EdgeInsets())
 					
 				}
+                
+                if folders.count >= 2 && currentFolder == nil {
+                    Rectangle()
+                        .fill(Color.D_9_D_9_D_9)
+                        .frame(height: 1)
+                        .padding(.vertical, 4)
+                        .padding(.horizontal, -20)
+                }
 				
 				if currentFolder == nil {
 					VStack(spacing: 20) {
@@ -104,7 +112,7 @@ struct AddFolderView: View {
 			.background(.white)
 			.listStyle(.plain)
 			.scrollContentBackground(.hidden)
-			.padding(.top, 34)
+			.padding(.top, 8)
 			 
 			Spacer()
 		}

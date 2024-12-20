@@ -65,7 +65,7 @@ struct FolderCardView: View {
                                     .foregroundStyle(.white)
                             }
                         }
-                        .padding(EdgeInsets(top: 0, leading: 16, bottom: 10, trailing: 0))
+                        .padding(EdgeInsets(top: 0, leading: 16, bottom: 20, trailing: 0))
 					}
 					.frame(width: .infinity, height: cardHeight)
 					

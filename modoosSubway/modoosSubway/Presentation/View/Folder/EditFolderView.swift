@@ -36,7 +36,7 @@ struct EditFolderView: View {
                     }
                 }
                 .background(.white)
-				.padding(.top, 16)
+				.padding(.top, 8)
                 .listStyle(.plain)
                 .scrollContentBackground(.hidden)
                 .scrollDisabled(true)
