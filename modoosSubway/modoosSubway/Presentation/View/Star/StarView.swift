@@ -97,6 +97,7 @@ struct StarView: View {
 //                    self.showModal.toggle()
 					showAlert = true
                 }) {
+
 					Image(.btnAlarm)
                         .font(.system(size: 50))
                         .foregroundColor(.blue)
@@ -111,6 +112,7 @@ struct StarView: View {
                         isRefreshing = false
                     }
                 }) {
+
 					Image(.btnRefresh)
                         .font(.system(size: 50))
                         .foregroundColor(.blue)

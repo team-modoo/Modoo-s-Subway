@@ -95,7 +95,8 @@ struct SettingView: View {
 								}
 								.listRowInsets(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
 								.background(.clear)
-								
+                                .padding(.top, -10)
+                                
 								HStack {
 									Button {
 //										self.showStartTimePicker = true
