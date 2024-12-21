@@ -45,34 +45,15 @@ class Util {
 		return newMsg
 	}
 	
-	// MARK: - 메세지 2 trim for 열차 위치
-	static func formatArrivalLocation(_ message: String) -> Float {
-		var count: Float = 0
-		
-		if let _ = message.range(of: #"^\d+"#, options: .regularExpression) {
-			if let range = message.range(of: "후") {
-				count = 0
-			}
+	// MARK: - 열차 위치
+	static func formatArrivalLocation(message2: String, message3: String, stations: [String]) -> Float {
+		if message2.contains("전역 출발") {
+			return 3.5
+		} else if message2 != "전역 도착", message2.contains("도착") {
+			return 4
 		} else {
-			// 괄호와 그 안의 내용 제거
-			let newMsg = message.replacingOccurrences(
-				of: "[\\[\\]()]",
-				with: "",
-				options: .regularExpression
-			)
-			
-			if newMsg.contains("전역 출발") {
-				count = 0.5
-			} else if newMsg.contains("전역 도착") {
-				count = 1
-			} else if newMsg.contains("번째 전역") {
-				count = Float(String(newMsg[newMsg.startIndex])) ?? 0
-			} else { // 현재 역 도착
-				count = 0
-			}
+			return Float(stations.firstIndex { message3.contains($0) } ?? 5)
 		}
-		
-		return count
 	}
 	
 	// MARK: - 메세지가 몇분 후 인지 체크

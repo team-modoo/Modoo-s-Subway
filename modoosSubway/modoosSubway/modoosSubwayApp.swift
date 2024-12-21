@@ -37,7 +37,7 @@ struct modoosSubwayApp: App {
                 LaunchScreenView()
                     .ignoresSafeArea()
                     .onAppear {
-                        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
+                        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
                             isSplashView = false
                         }
                     }

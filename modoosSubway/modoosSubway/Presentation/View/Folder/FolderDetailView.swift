@@ -108,7 +108,7 @@ struct FolderDetailView: View {
 			.onAppear {
 				loadCards()
 			}
-			.padding(.top, 22)
+			.padding(.top, 30)
 			.padding(.horizontal, 20)
 			
 			if !cards.isEmpty && !isLoading {

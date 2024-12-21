@@ -10,6 +10,7 @@ import SwiftUI
 import Combine
 
 class SelectedStationViewModel: ObservableObject {
+	
 	private let subwayUseCase: SubwayUseCaseProtocol
 	private var cancellables = Set<AnyCancellable>()
 	private var key: String = Util.getApiKey()
@@ -71,16 +72,10 @@ class SelectedStationViewModel: ObservableObject {
 				if !values.isEmpty {
 					var upArrivalEntities: [ArrivalEntity] = []
 					var downArrivalEntities: [ArrivalEntity] = []
-					var outArrivalEntities: [ArrivalEntity] = []
-					var inArrivalEntities: [ArrivalEntity] = []
 					var upArrivals: [Arrival] = []
 					var downArrivals: [Arrival] = []
-					var outArrivals: [Arrival] = []
-					var inArrivals: [Arrival] = []
 					var upSubwayCard: CardViewEntity?
 					var downSubwayCard: CardViewEntity?
-					var outSubwayCard: CardViewEntity?
-					var inSubwayCard: CardViewEntity?
 					
 					var count: Int = 0
 					
@@ -89,22 +84,27 @@ class SelectedStationViewModel: ObservableObject {
 						count += 1
 						
 						let upDownLine: UpDownLineType? = UpDownLineType(rawValue: el.upDownLine)
-                        
-                  //      print("UpDownLine: ---------------\(String(describing: upDownLine))")
 						
 						switch upDownLine {
-						case .Up:
+						case .Up, .Out:
 							upArrivalEntities.append(el)
-                            upArrivals.append(Arrival(arrivalCode: el.arrivalCode, station: el.stationName, trainLineName: el.trainLineName, barvlDt: el.barvlDt,message2: el.message2,message3: el.message3,isExpress: el.isExpress == "급행"))
-						case .Down:
+							upArrivals.append(Arrival(arrivalCode: el.arrivalCode,
+													  station: el.stationName,
+													  trainLineName: el.trainLineName,
+													  barvlDt: el.barvlDt,
+													  message2: el.message2,
+													  message3: el.message3,
+													  isExpress: el.isExpress == "급행"))
+						case .Down, .In:
 							downArrivalEntities.append(el)
-                            downArrivals.append(Arrival(arrivalCode: el.arrivalCode, station: el.stationName, trainLineName: el.trainLineName, barvlDt: el.barvlDt,message2: el.message2,message3: el.message3,isExpress: el.isExpress == "급행"))
-						case .Out:
-							outArrivalEntities.append(el)
-                            outArrivals.append(Arrival(arrivalCode: el.arrivalCode, station: el.stationName, trainLineName: el.trainLineName, barvlDt: el.barvlDt,message2: el.message2,message3: el.message3,isExpress: el.isExpress == "급행"))
-						case .In:
-							inArrivalEntities.append(el)
-                            inArrivals.append(Arrival(arrivalCode: el.arrivalCode, station: el.stationName, trainLineName: el.trainLineName, barvlDt: el.barvlDt,message2: el.message2,message3: el.message3,isExpress: el.isExpress == "급행"))
+							downArrivals.append(Arrival(arrivalCode: el.arrivalCode,
+														station: el.stationName,
+														trainLineName: el.trainLineName,
+														barvlDt: el.barvlDt,
+														message2: el.message2,
+														message3: el.message3,
+														isExpress: el.isExpress == "급행"))
+							
 						default:
 							break
 						}
@@ -121,57 +121,35 @@ class SelectedStationViewModel: ObservableObject {
 							let upDownLine: UpDownLineType? = UpDownLineType(rawValue: el.upDownLine)
 							
 							switch upDownLine {
-							case .Up:
+							case .Up, .Out:
 								upSubwayCard = CardViewEntity(lineName: self?.selectedStation?.lineName() ?? "",
 															  lineNumber: self?.selectedStation?.lineNumber ?? "",
 															  arrivalMessage: upArrivalEntities.first?.message2 ?? "",
 															  isExpress: upArrivalEntities.first?.isExpress ?? "",
 															  arrivals: upArrivals,
 															  stationName: self?.selectedStation?.stationName ?? "",
-															  stationNames: self?.upStationNames.reversed() ?? [],
+															  stationNames: el.subwayId == "1009" ? self?.downStationNames ?? [] : self?.upStationNames.reversed() ?? [],
 															  upDownLine: "상행선",
 															  isStar: false,
 															  isFolder: false)
-							case .Down:
+							case .Down, .In:
 								downSubwayCard = CardViewEntity(lineName: self?.selectedStation?.lineName() ?? "",
 																lineNumber: self?.selectedStation?.lineNumber ?? "",
 																arrivalMessage: downArrivalEntities.first?.message2 ?? "",
 																isExpress: downArrivalEntities.first?.isExpress ?? "",
 																arrivals: downArrivals,
 																stationName: self?.selectedStation?.stationName ?? "",
-																stationNames: self?.downStationNames ?? [],
+																stationNames: el.subwayId == "1009" ? self?.upStationNames.reversed() ?? [] : self?.downStationNames ?? [],
 																upDownLine: "하행선",
 																isStar: false,
 																isFolder: false)
-							case .Out:
-								outSubwayCard = CardViewEntity(lineName: self?.selectedStation?.lineName() ?? "",
-															   lineNumber: self?.selectedStation?.lineNumber ?? "",
-															   arrivalMessage: outArrivalEntities.first?.message2 ?? "",
-															   isExpress: outArrivalEntities.first?.isExpress ?? "",
-															   arrivals: outArrivals,
-															   stationName: self?.selectedStation?.stationName ?? "",
-															   stationNames: self?.downStationNames.reversed() ?? [],
-															   upDownLine: "외선",
-															   isStar: false,
-															   isFolder: false)
-							case .In:
-								inSubwayCard = CardViewEntity(lineName: self?.selectedStation?.lineName() ?? "",
-															  lineNumber: self?.selectedStation?.lineNumber ?? "",
-															  arrivalMessage: inArrivalEntities.first?.message2 ?? "",
-															  isExpress: inArrivalEntities.first?.isExpress ?? "",
-															  arrivals: inArrivals,
-															  stationName: self?.selectedStation?.stationName ?? "",
-															  stationNames: self?.upStationNames.reversed() ?? [],
-															  upDownLine: "내선",
-															  isStar: false,
-															  isFolder: false)
 							default:
 								break
 							}
 						}
 						
 						if values.count == temp {
-							self?.cards = [upSubwayCard, downSubwayCard, outSubwayCard, inSubwayCard].compactMap { $0 }
+							self?.cards = [upSubwayCard, downSubwayCard].compactMap { $0 }
 						}
 					}
 					
@@ -186,12 +164,16 @@ class SelectedStationViewModel: ObservableObject {
 	// MARK: - 역명 5개 가져오기
 	func getFiveStations(completionHandler: @escaping () -> Void) {
 		if !allStations.isEmpty {
-			let orderedValues: [StationEntity] = allStations.sorted {
+			let filteredValues: [StationEntity] = allStations.filter { station in
+				station.lineNumber == self.selectedStation?.lineNumber
+			}
+			let orderedValues: [StationEntity] = filteredValues.sorted {
 				let num1 = Int($0.foreignerCode.dropFirst()) ?? 0
 				let num2 = Int($1.foreignerCode.dropFirst()) ?? 0
 				return num1 < num2
 			}
 			let stations: [String] = orderedValues.map { $0.stationName }
+			
 			let count: Int = 4
 			
 			let downLastIndex = stations.firstIndex(of: self.selectedStation?.stationName ?? "" ) ?? 4

@@ -61,9 +61,9 @@ struct SelectedStationView: View {
 			if let selectedStation = selectedStation {
 				vm.getFiveStations {
 					if selectedStation.stationName == "총신대입구" || selectedStation.stationName == "이수" {
-						vm.getRealtimeStationArrivals(for: "총신대입구(이수)", startIndex: 1, endIndex: 5)
+						vm.getRealtimeStationArrivals(for: "총신대입구(이수)", startIndex: 1, endIndex: 2)
 					} else {
-						vm.getRealtimeStationArrivals(for: selectedStation.stationName, startIndex: 1, endIndex: 5)
+						vm.getRealtimeStationArrivals(for: selectedStation.stationName, startIndex: 1, endIndex: 2)
 					}
 				}
 			}
