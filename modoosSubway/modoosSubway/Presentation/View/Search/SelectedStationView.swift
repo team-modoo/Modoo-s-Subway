@@ -53,10 +53,10 @@ struct SelectedStationView: View {
 				Spacer()
 			}
 		}
-        .toastView(toast: $toast,onMoveToStarView: {
-            homeViewModel.changeViewType(.Star)
-                            dismiss()
-        })
+		.toastView(toast: $toast, onMoveToStarView: {
+			homeViewModel.changeViewType(.Star)
+			dismiss()
+		})
 		.task {
 			if let selectedStation = selectedStation {
 				vm.getFiveStations {

@@ -49,7 +49,9 @@ class Util {
 	static func formatArrivalLocation(message2: String, message3: String, stations: [String]) -> Float {
 		if message2.contains("전역 출발") {
 			return 3.5
-		} else if message2 != "전역 도착", message2.contains("도착") {
+		} else if message2.contains("전역 도착") {
+			return 3
+		} else if message2.contains("도착") {
 			return 4
 		} else {
 			return Float(stations.firstIndex { message3.contains($0) } ?? 5)

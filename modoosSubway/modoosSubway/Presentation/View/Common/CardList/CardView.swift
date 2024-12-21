@@ -267,85 +267,87 @@ struct ArrivalTrainView: View {
 															 stations: card.stationNames)
 			
 			if arrivalLocation < 5 {
-//				if arrivalLocation != 4 {
-					HStack {
-						Spacer()
-							.frame(width: 310 / 4 * CGFloat(arrivalLocation))
-						
-						GeometryReader { geometry in
-							if arrival.isExpress {
-								Group {
-									Text("(급)")
-										.foregroundColor(.FC_0221)
-										.font(.pretendard(size: 12, family: .bold))
-									Text(Util.formatTrainLineName(arrival.trainLineName))
-										.font(.pretendard(size: 12, family: .medium))
-										.padding(.horizontal, 8)
-										.padding(.vertical, 5)
-										.foregroundColor(._333333)
-										.background(GeometryReader { proxy in
-											Color.clear.preference(key: TextWidthPreferenceKey.self, value: proxy.size.width)
-										})
-										.onPreferenceChange(TextWidthPreferenceKey.self) { width in
-											textWidth = width + 10 // 텍스트 너비를 저장
-										}
-								}
-								.offset(x: -textWidth / 2 + 8) // 텍스트 너비를 기준으로 왼쪽으로 이동
-								.background(
-									HStack {
-										RoundedRectangle(cornerRadius: 6)
-											.fill(Util.getLineColor(card.lineNumber))
-											.opacity(0.1)
-										
-										Image(.iconExpress)
-									}
-								)
-							} else {
-								Text(Util.formatTrainLineName(arrival.trainLineName))
-									.font(.pretendard(size: 12, family: .medium))
-									.padding(.horizontal, 8)
-									.padding(.vertical, 5)
-									.foregroundColor(._333333)
-									.background(
-										RoundedRectangle(cornerRadius: 6)
-											.fill(Util.getLineColor(card.lineNumber))
-											.opacity(0.1)
-									)
-									.background(GeometryReader { proxy in
-										Color.clear.preference(key: TextWidthPreferenceKey.self, value: proxy.size.width)
-									})
-									.onPreferenceChange(TextWidthPreferenceKey.self) { width in
-										textWidth = width // 텍스트 너비를 저장
-									}
-									.offset(x: -textWidth / 2 + 8) // 텍스트 너비를 기준으로 왼쪽으로 이동
-							}
-						}
-						.frame(height: 24)
-					}
-				}
-				
 				HStack {
 					Spacer()
 						.frame(width: 310 / 4 * CGFloat(arrivalLocation))
 					
-					ZStack(alignment: .center) {
-						Circle()
-							.frame(width: 16, height: 16)
-							.foregroundColor(Util.getLineColor(card.lineNumber))
-							.opacity(0.7)
-							.offset(y: 14)
-							.offset(x: 2)
-						
-						Circle()
-							.frame(width: 8, height: 8)
-							.foregroundColor(.white)
-							.offset(y: 14)
-							.offset(x: 2)
+					GeometryReader { geometry in
+						if arrival.isExpress {
+							HStack(spacing: 0) {
+								Text("(급)")
+									.foregroundColor(.FC_0221)
+									.font(.pretendard(size: 12, family: .bold))
+									.padding(.vertical, 5)
+								
+								Text(Util.formatTrainLineName(arrival.trainLineName))
+									.font(.pretendard(size: 12, family: .medium))
+									.padding(.vertical, 5)
+									.foregroundColor(._333333)
+									.background(GeometryReader { proxy in
+										Color.clear.preference(key: TextWidthPreferenceKey.self, value: proxy.size.width)
+									})
+									.onPreferenceChange(TextWidthPreferenceKey.self) { width in
+										textWidth = width + 30 // 텍스트 너비를 저장
+									}
+							}
+							.padding(.horizontal, 8)
+							.background(
+								ZStack(alignment: .topTrailing) {
+									RoundedRectangle(cornerRadius: 6)
+										.fill(.white)
+										.stroke(Util.getLineColor(card.lineNumber))
+									
+									Image(.iconExpress)
+										.offset(CGSize(width: 8, height: -8))
+								}
+							)
+							.offset(x: -textWidth / 2 + 8) // 텍스트 너비를 기준으로 왼쪽으로 이동
+							.opacity(arrivalLocation == 4 ? 0 : 1)
+						} else {
+							Text(Util.formatTrainLineName(arrival.trainLineName))
+								.font(.pretendard(size: 12, family: .medium))
+								.padding(.horizontal, 8)
+								.padding(.vertical, 5)
+								.foregroundColor(._333333)
+								.background(
+									RoundedRectangle(cornerRadius: 6)
+										.fill(Util.getLineColor(card.lineNumber))
+										.opacity(0.1)
+								)
+								.background(GeometryReader { proxy in
+									Color.clear.preference(key: TextWidthPreferenceKey.self, value: proxy.size.width)
+								})
+								.onPreferenceChange(TextWidthPreferenceKey.self) { width in
+									textWidth = width // 텍스트 너비를 저장
+								}
+								.offset(x: -textWidth / 2 + 8) // 텍스트 너비를 기준으로 왼쪽으로 이동
+						}
 					}
-					
-					Spacer()
+					.frame(height: 24)
 				}
-//			}
+			}
+			
+			HStack {
+				Spacer()
+					.frame(width: 310 / 4 * CGFloat(arrivalLocation))
+				
+				ZStack(alignment: .center) {
+					Circle()
+						.frame(width: 16, height: 16)
+						.foregroundColor(Util.getLineColor(card.lineNumber))
+						.opacity(0.7)
+						.offset(y: 14)
+						.offset(x: 2)
+					
+					Circle()
+						.frame(width: 8, height: 8)
+						.foregroundColor(.white)
+						.offset(y: 14)
+						.offset(x: 2)
+				}
+				
+				Spacer()
+			}
 		}
 	}
 }
