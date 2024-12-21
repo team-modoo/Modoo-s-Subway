@@ -13,15 +13,18 @@ struct FolderView: View {
 	@Environment(\.modelContext) private var modelContext
 	@State private var viewType: FolderType
 	@State private var sortedType: FolderSortedType
-	var item: [Int] = [1,2,3]
+	@State private var showCreateFolder = false
 	
-
-    @Query(sort: \Folder.timestamp, order: .reverse) private var latestFolders: [Folder]
-    @Query(sort: \Folder.title) private var nameOrderedFolders: [Folder]
-    
-    var folders: [Folder] {
-           sortedType == .latest ? latestFolders : nameOrderedFolders
-       }
+	@Query(sort: \Folder.timestamp, order: .reverse) private var folders: [Folder]
+	
+	private var sortedFolders: [Folder] {
+		switch sortedType {
+		case .latest:
+			return folders.sorted { $0.timestamp > $1.timestamp }
+		case .name:
+			return folders.sorted { $0.title < $1.title }
+		}
+	}
 	
 	init() {
 		let savedViewType = UserDefaults.standard.string(forKey: "folder_view_type")
@@ -32,46 +35,53 @@ struct FolderView: View {
 	}
 	
 	var body: some View {
-		NavigationStack {
-			VStack {
-				GeometryReader(content: { geometry in
-					if folders.isEmpty {
-						VStack {
-							Image(.bookmarkCircle)
-							Text("자주 타는 지하철 노선을 꾸며보세요")
-								.font(.pretendard(size: 16, family: .regular))
-								.foregroundStyle(Color("5C5C5C"))
-								.padding(.top, 8)
-						}
-						.frame(width: geometry.size.width, height: 196)
-						.background(
-							RoundedRectangle(cornerRadius: 10)
-								.stroke(.EDEDED)
-						)
+		VStack {
+			GeometryReader(content: { geometry in
+				if folders.isEmpty {
+					VStack {
+						Image(.bookmarkCircle)
+						Text("자주 타는 지하철 노선을 꾸며보세요")
+							.font(.pretendard(size: 16, family: .regular))
+							.foregroundStyle(Color("5C5C5C"))
+							.padding(.top, 8)
+					}
+					.frame(width: geometry.size.width, height: 196)
+					.background(
+						RoundedRectangle(cornerRadius: 10)
+							.stroke(.EDEDED)
+					)
+					.onTapGesture {
+						showCreateFolder = true
+					}
+					
+				} else {
+					VStack {
+						FolderHeaderView(viewType: $viewType,sortedType: $sortedType)
 						
-					} else {
-						VStack {
-							FolderHeaderView(viewType: $viewType,sortedType: $sortedType)
-								.padding(.bottom, 22)
-							
-							if viewType == .Card {
-								ScrollView(showsIndicators: false) {
-									LazyVGrid(columns: [GridItem()], spacing: 16) {
-										ForEach(folders, id: \.self) { folders in
-											FolderCardView(folder: folders)
-												.id(folders.id)
-										}
+						if viewType == .Card {
+							ScrollView(showsIndicators: false) {
+								LazyVGrid(columns: [GridItem()], spacing: 16) {
+									ForEach(sortedFolders, id: \.self) { folder in
+										FolderCardView(folder: folder)
+											.id(folder.id)
 									}
 								}
-							} else {
-								VStack {
-									FolderListView(folder: folders)
+							}
+							.padding(.top, 22)
+						} else {
+							ScrollView(showsIndicators: false) {
+								LazyVGrid(columns: [GridItem()], spacing: 0) {
+									ForEach(sortedFolders, id: \.self) { folder in
+										FolderListView(folder: folder)
+											.id(folder.id)
+									}
 								}
 							}
+							.padding(.top, 2)
 						}
 					}
-				})
-			}
+				}
+			})
 		}
 		.onChange(of: viewType) { _, newValue in
 			UserDefaults.standard.set(newValue.rawValue, forKey: "folder_view_type")
@@ -117,25 +127,8 @@ struct FolderView: View {
 					  """)
 			}
 		}
-		.onAppear {
-			print("folderview init()")
-			
-		}
-	}
-	
-	private func changeViewType(_ type: FolderType) {
-		viewType = type
-	}
-	
-	private func changeSortedType(_ type: FolderSortedType) {
-		sortedType = type
-	}
-	
-	private func addItem() {
-		withAnimation {
-			let newItem = Folder(timestamp: Date(), lineNumber: ["1","3","7"], title: "123", content: "후후후후후")
-			modelContext.insert(newItem)
-			print("add item complete\(newItem)")
+		.fullScreenCover(isPresented: $showCreateFolder) {
+			FolderFormView(formType: .create)
 		}
 	}
 }

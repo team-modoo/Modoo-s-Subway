@@ -11,7 +11,7 @@
 		3BF3CADD2C81FEC40058345F /* SelectedStationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF3CADC2C81FEC40058345F /* SelectedStationView.swift */; };
 		461D2BA42CF04E7A009BAF92 /* MoreMenuListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461D2BA32CF04E7A009BAF92 /* MoreMenuListView.swift */; };
 		46283F1A2D1285B400FB0AB1 /* SubwayCardStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46283F192D1285B400FB0AB1 /* SubwayCardStore.swift */; };
-		46519A902CF974E5006B2880 /* ToastTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46519A8F2CF974E5006B2880 /* ToastTest.swift */; };
+		46519A902CF974E5006B2880 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46519A8F2CF974E5006B2880 /* Toast.swift */; };
 		46519A922CFEC256006B2880 /* LocalNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46519A912CFEC256006B2880 /* LocalNotification.swift */; };
 		46519ACF2D0681E4006B2880 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46519ACE2D0681E4006B2880 /* HomeViewModel.swift */; };
 		46519AD32D06CD24006B2880 /* CoachMarkTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46519AD22D06CD24006B2880 /* CoachMarkTest.swift */; };
@@ -38,6 +38,8 @@
 		9AB4E7742D0F283C00ACBB8A /* CardListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB4E7732D0F283C00ACBB8A /* CardListView.swift */; };
 		9AB4E7792D0FC2B300ACBB8A /* StarHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB4E7782D0FC2B300ACBB8A /* StarHeaderView.swift */; };
 		9AB4E77B2D0FC3DC00ACBB8A /* FolderDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB4E77A2D0FC3DC00ACBB8A /* FolderDetailView.swift */; };
+		9AB4E77D2D12C97200ACBB8A /* ClearButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB4E77C2D12C97200ACBB8A /* ClearButton.swift */; };
+		9AB4E77F2D15B95500ACBB8A /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB4E77E2D15B95500ACBB8A /* ArrayExtension.swift */; };
 		9AC56CCD2CDF6D160067AF3B /* Pretendard-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9AEA1E732C56500900A87BF9 /* Pretendard-Bold.otf */; };
 		9AC56CCE2CDF6D1A0067AF3B /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9AEA1E752C56501900A87BF9 /* Pretendard-SemiBold.otf */; };
 		9AC56CCF2CDF6D1E0067AF3B /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9AEA1E742C56501300A87BF9 /* Pretendard-Medium.otf */; };
@@ -70,7 +72,7 @@
 		3BF3CADC2C81FEC40058345F /* SelectedStationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedStationView.swift; sourceTree = "<group>"; };
 		461D2BA32CF04E7A009BAF92 /* MoreMenuListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreMenuListView.swift; sourceTree = "<group>"; };
 		46283F192D1285B400FB0AB1 /* SubwayCardStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubwayCardStore.swift; sourceTree = "<group>"; };
-		46519A8F2CF974E5006B2880 /* ToastTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastTest.swift; sourceTree = "<group>"; };
+		46519A8F2CF974E5006B2880 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		46519A912CFEC256006B2880 /* LocalNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotification.swift; sourceTree = "<group>"; };
 		46519ACE2D0681E4006B2880 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		46519AD22D06CD24006B2880 /* CoachMarkTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachMarkTest.swift; sourceTree = "<group>"; };
@@ -102,6 +104,8 @@
 		9AB4E7752D0F3AB900ACBB8A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		9AB4E7782D0FC2B300ACBB8A /* StarHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarHeaderView.swift; sourceTree = "<group>"; };
 		9AB4E77A2D0FC3DC00ACBB8A /* FolderDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderDetailView.swift; sourceTree = "<group>"; };
+		9AB4E77C2D12C97200ACBB8A /* ClearButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearButton.swift; sourceTree = "<group>"; };
+		9AB4E77E2D15B95500ACBB8A /* ArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
 		9AC56CD12CDF7AAB0067AF3B /* SelectedStationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedStationViewModel.swift; sourceTree = "<group>"; };
 		9AC56CE92CE90CBB0067AF3B /* CardViewEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewEntity.swift; sourceTree = "<group>"; };
 		9AC56CEB2CE9970B0067AF3B /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
@@ -322,11 +326,12 @@
 			children = (
 				9AB4E7722D0F280700ACBB8A /* CardList */,
 				461D2BA32CF04E7A009BAF92 /* MoreMenuListView.swift */,
-				46519A8F2CF974E5006B2880 /* ToastTest.swift */,
+				46519A8F2CF974E5006B2880 /* Toast.swift */,
 				46519AD22D06CD24006B2880 /* CoachMarkTest.swift */,
 				9AC56CFA2D06D9D40067AF3B /* ImageCropper.swift */,
 				9AC56CFE2D0EEC700067AF3B /* OnBoardingView.swift */,
 				9AB4E7782D0FC2B300ACBB8A /* StarHeaderView.swift */,
+				9AB4E77C2D12C97200ACBB8A /* ClearButton.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -363,6 +368,7 @@
 			children = (
 				9AEA1E792C5651EA00A87BF9 /* UIExtension.swift */,
 				9AC56CEF2CEA16F40067AF3B /* CollectionExtension.swift */,
+				9AB4E77E2D15B95500ACBB8A /* ArrayExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -598,10 +604,12 @@
 				9AF8838A2D0F0EFF00DD6832 /* ListHeaderView.swift in Sources */,
 				46630D5B2CE73A3E00A8DEF9 /* AlarmSettingView.swift in Sources */,
 				46E8D9D32CE2CBDC00ABF38C /* ModifyFolderView.swift in Sources */,
+				9AB4E77D2D12C97200ACBB8A /* ClearButton.swift in Sources */,
 				9AC56CEE2CE9BE090067AF3B /* AddFolderView.swift in Sources */,
 				46E8D9D12CE17D6500ABF38C /* EditFolderView.swift in Sources */,
 				9AC56CD22CDF7AAB0067AF3B /* SelectedStationViewModel.swift in Sources */,
 				3BF3CADD2C81FEC40058345F /* SelectedStationView.swift in Sources */,
+				9AB4E77F2D15B95500ACBB8A /* ArrayExtension.swift in Sources */,
 				46E8D9D52CE2DF0100ABF38C /* SelectedPhotoView.swift in Sources */,
 				9A3698522C4CA72D0019C12A /* DataManager.swift in Sources */,
 				461D2BA42CF04E7A009BAF92 /* MoreMenuListView.swift in Sources */,
@@ -626,7 +634,7 @@
 				9AB4E7742D0F283C00ACBB8A /* CardListView.swift in Sources */,
 				4659A1DE2CE079DA00889FFC /* FolderCardView.swift in Sources */,
 				9AC56CFF2D0EEC700067AF3B /* OnBoardingView.swift in Sources */,
-				46519A902CF974E5006B2880 /* ToastTest.swift in Sources */,
+				46519A902CF974E5006B2880 /* Toast.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -759,7 +767,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 24121603;
+				CURRENT_PROJECT_VERSION = 24122101;
 				DEVELOPMENT_ASSET_PATHS = "\"modoosSubway/Preview Content\"";
 				DEVELOPMENT_TEAM = 6RZ3FF956G;
 				ENABLE_PREVIEWS = YES;
@@ -779,7 +787,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jihyunkim.modoosSubway;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -798,7 +806,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 24121603;
+				CURRENT_PROJECT_VERSION = 24122101;
 				DEVELOPMENT_ASSET_PATHS = "\"modoosSubway/Preview Content\"";
 				DEVELOPMENT_TEAM = 6RZ3FF956G;
 				ENABLE_PREVIEWS = YES;
@@ -818,7 +826,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jihyunkim.modoosSubway;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

@@ -32,7 +32,9 @@ struct SelectedStationView: View {
 						dismiss()
 					}) {
 						Image(.back)
+						
 						Text(selectedStation?.stationName ?? "")
+							.font(.pretendard(size: 18, family: .semiBold))
 							.padding(.leading, -10)
 							.tint(._333333)
 					}
@@ -51,17 +53,17 @@ struct SelectedStationView: View {
 				Spacer()
 			}
 		}
-        .toastView(toast: $toast,onMoveToStarView: {
-            homeViewModel.changeViewType(.Star)
-                            dismiss()
-        })
+		.toastView(toast: $toast, onMoveToStarView: {
+			homeViewModel.changeViewType(.Star)
+			dismiss()
+		})
 		.task {
 			if let selectedStation = selectedStation {
 				vm.getFiveStations {
 					if selectedStation.stationName == "총신대입구" || selectedStation.stationName == "이수" {
-						vm.getRealtimeStationArrivals(for: "총신대입구(이수)", startIndex: 1, endIndex: 5)
+						vm.getRealtimeStationArrivals(for: "총신대입구(이수)", startIndex: 1, endIndex: 2)
 					} else {
-						vm.getRealtimeStationArrivals(for: selectedStation.stationName, startIndex: 1, endIndex: 5)
+						vm.getRealtimeStationArrivals(for: selectedStation.stationName, startIndex: 1, endIndex: 2)
 					}
 				}
 			}

@@ -15,53 +15,48 @@ struct ModifyView: View {
     
     var body: some View {
 		VStack(spacing: 30) {
-            VStack(alignment: .leading) {
-                Text("폴더명")
-                    .font(.pretendard(size: 14, family: .medium))
-                    .foregroundStyle(.black)
-					.padding(.horizontal, 20)
+			VStack(alignment: .leading) {
+				HStack {
+					Text("폴더명")
+						.font(.pretendard(size: 14, family: .medium))
+						.foregroundStyle(._333333)
+					
+					Text("*")
+						.font(.pretendard(size: 14, family: .medium))
+						.foregroundStyle(.FF_392_F)
+						.padding(.leading, -4)
+				}
+				
                 TextFieldView(text: $title, placeholder: "폴더명을 입력해 주세요")
+					.padding(.top, 16)
             }
+			.padding(.horizontal, 20)
             
             VStack(alignment: .leading) {
                 Text("설명")
                     .font(.pretendard(size: 14, family: .medium))
-                    .foregroundStyle(.black)
-					.padding(.horizontal, 20)
+                    .foregroundStyle(._333333)
+				
                 TextFieldView(text: $description, placeholder: "설명을 입력해 주세요")
+					.padding(.top, 16)
             }
+			.padding(.horizontal, 20)
             
             VStack(alignment: .leading) {
                 Text("사진")
                     .font(.pretendard(size: 14, family: .medium))
-                    .foregroundStyle(.black)
+                    .foregroundStyle(._333333)
+					.padding(.bottom, 16)
+				
                 ImageSelectedView(selectedImage: $selectedImage)
-					.padding(.top, 16)
             }
 			.padding(.horizontal, 20)
         }
-		.toolbar {
-			ToolbarItem(placement: .keyboard) {
-				HStack {
-					Spacer()
-					
-					Button(action: {
-						hideKeyboard()
-					}) {
-						Image(systemName: "keyboard.chevron.compact.down")
-							.foregroundColor(.blue)
-					}
-				}
-			}
-		}
 	}
-    
-    private func hideKeyboard() {
-        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-    }
 }
 
 struct TextFieldView: View {
+
     @Binding var text: String
     var placeholder: String
     
@@ -71,27 +66,26 @@ struct TextFieldView: View {
     }
 
     var body: some View {
-        HStack {
-            TextField(placeholder, text: self.$text)
-                .padding(.leading, 16)
-				.foregroundStyle(._5_C_5_C_5_C)
-                .frame(height: 56)
-                .textFieldStyle(.plain)
-                .padding([.horizontal], 4)
-                .cornerRadius(16)
-                .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.D_9_D_9_D_9))
-                .padding([.horizontal], 4)
-                .onAppear {
-                    UITextField.appearance().clearButtonMode = .whileEditing
-                }
-                .autocorrectionDisabled()
-                .textInputAutocapitalization(.never)
-            }
-            .background(.clear)
-            .padding(.trailing, 16)
-            .padding(.leading, 20)
-            .padding(.vertical, 4)
-    }
+		HStack {
+			TextField(text: $text) {
+				Text(placeholder)
+					.font(.pretendard(size: 14, family: .regular))
+					.foregroundStyle(Color.BFBFBF)
+			}
+			.padding(.horizontal, 16)
+			.foregroundStyle(._5_C_5_C_5_C)
+			.frame(height: 50)
+			.textFieldStyle(.plain)
+			.font(.pretendard(size: 14, family: .medium))
+			.cornerRadius(8)
+			.clearButton(text: $text)
+			.overlay(
+				RoundedRectangle(cornerRadius: 8)
+					.stroke(Color.EDEDED)
+			)
+		}
+		.background(.clear)
+	}
 }
 
 enum FolderFormType {
@@ -153,7 +147,8 @@ struct FolderFormView: View {
     }
 
     var body: some View {
-        VStack {
+		VStack(spacing: 0) {
+			// MARK: - 상단 HStack 고정
             HStack {
                 Button(action: {
                     dismiss()
@@ -183,75 +178,85 @@ struct FolderFormView: View {
                 }) {
                     Text(formType.buttonTitle)
                         .padding(.leading, -10)
-                        .tint(.theme)
+                        .tint(title.isEmpty ? .BFBFBF : .theme)
 						.font(.pretendard(size: 18, family: .semiBold))
                 }
+				.disabled(title.isEmpty)
             }
             .background(.white)
             .padding(.horizontal, 20)
-            .padding(.top, 22)
+            .padding(.top, 20)
+			.padding(.bottom, 30)
+			.zIndex(1) // 상단에 쌓이도록 설정
             
-            ScrollView {
-                ModifyView(title: $title, description: $description, selectedImage: $selectedImage)
-                    .padding(.top, 24)
-            }
-			
-            Spacer()
+			ScrollView {
+				ModifyView(title: $title, description: $description, selectedImage: $selectedImage)
+			}
+			.background(Color.white)
+			.scrollDisabled(true)
         }
-        .tint(.black)
-        .background(.red)
+		.onTapGesture {
+			hideKeyboard()
+		}
+		.tint(._333333)
+        .background(.white)
         .toolbar(.hidden, for: .navigationBar)
-
     }
+	
+	private func hideKeyboard() {
+		UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+	}
 }
 
 struct ImageSelectedView: View {
+	
     @Binding var selectedImage: UIImage?
     @State private var selectedItem: PhotosPickerItem?
     private let imageHeight: CGFloat = 196
     
-    var body: some View {
-        ZStack {
-            // 이미지 선택 버튼
-            PhotosPicker(selection: $selectedItem, matching: .images) {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 14)
-						.fill(Color.F_5_F_5_F_5)
-						.frame(width: .infinity, height: imageHeight)
-                    
-					Image(.iconAddPhoto)
-                }
-            }
-            .onChange(of: selectedItem) { _, newItem in
-                Task {
-                    if let data = try? await newItem?.loadTransferable(type: Data.self) {
-                        selectedImage = UIImage(data: data)
-                    }
-                }
-            }
-            
-            // 선택된 이미지 미리보기
-            if let image = selectedImage {
-                Image(uiImage: image)
-                    .resizable()
-                    .scaledToFill()
-					.frame(width: .infinity, height: imageHeight)
-                    .clipShape(RoundedRectangle(cornerRadius: 14))
-                    .overlay(
-                        Button(action: {
-                            selectedImage = nil
-                            selectedItem = nil
-                        }) {
-                            Image(systemName: "xmark.circle.fill")
-                                .foregroundColor(.gray)
-                                .background(Circle().fill(Color.white))
-                        }
-                        .offset(x: 6, y: -6),
-                        alignment: .topTrailing
-                    )
-            }
-            
-            Spacer()
-        }
-    }
+	var body: some View {
+		GeometryReader { geometry in
+			ZStack {
+				// 이미지 선택 버튼
+				PhotosPicker(selection: $selectedItem, matching: .images) {
+					ZStack {
+						RoundedRectangle(cornerRadius: 14)
+							.fill(Color.F_5_F_5_F_5)
+							.frame(width: geometry.size.width, height: imageHeight)
+						
+						Image(.iconAddPhoto)
+					}
+				}
+				.onChange(of: selectedItem) { _, newItem in
+					Task { @MainActor in
+						if let data = try? await newItem?.loadTransferable(type: Data.self) {
+							selectedImage = UIImage(data: data)
+						}
+					}
+				}
+				
+				// 선택된 이미지 미리보기
+				if let image = selectedImage {
+					Image(uiImage: image)
+						.resizable()
+						.scaledToFill()
+						.frame(width: geometry.size.width, height: imageHeight)
+						.clipShape(RoundedRectangle(cornerRadius: 14))
+						.overlay(
+							Button(action: {
+								selectedImage = nil
+								selectedItem = nil
+							}) {
+								Image(systemName: "xmark.circle.fill")
+									.foregroundColor(.gray)
+									.background(Circle().fill(Color.white))
+							}
+								.offset(x: 6, y: -6),
+							alignment: .topTrailing
+						)
+				}
+			}
+		}
+		.frame(height: imageHeight)
+	}
 }

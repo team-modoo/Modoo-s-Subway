@@ -1,5 +1,5 @@
 //
-//  ToastTest.swift
+//  Toast.swift
 //  modoosSubway
 //
 //  Created by 임재현 on 11/29/24.
@@ -165,15 +165,15 @@ struct FancyToastView: View {
     var title: String
     var onCancelTapped: (() -> Void)
     var onMoveToStarView: (() -> Void)?
+	
     var body: some View {
         VStack(alignment: .leading) {
             HStack(alignment: .center) {
 				Image(.iconStarYellow)
-                    .foregroundColor(type.themeColor)
                 
                 VStack(alignment: .leading) {
                     Text(title)
-                        .font(.system(size: 16, weight: .semibold))
+                        .font(.system(size: 16, weight: .medium))
                         .foregroundStyle(.white)
 
                 }
@@ -185,11 +185,12 @@ struct FancyToastView: View {
                   
                 } label: {
                     Text("이동하기")
-                        .foregroundColor(Color.black)
+						.foregroundColor(._333333)
+						.font(.pretendard(size: 14, family: .medium))
                         .padding(.horizontal, 12)
                         .padding(.vertical, 6)
                         .background(
-                            RoundedRectangle(cornerRadius: 15)
+                            RoundedRectangle(cornerRadius: 24)
                                 .fill(Color.white)
                             )
                         
@@ -198,9 +199,9 @@ struct FancyToastView: View {
             .padding()
         }
         .background(Color.black.opacity(0.5))
-        .frame(minWidth: 0, maxWidth: .infinity)
-        .cornerRadius(23)
-        .shadow(color: Color.black.opacity(0.25), radius: 4, x: 0, y: 1)
+        .frame(minWidth: 0, maxWidth: 350)
+		.frame(height: 56)
+        .cornerRadius(28)
         .padding(.horizontal, 16)
     }
 }

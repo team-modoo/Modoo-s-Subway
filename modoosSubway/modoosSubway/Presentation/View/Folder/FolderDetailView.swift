@@ -43,6 +43,7 @@ struct FolderDetailView: View {
 							Image(.back)
 							Text(folder.title)
 								.padding(.leading, -10)
+								.font(.pretendard(size: 18, family: .semiBold))
 								.tint(._333333)
 						}
 						
@@ -107,7 +108,7 @@ struct FolderDetailView: View {
 			.onAppear {
 				loadCards()
 			}
-			.padding(.top, 22)
+			.padding(.top, 30)
 			.padding(.horizontal, 20)
 			
 			if !cards.isEmpty && !isLoading {

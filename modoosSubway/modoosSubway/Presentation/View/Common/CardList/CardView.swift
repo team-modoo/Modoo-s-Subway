@@ -83,7 +83,7 @@ struct CardView: View {
 						.foregroundStyle(.EDEDED)
 					
 					if let secondArrival = card.arrivals.dropFirst().first {
-						Text("다음열차 \(Util.formatArrivalMessage(secondArrival.message2))")
+						Text("다음 열차 \(Util.formatArrivalMessage(secondArrival.message2))")
 							.font(.pretendard(size: 14, family: .regular))
 					}
 				}
@@ -91,14 +91,18 @@ struct CardView: View {
 			.frame(width: 300, alignment: .leading)
 			.offset(x: -8)
 			
-			HStack {
-				getArrivalsView(card)
+			ZStack {
+				HStack(alignment: .top, spacing: 0) {
+					getStationNamesView(card)
+				}
+				.offset(y: 28)
+				
+				ZStack {
+					getArrivalsView(card)
+				}
+				.offset(y: -7.1)
 			}
-			
-			HStack(alignment: .top, spacing: 0) {
-				getStationNamesView(card)
-			}
-			.padding(.top, 4)
+			.offset(y: 12)
 			
 			Spacer()
 			
@@ -137,67 +141,20 @@ struct CardView: View {
 					)
 			}
 		}
-		.padding(.horizontal,20)
-		.frame(width: 350, height: 213)
+		.padding(.horizontal, 20)
+		.frame(width: 350, height: 223)
 		.background(
 			RoundedRectangle(cornerRadius: 10)
 				.stroke(.EDEDED)
 		)
+		.onAppear {
+			if isDuplicateStar(card) {
+				if let index = cards.firstIndex(where: { $0 == card }) {
+					cards[index].isStar = true
+				}
+			}
+		}
 	}
-	
-	// MARK: - 열차 뷰
-    private func getArrivalsView(_ card: CardViewEntity) -> some View {
-        ForEach(card.arrivals) { el in
-            VStack(spacing: -8) {
-                HStack(alignment: .center, spacing: 4) {
-                    Group {
-                        if el.isExpress {
-                            Text("(급)")
-                                .foregroundColor(.red)
-                                .font(.pretendard(size: 12, family: .bold)) +
-                            Text(Util.formatTrainLineName(el.trainLineName))
-                                .foregroundColor(._333333)
-                                .font(.pretendard(size: 12, family: .medium))
-                        } else {
-                            Text(Util.formatTrainLineName(el.trainLineName))
-                                .foregroundColor(._333333)
-                                .font(.pretendard(size: 12, family: .medium))
-                        }
-                    }
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 5)
-                    .background(
-                        ZStack(alignment: .topTrailing) {
-                            RoundedRectangle(cornerRadius: 6)
-                                .fill(Util.getLineColor(card.lineNumber))
-                                .opacity(0.1)
-                            
-                            if el.isExpress {
-                                Image("icon_express")
-                                    .font(.system(size: 16))
-                                    .foregroundColor(Util.getLineColor(card.lineNumber))
-                                    .padding([.top, .trailing], -6)
-                            }
-                        }
-                    )
-                    .offset(y: 8)
-                }
-
-                ZStack(alignment: .center) {
-                    Circle()
-                        .frame(width: 16, height: 16)
-                        .foregroundColor(Util.getLineColor(card.lineNumber))
-                        .opacity(0.7)
-                        .offset(y: 24)
-
-                    Circle()
-                        .frame(width: 8, height: 8)
-                        .foregroundColor(.white)
-                        .offset(y: 24)
-                }
-            }
-        }
-    }
 	
 	// MARK: - 지하철 5개의 정거장 라인 뷰
 	private func getStationNamesView(_ card: CardViewEntity) -> some View {
@@ -237,6 +194,13 @@ struct CardView: View {
 		}
 	}
 	
+	// MARK: - 열차 뷰
+	private func getArrivalsView(_ card: CardViewEntity) -> some View {
+		ForEach(card.arrivals.removeDuplicates { $0.message2 }) { arrival in
+			ArrivalTrainView(arrival: arrival, card: card)
+		}
+	}
+	
 	private func isDuplicateStar(_ item: CardViewEntity) -> Bool {
 		let descriptor = FetchDescriptor<Star>()
 		guard let stars = try? modelContext.fetch(descriptor) else { return false }
@@ -253,12 +217,6 @@ struct CardView: View {
 	func toggleStar(for item: CardViewEntity) {
 		if let index = cards.firstIndex(where: { $0 == item }) {
 			if !cards[index].isStar {
-				if isDuplicateStar(item) {
-					alertMessage = "\(item.stationName) \(item.upDownLine)은(는)\n이미 즐겨찾기에 저장되어 있습니다"
-					showAlert = true
-					return
-				}
-				
 				let star = Star(subwayCard: cards[index])
 				DataManager.shared.addStar(item: star)
 				
@@ -267,7 +225,12 @@ struct CardView: View {
 			} else {
 				let descriptor = FetchDescriptor<Star>()
 				if let stars = try? modelContext.fetch(descriptor),
-				   let starToDelete = stars.first(where: { $0.subwayCard == item }) {
+				   let starToDelete = stars.first(where: {
+					   $0.subwayCard.stationNames == item.stationNames &&
+					   $0.subwayCard.lineNumber == item.lineNumber &&
+					   $0.subwayCard.isExpress == item.isExpress &&
+					   $0.subwayCard.upDownLine == item.upDownLine
+				   }) {
 					if let folder = folder {
 						DataManager.shared.deleteStar(item: starToDelete)
 						DataManager.shared.updateFolderLineNumbers(folder, context: modelContext)
@@ -277,9 +240,113 @@ struct CardView: View {
 					}
 				}
 				
-				// Directly mutate the binding
 				cards[index].isStar = false
 				onStarSaved?(false)
+			}
+		}
+	}
+}
+
+struct TextWidthPreferenceKey: PreferenceKey {
+	static var defaultValue: CGFloat = 0
+	
+	static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+		value = nextValue()
+	}
+}
+
+struct ArrivalTrainView: View {
+	@State private var textWidth: CGFloat = 0 // 텍스트의 실제 너비를 저장
+	var arrival: Arrival
+	var card: CardViewEntity
+	
+	var body: some View {
+		VStack(spacing: -2) {
+			let arrivalLocation = Util.formatArrivalLocation(message2: arrival.message2, 
+															 message3: arrival.message3,
+															 stations: card.stationNames)
+			
+			if arrivalLocation < 5 {
+				HStack {
+					Spacer()
+						.frame(width: 310 / 4 * CGFloat(arrivalLocation))
+					
+					GeometryReader { geometry in
+						if arrival.isExpress {
+							HStack(spacing: 0) {
+								Text("(급)")
+									.foregroundColor(.FC_0221)
+									.font(.pretendard(size: 12, family: .bold))
+									.padding(.vertical, 5)
+								
+								Text(Util.formatTrainLineName(arrival.trainLineName))
+									.font(.pretendard(size: 12, family: .medium))
+									.padding(.vertical, 5)
+									.foregroundColor(._333333)
+									.background(GeometryReader { proxy in
+										Color.clear.preference(key: TextWidthPreferenceKey.self, value: proxy.size.width)
+									})
+									.onPreferenceChange(TextWidthPreferenceKey.self) { width in
+										textWidth = width + 30 // 텍스트 너비를 저장
+									}
+							}
+							.padding(.horizontal, 8)
+							.background(
+								ZStack(alignment: .topTrailing) {
+									RoundedRectangle(cornerRadius: 6)
+										.fill(.white)
+										.stroke(Util.getLineColor(card.lineNumber))
+									
+									Image(.iconExpress)
+										.offset(CGSize(width: 8, height: -8))
+								}
+							)
+							.offset(x: -textWidth / 2 + 8) // 텍스트 너비를 기준으로 왼쪽으로 이동
+							.opacity(arrivalLocation == 4 ? 0 : 1)
+						} else {
+							Text(Util.formatTrainLineName(arrival.trainLineName))
+								.font(.pretendard(size: 12, family: .medium))
+								.padding(.horizontal, 8)
+								.padding(.vertical, 5)
+								.foregroundColor(._333333)
+								.background(
+									RoundedRectangle(cornerRadius: 6)
+										.fill(Util.getLineColor(card.lineNumber))
+										.opacity(0.1)
+								)
+								.background(GeometryReader { proxy in
+									Color.clear.preference(key: TextWidthPreferenceKey.self, value: proxy.size.width)
+								})
+								.onPreferenceChange(TextWidthPreferenceKey.self) { width in
+									textWidth = width // 텍스트 너비를 저장
+								}
+								.offset(x: -textWidth / 2 + 8) // 텍스트 너비를 기준으로 왼쪽으로 이동
+						}
+					}
+					.frame(height: 24)
+				}
+			}
+			
+			HStack {
+				Spacer()
+					.frame(width: 310 / 4 * CGFloat(arrivalLocation))
+				
+				ZStack(alignment: .center) {
+					Circle()
+						.frame(width: 16, height: 16)
+						.foregroundColor(Util.getLineColor(card.lineNumber))
+						.opacity(0.7)
+						.offset(y: 14)
+						.offset(x: 2)
+					
+					Circle()
+						.frame(width: 8, height: 8)
+						.foregroundColor(.white)
+						.offset(y: 14)
+						.offset(x: 2)
+				}
+				
+				Spacer()
 			}
 		}
 	}

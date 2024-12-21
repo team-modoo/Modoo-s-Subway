@@ -148,7 +148,7 @@ struct AddFolderView: View {
 		.padding(.horizontal, 20)
 		.frame(maxWidth: .infinity, maxHeight: .infinity)
 		.background(.white)
-		.sheet(isPresented: $showCreateFolder) {
+		.fullScreenCover(isPresented: $showCreateFolder) {
 			FolderFormView(formType: .create)
 		}
 		.alert("알림", isPresented: $showAlert) {

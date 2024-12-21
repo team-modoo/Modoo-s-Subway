@@ -48,7 +48,6 @@ struct SearchView: View {
 			}
 			.listStyle(.plain)
 		}
-		.frame(width: .infinity)
 		.background(.white)
 		.alert("Error", isPresented: $vm.isError) {
 			Button("확인", role: .cancel) {}
